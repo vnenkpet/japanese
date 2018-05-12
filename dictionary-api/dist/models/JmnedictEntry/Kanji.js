@@ -14,10 +14,6 @@ const KanjidicEntry_1 = require("../KanjidicEntry");
 class Kanji extends typegoose_1.Typegoose {
 }
 __decorate([
-    typegoose_1.prop(),
-    __metadata("design:type", String)
-], Kanji.prototype, "common", void 0);
-__decorate([
     typegoose_1.prop({ required: true }),
     __metadata("design:type", String)
 ], Kanji.prototype, "text", void 0);

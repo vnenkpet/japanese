@@ -8,40 +8,38 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const graphql_1 = require("graphql");
 const graphql_tools_1 = require("graphql-tools");
 const fs = require("fs");
 const Router = require("koa-router");
 const JmdictEntry_1 = require("../models/JmdictEntry");
+const JmnedictEntry_1 = require("../models/JmnedictEntry");
 const KanjidicEntry_1 = require("../models/KanjidicEntry");
+const apollo_server_koa_1 = require("apollo-server-koa");
 // import schema
 const typeDefs = fs.readFileSync("./src/models/schema.graphql").toString();
 const resolvers = {
-    Query: {
-        jmdictEntries: (_, { key, limit }) => __awaiter(this, void 0, void 0, function* () {
-            return JmdictEntry_1.default.findByKey(key, limit);
-        }),
-        kanjidicEntries: (_, { key, limit }) => __awaiter(this, void 0, void 0, function* () {
-            return KanjidicEntry_1.default.findByKey(key, limit);
-        }),
-    },
     Kanji: {
         kanjidicEntries: (obj) => __awaiter(this, void 0, void 0, function* () {
             return KanjidicEntry_1.default.find({ _id: { $in: obj.kanjidic } });
         })
+    },
+    Query: {
+        jmdictEntries: (_, { key, limit }) => __awaiter(this, void 0, void 0, function* () {
+            return JmdictEntry_1.default.findByKey(key, limit);
+        }),
+        jmnedictEntries: (_, { key, limit }) => __awaiter(this, void 0, void 0, function* () {
+            return JmnedictEntry_1.default.findByKey(key, limit);
+        }),
+        kanjidicEntries: (_, { key, limit }) => __awaiter(this, void 0, void 0, function* () {
+            return KanjidicEntry_1.default.findByKey(key, limit);
+        })
     }
 };
-const schema = graphql_tools_1.makeExecutableSchema({
-    typeDefs,
-    resolvers,
-});
 const router = new Router();
-router.post("/graphql", (ctx) => __awaiter(this, void 0, void 0, function* () {
-    const results = yield graphql_1.graphql(schema, ctx.request.query.query);
-    if (results.errors) {
-        ctx.status = 400;
-    }
-    ctx.body = results;
-}));
+const schema = graphql_tools_1.makeExecutableSchema({
+    resolvers,
+    typeDefs
+});
+router.get("/graphql", apollo_server_koa_1.graphqlKoa({ schema }));
 exports.default = router;
 //# sourceMappingURL=graphql.js.map

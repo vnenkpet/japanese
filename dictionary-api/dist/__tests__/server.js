@@ -32,10 +32,12 @@ test("Test welcome endpoint", done => {
 test("Test graphql endpoint", () => __awaiter(this, void 0, void 0, function* () {
     const query = `{ jmdictEntries (key: "test", limit: 2) { kanji { text } sense { gloss { text } } } }`;
     const res = yield request
-        .post(`/graphql?query=${encodeURIComponent(query)}`)
+        .get(`/graphql?query=${encodeURIComponent(query)}`)
         .set("Accept", "application/json");
     expect(res.status).toBe(200);
     const responseBody = JSON.parse(res.text);
-    expect(responseBody).toMatchObject({ data: { jmdictEntries: expect.any(Array) } });
+    expect(responseBody).toMatchObject({
+        data: { jmdictEntries: expect.any(Array) }
+    });
 }));
 //# sourceMappingURL=server.js.map

@@ -10,24 +10,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typegoose_1 = require("typegoose");
-const KanjidicEntry_1 = require("../KanjidicEntry");
-class Kanji extends typegoose_1.Typegoose {
+class Kana extends typegoose_1.Typegoose {
 }
-__decorate([
-    typegoose_1.prop(),
-    __metadata("design:type", String)
-], Kanji.prototype, "common", void 0);
 __decorate([
     typegoose_1.prop({ required: true }),
     __metadata("design:type", String)
-], Kanji.prototype, "text", void 0);
-__decorate([
-    typegoose_1.arrayProp({ items: String }),
-    __metadata("design:type", Array)
-], Kanji.prototype, "tags", void 0);
-__decorate([
-    typegoose_1.arrayProp({ itemsRef: KanjidicEntry_1.KanjidicEntry }),
-    __metadata("design:type", Array)
-], Kanji.prototype, "kanjidic", void 0);
-exports.default = Kanji;
-//# sourceMappingURL=Kanji.js.map
+], Kana.prototype, "text", void 0);
+exports.default = Kana;
+//# sourceMappingURL=Kana.js.map

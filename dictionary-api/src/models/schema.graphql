@@ -1,5 +1,6 @@
 type Query {
     jmdictEntries(key: String!, limit: Int): [JmdictEntry] # search entries by key (key can be kanji, kana, romaji or English)
+    jmnedictEntries(key: String!, limit: Int): [JmnedictEntry] # search entries by key (key can be kanji, kana, romaji or English)
     kanjidicEntries(key: String!, limit: Int): [KanjidicEntry]
 }
 
@@ -15,15 +16,23 @@ type JmdictEntry implements Node {
     sense: [Sense]
 }
 
+type JmnedictEntry implements Node {
+    id: String
+    jmdictId: ID!
+    kanji: [Kanji]
+    kana: [Kana]
+    translation: [Translation]
+}
+
 type Kanji {
     text: String!
-    common: Boolean!
+    common: Boolean
     kanjidicEntries: [KanjidicEntry]
 }
 
 type Kana {
     text: String!
-    common: Boolean!
+    common: Boolean
 }
 
 type Sense {
@@ -42,4 +51,14 @@ type KanjidicEntry implements Node {
     kana: [String]
     romaji: [String]
     gloss: [String]
+}
+
+type Translation {
+    type: [String]
+    related: [String]
+    translation: [TranslationItem]
+}
+
+type TranslationItem {
+    text: String!
 }
