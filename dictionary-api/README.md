@@ -36,7 +36,7 @@ Tests:
     ```
 
 2. Get first 10 JMNEDICT entries matching keyword "hiroshima" and display it's kanji and translations,
-including detailed Kanji information from KANJIDIC:
+including detailed Kanji information from KANJIDIC (kanjidicEntries works with both Jmdict and Jmnedict kanji):
 
     ```graphql
     { 
