@@ -16,6 +16,10 @@ class Translation extends typegoose_1.Typegoose {
 __decorate([
     typegoose_1.arrayProp({ items: String }),
     __metadata("design:type", Array)
+], Translation.prototype, "category", void 0);
+__decorate([
+    typegoose_1.arrayProp({ items: String }),
+    __metadata("design:type", Array)
 ], Translation.prototype, "related", void 0);
 __decorate([
     typegoose_1.arrayProp({ items: TranslationItem_1.default }),

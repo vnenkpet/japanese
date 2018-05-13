@@ -1,1 +1,1 @@
-{"version":3,"file":"TranslationItem.js","sourceRoot":"","sources":["../../../src/models/JmnedictEntry/TranslationItem.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,yCAA0C;AAE1C,qBAAqC,SAAQ,qBAAS;CAGrD;AADG;IADC,gBAAI,CAAC,EAAC,QAAQ,EAAE,IAAI,EAAC,CAAC;;6CACV;AAFjB,kCAGC"}
+{"version":3,"file":"TranslationItem.js","sourceRoot":"","sources":["../../../src/models/JmnedictEntry/TranslationItem.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,yCAA0C;AAE1C,qBAAqC,SAAQ,qBAAS;CAGrD;AADG;IADC,gBAAI,CAAC,EAAC,QAAQ,EAAE,IAAI,EAAC,CAAC;;6CACH;AAFxB,kCAGC"}

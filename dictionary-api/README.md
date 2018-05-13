@@ -1,41 +1,45 @@
 # Dictionary API
 
-A GraphQL/REST dictionary API for Japanese language.
+A GraphQL dictionary API for Japanese language.
 
+## Run
 
-```graphql
-type Query {
-    jmdictEntries(key: String!, limit: Int): [JmdictEntry] # search entries by key (key can be kanji, kana, romaji or English)
-}
+Development mode:
+`npm run debug`
 
-interface Node {
-    id: String
-}
+Production mode:
+`npm start`
 
-type JmdictEntry implements Node {
-    id: String
-    jmdictId: ID!
-    kanji: [Kanji]
-    kana: [Kana]
-    sense: [Sense]
-}
+Tests:
+`npm tests`
 
-type Kanji {
-    text: String!
-    common: Boolean!
-}
+[GraphQL Schema](src/models/schema.graphql)
 
-type Kana {
-    text: String!
-    common: Boolean!
-}
+## Graphql Endpoint
 
-type Sense {
-    gloss: [Gloss]
-}
+`GET /graphql?query=GRAPHQL_QUERY`
 
-type Gloss {
-    text: String!
-    lang: String!
-}
-```
+### Example queries:
+
+1. Get first 10 JMDICT dictionary entries matching keyword "train" and display it's kanji and translations:
+
+    ```graphql
+    { 
+        jmdictEntries (key: "train", limit: 10) { 
+            kanji { text } 
+            sense { gloss { text } } 
+        } 
+    }
+    ```
+
+2. Get first 10 JMNEDICT entries matching keyword "hiroshima" and display it's kanji and translations,
+including detailed Kanji information from KANJIDIC:
+
+    ```graphql
+    { 
+        jmnedictEntries (key: "hiroshima", limit: 10) { 
+            kanji { text, kanjidicEntries { kanji, kana, } } 
+            translation { translation { text } } 
+        } 
+    }
+    ```

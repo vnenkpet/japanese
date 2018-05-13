@@ -7,17 +7,18 @@ router.get("/", ctx => {
         message: "Welcome!",
         name: "JMDICT and Kanji vocabulary GraphQL API service",
         resources: [
-            { method: "GET", path: "/", desc: "Welcome endpoint (current)" },
+            { desc: "Welcome endpoint (current)", method: "GET", path: "/" },
             {
+                desc: "GraphQL endpoint",
                 method: "GET",
                 path: "/graphql",
-                desc: "GraphQL query endpoint",
-                queryParams: [{ name: "query", desc: "GraphQL query" }]
+                queryParams: [{ desc: "GraphQL query", name: "query" }]
             },
             {
+                desc: "REST API endpoint (deprecated, prefer GraphQL)",
                 method: "GET",
                 path: "/search/:key",
-                routeParams: [{ name: "key", desc: "Key to search by" }]
+                routeParams: [{ desc: "Key to search by", name: "key" }]
             }
         ],
         version: "0.1.0"

@@ -2,8 +2,8 @@ import {arrayProp, prop, Typegoose} from "typegoose";
 import TranslationItem from "./TranslationItem";
 
 export default class Translation extends Typegoose {
-    // @arrayProp({items: String}) todo - "type" breaks down
-    // public type: string[]
+    @arrayProp({items: String})
+    public category: string[]; // "type" not working. Seems like a Typegoose error.
 
     @arrayProp({items: String})
     public related: string[];

@@ -4,8 +4,8 @@ import * as fs from "fs";
 import * as Router from "koa-router";
 
 import JmdictEntry from "../models/JmdictEntry";
-import JmnedictEntry from "../models/JmnedictEntry";
 import Kanji from "../models/JmdictEntry/Kanji";
+import JmnedictEntry from "../models/JmnedictEntry";
 import KanjidicEntry from "../models/KanjidicEntry";
 
 import { graphqlKoa } from "apollo-server-koa";

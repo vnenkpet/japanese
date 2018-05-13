@@ -18,27 +18,16 @@ beforeAll(() => {
     dotenv.config();
     mongoose.connect(process.env.MONGO_URI_TEST);
 });
-test("Test welcome endpoint", done => {
-    request
-        .get("/")
-        .set("Accept", "application/json")
-        .then((res) => {
-        expect(res.status).toBe(200);
-        const responseBody = JSON.parse(res.text);
-        expect(responseBody).toMatchObject({ version: expect.any(String) });
-        done();
-    });
-});
 test("Test graphql endpoint", () => __awaiter(this, void 0, void 0, function* () {
     const query = `{ jmdictEntries (key: "test", limit: 2) { kanji { text } sense { gloss { text } } } }`;
     const res = yield request
         .get(`/graphql?query=${encodeURIComponent(query)}`)
         .set("Accept", "application/json");
     expect(res).toMatchObject({
-        status: 200,
-        body: Json.stringify({
+        body: {
             data: { jmdictEntries: expect.any(Array) }
-        })
+        },
+        status: 200,
     });
 }));
-//# sourceMappingURL=server.js.map
+//# sourceMappingURL=graphql.js.map
