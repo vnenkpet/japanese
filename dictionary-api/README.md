@@ -4,6 +4,9 @@ A GraphQL dictionary API for Japanese language.
 
 ## Run
 
+> This server requires to be connected to a mongo database generated
+using the [Database Generator Script](../database-generator)
+
 Development mode:
 `npm run debug`
 
