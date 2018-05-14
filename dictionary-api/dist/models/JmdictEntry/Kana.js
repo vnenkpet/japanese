@@ -19,6 +19,10 @@ __decorate([
 __decorate([
     typegoose_1.prop({ required: true }),
     __metadata("design:type", String)
+], Kana.prototype, "romaji", void 0);
+__decorate([
+    typegoose_1.prop({ required: true }),
+    __metadata("design:type", String)
 ], Kana.prototype, "text", void 0);
 exports.default = Kana;
 //# sourceMappingURL=Kana.js.map

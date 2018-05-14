@@ -8,6 +8,8 @@ import { createStore, applyMiddleware } from "redux";
 import App from "./App";
 import reducers from "./reducers";
 import registerServiceWorker from "./registerServiceWorker";
+import client from "./apollo-client";
+import { ApolloProvider } from 'react-apollo';
 
 const store = createStore(reducers, applyMiddleware(thunkMiddleware, logger));
 
@@ -16,9 +18,11 @@ const store = createStore(reducers, applyMiddleware(thunkMiddleware, logger));
 store.subscribe(() => console.log(store.getState()));
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </ApolloProvider>,
   document.getElementById("root"),
 );
 registerServiceWorker();

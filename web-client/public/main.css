@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+body {
+    background-color: #083a4d;
+    color: rgba(255, 249, 255, 0.64);
+    font-family: "Open Sans", sans-serif;
+    padding: 30px;
+}
+
+
+.App {
+    padding: 30px;
+}
+
+input {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.51);
+    border-radius: 3px;
+    font-size: 1.2em;
+    color: white;
+    padding: 10px;
+    -webkit-appearance: none;
+}
+
+::placeholder {
+    color: rgba(255, 255, 255, 0.21);
+}
+
+.dictionary_results_row {
+    padding-top: 30px;
+}
+
+.dictionary_results_kanji {
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, 0.83);
+}
+
+.dictionary_results_kana {
+    font-size: 0.8em;
+    color: rgba(255, 255, 255, 0.40);
+}
+
+.dictionary_results_gloss {
+    margin-top: 5px;
+    color: rgba(255, 255, 255, 0.60);
+}
+
+.dictionary_results_sense {
+    margin-top: 10px;
+}
+
+.dictionary_loading {
+    padding: 20px;
+}

@@ -5,5 +5,8 @@ export default class Kana extends Typegoose {
     public common: string;
 
     @prop({required: true})
+    public romaji: string;
+
+    @prop({required: true})
     public text: string;
 }

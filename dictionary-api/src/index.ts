@@ -5,4 +5,4 @@ import app from "./server";
 dotenv.config();
 mongoose.connect(process.env.MONGO_URI);
 
-app.listen(3000);
+app.listen(3001);

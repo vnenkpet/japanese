@@ -1,1 +1,1 @@
-{"version":3,"file":"Kana.js","sourceRoot":"","sources":["../../../src/models/JmnedictEntry/Kana.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,yCAA0C;AAE1C,UAA0B,SAAQ,qBAAS;CAG1C;AADG;IADC,gBAAI,CAAC,EAAC,QAAQ,EAAE,IAAI,EAAC,CAAC;;kCACH;AAFxB,uBAGC"}
+{"version":3,"file":"Kana.js","sourceRoot":"","sources":["../../../src/models/JmnedictEntry/Kana.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,yCAA0C;AAE1C,UAA0B,SAAQ,qBAAS;CAM1C;AAJG;IADC,gBAAI,CAAC,EAAC,QAAQ,EAAE,IAAI,EAAC,CAAC;;kCACH;AAGpB;IADC,gBAAI,CAAC,EAAC,QAAQ,EAAE,IAAI,EAAC,CAAC;;oCACD;AAL1B,uBAMC"}
