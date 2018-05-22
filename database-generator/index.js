@@ -148,6 +148,13 @@ const processJmdict = (db) => {
           kana.romaji = romaji.fromKana(kana.text);
           return kana;
         });
+        word.sense = word.sense.map(sense => {
+          sense.gloss = sense.gloss.map(gloss => {
+            gloss.searchKey = gloss.text.toLowerCase().trim();
+            return gloss;
+          });
+          return sense;
+        });
         await db.collection(jmdictCollectionName).insertOne(word);
       })
       .done(async (things) => {
@@ -181,6 +188,14 @@ const processJmNedict = db => {
           kana.romaji = romaji.fromKana(kana.text);
           return kana;
         });
+        word.translation = word.translation.map(translation => {
+          translation.category = translation.type;
+          translation.translation = translation.translation.map(translation => {
+            translation.searchKey = translation.text.toLowerCase().trim();
+            return translation;
+          });
+          return translation;
+        });
         await db.collection(jmnedictCollectionName).insertOne(word);
       })
       .done(async (things) => {
@@ -194,15 +209,15 @@ const main = async () => {
   let connection = await mongo.connect(connectionString);
   let db = connection.db(dbName);
 
-  await db.dropDatabase();
+  // await db.dropDatabase();
   // await db.collection(kanjiDicCollectionName).drop();
-  // await db.collection(jmnedictCollectionName).drop();
+  await db.collection(jmnedictCollectionName).drop();
   // await db.collection(jmdictCollectionName).drop();
 
-  await processKanjidic(db);
+  // await processKanjidic(db);
 
   const [res1, res2] = await Promise.all([
-    processJmdict(db),
+    // processJmdict(db),
     processJmNedict(db),
   ]);
 

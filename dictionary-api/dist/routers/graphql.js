@@ -18,7 +18,12 @@ const apollo_server_koa_1 = require("apollo-server-koa");
 // import schema
 const typeDefs = fs.readFileSync("./src/models/schema.graphql").toString();
 const resolvers = {
-    Kanji: {
+    JmdictKanji: {
+        kanjidicEntries: (obj) => __awaiter(this, void 0, void 0, function* () {
+            return KanjidicEntry_1.default.find({ _id: { $in: obj.kanjidic } });
+        })
+    },
+    JmnedictKanji: {
         kanjidicEntries: (obj) => __awaiter(this, void 0, void 0, function* () {
             return KanjidicEntry_1.default.find({ _id: { $in: obj.kanjidic } });
         })

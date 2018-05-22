@@ -10,7 +10,7 @@ export class KanjidicEntry extends Typegoose {
             $or: [
                 { "gloss": searchRegex }, // English meaning
                 { "kana": searchRegex }, // OR japanese phonetics
-                { "romaji": searchRegex }, // OR latin phonetics (todo)
+                { "romaji": searchRegex }, // OR latin phonetics
                 { "kanji": searchRegex } // OR chinese characters
             ]
         }).limit(limit); // common first

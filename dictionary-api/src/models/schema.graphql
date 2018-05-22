@@ -11,31 +11,41 @@ interface Node {
 type JmdictEntry implements Node {
     id: String
     jmdictId: ID!
-    kanji: [Kanji]
-    kana: [Kana]
-    sense: [Sense]
+    kanji: [JmdictKanji]
+    kana: [JmdictKana]
+    sense: [JmdictSense]
 }
 
 type JmnedictEntry implements Node {
     id: String
     jmdictId: ID!
-    kanji: [Kanji]
-    kana: [Kana]
-    translation: [Translation]
+    kanji: [JmnedictKanji]
+    kana: [JmnedictKana]
+    translation: [JmnedictTranslation]
 }
 
-type Kanji {
+type JmdictKanji {
     text: String!
     common: Boolean
     kanjidicEntries: [KanjidicEntry]
 }
 
-type Kana {
+type JmnedictKanji {
+    text: String!
+    kanjidicEntries: [KanjidicEntry]
+
+}
+
+type JmdictKana {
     text: String!
     common: Boolean
 }
 
-type Sense {
+type JmnedictKana {
+    text: String!
+}
+
+type JmdictSense {
     gloss: [Gloss]
 }
 
@@ -53,7 +63,7 @@ type KanjidicEntry implements Node {
     gloss: [String]
 }
 
-type Translation {
+type JmnedictTranslation {
     type: [String]
     related: [String]
     translation: [TranslationItem]

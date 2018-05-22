@@ -14,7 +14,12 @@ import { graphqlKoa } from "apollo-server-koa";
 const typeDefs = fs.readFileSync("./src/models/schema.graphql").toString();
 
 const resolvers = {
-  Kanji: {
+  JmdictKanji: {
+    kanjidicEntries: async (obj: Kanji) => {
+      return KanjidicEntry.find({ _id: { $in: obj.kanjidic } });
+    }
+  },
+  JmnedictKanji: {
     kanjidicEntries: async (obj: Kanji) => {
       return KanjidicEntry.find({ _id: { $in: obj.kanjidic } });
     }

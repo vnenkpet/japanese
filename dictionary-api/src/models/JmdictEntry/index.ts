@@ -15,7 +15,7 @@ class JmdictEntry extends Typegoose {
 
         return this.find({ // search by...
             $or: [
-                { "sense.gloss.text": searchRegex }, // English meaning
+                { "sense.gloss.searchKey": searchRegex }, // English meaning
                 { "kana.text": searchRegex }, // OR japanese phonetics
                 { "kana.romaji": searchRegex }, // OR latin phonetics (todo)
                 { "kanji.text": searchRegex } // OR chinese characters

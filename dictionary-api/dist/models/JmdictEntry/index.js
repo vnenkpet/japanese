@@ -31,7 +31,7 @@ class JmdictEntry extends typegoose_1.Typegoose {
             const searchRegex = new RegExp(`^${key.toLocaleLowerCase().trim()}`);
             return this.find({
                 $or: [
-                    { "sense.gloss.text": searchRegex },
+                    { "sense.gloss.searchKey": searchRegex },
                     { "kana.text": searchRegex },
                     { "kana.romaji": searchRegex },
                     { "kanji.text": searchRegex } // OR chinese characters

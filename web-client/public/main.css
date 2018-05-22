@@ -52,3 +52,9 @@ input {
 .dictionary_loading {
     padding: 20px;
 }
+
+.dictionary_error {
+    color: #ff9100;
+    font-size: 1.2em;
+    padding: 30px;
+}
