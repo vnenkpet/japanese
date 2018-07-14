@@ -1,0 +1,30 @@
+# This schema is auto-generated.
+
+type Gloss {
+  text: String!
+}
+
+type JmdictEntry {
+  id: String!
+  kanji: [Kanji!]!
+  kana: [Kana!]!
+  sense: [Sense!]!
+}
+
+type Kana {
+  text: String!
+  romaji: String!
+}
+
+type Kanji {
+  text: String!
+  romaji: String!
+}
+
+type Query {
+  searchJmdictEntries(limit: Int, key: String!): [JmdictEntry!]!
+}
+
+type Sense {
+  gloss: [Gloss!]!
+}

@@ -46,8 +46,8 @@ const downloadJmdict = () => {
             complete: "=",
             incomplete: " ",
             width: 20,
-            total: len,
-          },
+            total: len
+          }
         );
       })
       .on("data", data => {
@@ -84,8 +84,8 @@ const downloadJmNedict = () => {
             complete: "=",
             incomplete: " ",
             width: 20,
-            total: len,
-          },
+            total: len
+          }
         );
       })
       .on("data", data => {
@@ -104,11 +104,12 @@ const downloadJmNedict = () => {
   });
 };
 
-const processKanjidic = (db) => {
-  return new Promise(async (resolve) => {
-    got.stream(kanjiDicUrl)
+const processKanjidic = db => {
+  return new Promise(async resolve => {
+    got
+      .stream(kanjiDicUrl)
       .pipe(split2())
-      .on('data', async (line) => {
+      .on("data", async line => {
         const kanjiEntry = JSON.parse(line);
         const entry = {
           kanjidicId: kanjiEntry.id,
@@ -116,34 +117,40 @@ const processKanjidic = (db) => {
           kana: kanjiEntry.ka,
           romaji: kanjiEntry.ro,
           gloss: kanjiEntry.gs[1].split(";").map(gloss => gloss.trim()), // what's the [0] code?
-          lo: kanjiEntry.lo, // what is this?
+          lo: kanjiEntry.lo // what is this?
         };
         await db.collection(kanjiDicCollectionName).insertOne(entry);
       })
-      .on("end", () => {resolve()});
+      .on("end", () => {
+        resolve();
+      });
   });
 };
 
-const processJmdict = (db) => {
+const processJmdict = db => {
   return new Promise(async (resolve, reject) => {
     const outputFile = await downloadJmdict();
     oboe(fs.createReadStream(outputFile))
       .node("version", version => {
         console.log(`Processing JMDICT ${version}`);
       })
-      .node("words.*", async (word) => {
-        word.kanji = await Promise.all(word.kanji.map(async kanji => {
-           const kanjis = nihongo.parseKanji(kanji.text);
-           const ids = [];
-           for (const part of kanjis) {
-             const res = await db.collection(kanjiDicCollectionName).findOne({ kanji: part });
-             if (res) {
-               ids.push(res._id);
-             }
-           }
-           kanji.kanjidic = ids;
-           return kanji;
-        }));
+      .node("words.*", async word => {
+        word.kanji = await Promise.all(
+          word.kanji.map(async kanji => {
+            const kanjis = nihongo.parseKanji(kanji.text);
+            const ids = [];
+            for (const part of kanjis) {
+              const res = await db
+                .collection(kanjiDicCollectionName)
+                .findOne({ kanji: part });
+              if (res) {
+                ids.push(res._id);
+              }
+            }
+            kanji.kanjidic = ids;
+            return kanji;
+          })
+        );
         word.kana = word.kana.map(kana => {
           kana.romaji = romaji.fromKana(kana.text);
           return kana;
@@ -157,33 +164,37 @@ const processJmdict = (db) => {
         });
         await db.collection(jmdictCollectionName).insertOne(word);
       })
-      .done(async (things) => {
+      .done(async things => {
         console.log(`JMDICT ${things.version} import done.`);
         resolve(true);
       });
-  })
+  });
 };
 
 const processJmNedict = db => {
-  return new Promise(async(resolve, reject) => {
+  return new Promise(async (resolve, reject) => {
     const outputFile = await downloadJmNedict();
     oboe(fs.createReadStream(outputFile))
       .node("version", version => {
         console.log(`Processing JMNEDICT ${version}`);
       })
-      .node("words.*", async (word) => {
-        word.kanji = await Promise.all(word.kanji.map(async kanji => {
-          const kanjis = nihongo.parseKanji(kanji.text);
-          const ids = [];
-          for (const part of kanjis) {
-            const res = await db.collection(kanjiDicCollectionName).findOne({ kanji: part });
-            if (res) {
-              ids.push(res._id);
+      .node("words.*", async word => {
+        word.kanji = await Promise.all(
+          word.kanji.map(async kanji => {
+            const kanjis = nihongo.parseKanji(kanji.text);
+            const ids = [];
+            for (const part of kanjis) {
+              const res = await db
+                .collection(kanjiDicCollectionName)
+                .findOne({ kanji: part });
+              if (res) {
+                ids.push(res._id);
+              }
             }
-          }
-          kanji.kanjidic = ids;
-          return kanji;
-        }));
+            kanji.kanjidic = ids;
+            return kanji;
+          })
+        );
         word.kana = word.kana.map(kana => {
           kana.romaji = romaji.fromKana(kana.text);
           return kana;
@@ -198,7 +209,7 @@ const processJmNedict = db => {
         });
         await db.collection(jmnedictCollectionName).insertOne(word);
       })
-      .done(async (things) => {
+      .done(async things => {
         console.log(`JMNEDICT ${things.version} import done.`);
         resolve(true);
       });
@@ -209,17 +220,35 @@ const main = async () => {
   let connection = await mongo.connect(connectionString);
   let db = connection.db(dbName);
 
-  // await db.dropDatabase();
-  // await db.collection(kanjiDicCollectionName).drop();
-  await db.collection(jmnedictCollectionName).drop();
-  // await db.collection(jmdictCollectionName).drop();
+  await db.dropDatabase();
 
-  // await processKanjidic(db);
+  await processKanjidic(db);
 
   const [res1, res2] = await Promise.all([
-    // processJmdict(db),
-    processJmNedict(db),
+    processJmdict(db),
+    processJmNedict(db)
   ]);
+
+  await db.collection(jmdictCollectionName).createIndex({
+    "kana.text": "text",
+    "kanji.text": "text",
+    "kana.romaji": "text",
+    "sense.gloss.text": "text"
+  });
+  await db.collection(jmnedictCollectionName).createIndex({
+    "kana.text": "text",
+    "kanji.text": "text",
+    "kana.romaji": "text",
+    "translation.translation": "text"
+  });
+  await db
+    .collection(kanjiDicCollectionName)
+    .createIndex({
+      kanji: "text",
+      kana: "text",
+      romaji: "text",
+      gloss: "text"
+    });
 
   connection.close();
 };

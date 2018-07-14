@@ -1,0 +1,27 @@
+{
+  "name": "densha-jisho-v2",
+  "version": "1.0.0",
+  "description": "This project intends to provide a combination of Japanese dictionary and flashcard reviewing application.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "debug": "concurrently \"cd dictionary-api && npm run debug\" \"cd web-client && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vnenkpet/japanese.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vnenkpet/japanese/issues"
+  },
+  "homepage": "https://github.com/vnenkpet/japanese#readme",
+  "dependencies": {
+    "concurrently": "^3.5.1",
+    "graphiql": "^0.11.11",
+    "isomorphic-fetch": "^2.2.1",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
+  }
+}
