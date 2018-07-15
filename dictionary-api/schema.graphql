@@ -11,6 +11,13 @@ type JmdictEntry {
   sense: [Sense!]!
 }
 
+type JmnedictEntry {
+  id: String!
+  kanji: [Kanji!]!
+  kana: [Kana!]!
+  translation: [Translation!]!
+}
+
 type Kana {
   text: String!
   romaji: String!
@@ -23,8 +30,18 @@ type Kanji {
 
 type Query {
   searchJmdictEntries(limit: Int, key: String!): [JmdictEntry!]!
+  searchJmnedictEntries(limit: Int, key: String!): [JmnedictEntry!]!
 }
 
 type Sense {
   gloss: [Gloss!]!
+}
+
+type Translation {
+  translation: [TranslationText!]!
+  type: [String!]!
+}
+
+type TranslationText {
+  text: String!
 }

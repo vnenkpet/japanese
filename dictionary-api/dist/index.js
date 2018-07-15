@@ -11,10 +11,11 @@ const apollo_server_koa_1 = require("apollo-server-koa");
 const graphql_1 = require("graphql");
 const type_graphql_1 = require("type-graphql");
 const JmdictEntryResolver_1 = require("./resolvers/JmdictEntryResolver");
+const JmnedictEntryResolver_1 = require("./resolvers/JmnedictEntryResolver");
 const app = new Koa();
 app.use(cors());
 const schema = type_graphql_1.buildSchemaSync({
-    resolvers: [JmdictEntryResolver_1.default]
+    resolvers: [JmdictEntryResolver_1.default, JmnedictEntryResolver_1.default]
 });
 fs.writeFileSync("schema.graphql", `# This schema is auto-generated.\n\n${graphql_1.printSchema(schema)}`);
 const router = new Router();

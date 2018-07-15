@@ -13,12 +13,13 @@ import { printSchema } from "graphql";
 import { buildSchemaSync } from "type-graphql";
 
 import JmdictEntryResolver from "./resolvers/JmdictEntryResolver";
+import JmnedictEntryResolver from "./resolvers/JmnedictEntryResolver";
 
 const app = new Koa();
 app.use(cors());
 
 const schema = buildSchemaSync({
-  resolvers: [JmdictEntryResolver]
+  resolvers: [JmdictEntryResolver, JmnedictEntryResolver]
 });
 
 fs.writeFileSync(
