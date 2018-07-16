@@ -5,4 +5,7 @@ import Gloss from "./Gloss";
 export default class Sense {
   @Field(type => [Gloss])
   public gloss: [Gloss];
+
+  @Field(type => [String])
+  public partOfSpeech: [string];
 }

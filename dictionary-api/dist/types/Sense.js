@@ -17,6 +17,10 @@ __decorate([
     type_graphql_1.Field(type => [Gloss_1.default]),
     __metadata("design:type", Array)
 ], Sense.prototype, "gloss", void 0);
+__decorate([
+    type_graphql_1.Field(type => [String]),
+    __metadata("design:type", Array)
+], Sense.prototype, "partOfSpeech", void 0);
 Sense = __decorate([
     type_graphql_1.ObjectType()
 ], Sense);
