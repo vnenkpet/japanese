@@ -47,10 +47,10 @@ type Sense {
 }
 
 type Translation {
-  translation: [TranslationText!]!
+  translation: [TranslationItem!]!
   type: [String!]!
 }
 
-type TranslationText {
+type TranslationItem {
   text: String!
 }

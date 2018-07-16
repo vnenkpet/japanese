@@ -10,14 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
-let TranslationText = class TranslationText {
+let TranslationItem = class TranslationItem {
 };
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
-], TranslationText.prototype, "text", void 0);
-TranslationText = __decorate([
+], TranslationItem.prototype, "text", void 0);
+TranslationItem = __decorate([
     type_graphql_1.ObjectType()
-], TranslationText);
-exports.default = TranslationText;
+], TranslationItem);
+exports.default = TranslationItem;
 //# sourceMappingURL=TranslationItem.js.map

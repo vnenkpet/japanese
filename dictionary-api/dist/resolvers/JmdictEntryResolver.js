@@ -17,10 +17,12 @@ const db_1 = require("../services/db");
 const JmdictEntry_1 = require("../types/JmdictEntry");
 let JmdictEntryResolver = class JmdictEntryResolver {
     searchJmdictEntries(key, limit) {
+        key = key.trim();
         if (!limit) {
             limit = 10;
         }
         const searchRegex = new RegExp(`^${key}$`);
+        const verbSearchRegex = new RegExp(`^to ${key}$`);
         return db_1.default.db
             .collection("jmdict")
             .find({
@@ -28,7 +30,8 @@ let JmdictEntryResolver = class JmdictEntryResolver {
                 { "kanji.text": searchRegex },
                 { "kana.text": searchRegex },
                 { "kana.romaji": searchRegex },
-                { "sense.gloss.text": searchRegex }
+                { "sense.gloss.text": searchRegex },
+                { "sense.gloss.text": verbSearchRegex }
             ]
         }, { limit, sort: { "kanji.common": -1 } })
             .toArray();
