@@ -14,36 +14,25 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
 const db_1 = require("../services/db");
-const JmdictEntry_1 = require("../types/JmdictEntry");
-let JmdictEntryResolver = class JmdictEntryResolver {
-    searchJmdictEntries(key, limit) {
-        if (!limit) {
-            limit = 10;
-        }
-        const searchRegex = new RegExp(`^${key}$`);
+const Kanji_1 = require("../types/Kanji");
+const KanjiDicEntry_1 = require("../types/KanjiDicEntry");
+let KanjiResolver = class KanjiResolver {
+    kanjidic(kanji) {
         return db_1.default.db
-            .collection("jmdict")
-            .find({
-            $or: [
-                { "kanji.text": searchRegex },
-                { "kana.text": searchRegex },
-                { "kana.romaji": searchRegex },
-                { "sense.gloss.text": searchRegex }
-            ]
-        }, { limit, sort: { "kanji.common": -1 } })
+            .collection("kanjidic")
+            .find({ _id: { $in: kanji.kanjidic } })
             .toArray();
     }
 };
 __decorate([
-    type_graphql_1.Query(returns => [JmdictEntry_1.default]),
-    __param(0, type_graphql_1.Arg("key")),
-    __param(1, type_graphql_1.Arg("limit", type => type_graphql_1.Int, { nullable: true })),
+    type_graphql_1.FieldResolver(returns => [KanjiDicEntry_1.default]),
+    __param(0, type_graphql_1.Root()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number]),
+    __metadata("design:paramtypes", [Kanji_1.default]),
     __metadata("design:returntype", void 0)
-], JmdictEntryResolver.prototype, "searchJmdictEntries", null);
-JmdictEntryResolver = __decorate([
-    type_graphql_1.Resolver(of => JmdictEntry_1.default)
-], JmdictEntryResolver);
-exports.default = JmdictEntryResolver;
-//# sourceMappingURL=JmdictEntryResolver.js.map
+], KanjiResolver.prototype, "kanjidic", null);
+KanjiResolver = __decorate([
+    type_graphql_1.Resolver(of => Kanji_1.default)
+], KanjiResolver);
+exports.default = KanjiResolver;
+//# sourceMappingURL=KanjiResolver.js.map

@@ -25,12 +25,21 @@ type Kana {
 
 type Kanji {
   text: String!
-  romaji: String!
+  kanjidic: [KanjiDicEntry!]!
+}
+
+type KanjiDicEntry {
+  kanji: String!
+  kana: [String!]!
+  romaji: [String!]!
+  gloss: [String!]!
 }
 
 type Query {
   searchJmdictEntries(limit: Int, key: String!): [JmdictEntry!]!
   searchJmnedictEntries(limit: Int, key: String!): [JmnedictEntry!]!
+  getKanjiDicInformation(kanji: String!): KanjiDicEntry!
+  searchKanjiDicEntries(key: String!): [KanjiDicEntry!]!
 }
 
 type Sense {

@@ -21,14 +21,17 @@ let JmnedictEntryResolver = class JmnedictEntryResolver {
             limit = 10;
         }
         const searchRegex = new RegExp(`^${key}`);
-        return db_1.default.get("jmnedict").find({
+        return db_1.default.db
+            .collection("jmnedict")
+            .find({
             $or: [
                 { "kanji.text": searchRegex },
                 { "kana.text": searchRegex },
                 { "kana.romaji": searchRegex },
                 { "translation.translation.text": searchRegex }
             ]
-        }, { limit });
+        }, { limit })
+            .toArray();
     }
 };
 __decorate([

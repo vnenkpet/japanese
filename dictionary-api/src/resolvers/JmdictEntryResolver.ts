@@ -1,5 +1,5 @@
 import { Arg, Int, Query, Resolver } from "type-graphql";
-import db from "../services/db";
+import DbClient from "../services/db";
 import JmdictEntry from "../types/JmdictEntry";
 
 @Resolver(of => JmdictEntry)
@@ -13,17 +13,20 @@ export default class JmdictEntryResolver {
     if (!limit) {
       limit = 10;
     }
-    const searchRegex = new RegExp(`^${key}`);
-    return db.get("jmdict").find(
-      {
-        $or: [
-          { "kanji.text": searchRegex },
-          { "kana.text": searchRegex },
-          { "kana.romaji": searchRegex },
-          { "sense.gloss.text": searchRegex }
-        ]
-      },
-      { limit, sort: { "kanji.common": 1 } }
-    );
+    const searchRegex = new RegExp(`^${key}$`);
+    return DbClient.db
+      .collection("jmdict")
+      .find(
+        {
+          $or: [
+            { "kanji.text": searchRegex },
+            { "kana.text": searchRegex },
+            { "kana.romaji": searchRegex },
+            { "sense.gloss.text": searchRegex }
+          ]
+        },
+        { limit, sort: { "kanji.common": -1 } }
+      )
+      .toArray();
   }
 }

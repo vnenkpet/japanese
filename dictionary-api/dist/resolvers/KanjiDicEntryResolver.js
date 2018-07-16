@@ -14,36 +14,36 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
 const db_1 = require("../services/db");
-const JmdictEntry_1 = require("../types/JmdictEntry");
-let JmdictEntryResolver = class JmdictEntryResolver {
-    searchJmdictEntries(key, limit) {
-        if (!limit) {
-            limit = 10;
-        }
-        const searchRegex = new RegExp(`^${key}$`);
+const KanjiDicEntry_1 = require("../types/KanjiDicEntry");
+let KanjiDicEntryResolver = class KanjiDicEntryResolver {
+    getKanjiDicInformation(kanji) {
+        return db_1.default.db.collection("kanjidic").findOne({ kanji });
+    }
+    searchKanjiDicEntries(key) {
         return db_1.default.db
-            .collection("jmdict")
+            .collection("kanjidic")
             .find({
-            $or: [
-                { "kanji.text": searchRegex },
-                { "kana.text": searchRegex },
-                { "kana.romaji": searchRegex },
-                { "sense.gloss.text": searchRegex }
-            ]
-        }, { limit, sort: { "kanji.common": -1 } })
+            $or: [{ kanji: key }, { kana: key }, { romaji: key }, { gloss: key }]
+        })
             .toArray();
     }
 };
 __decorate([
-    type_graphql_1.Query(returns => [JmdictEntry_1.default]),
-    __param(0, type_graphql_1.Arg("key")),
-    __param(1, type_graphql_1.Arg("limit", type => type_graphql_1.Int, { nullable: true })),
+    type_graphql_1.Query(returns => KanjiDicEntry_1.default),
+    __param(0, type_graphql_1.Arg("kanji")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, Number]),
+    __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
-], JmdictEntryResolver.prototype, "searchJmdictEntries", null);
-JmdictEntryResolver = __decorate([
-    type_graphql_1.Resolver(of => JmdictEntry_1.default)
-], JmdictEntryResolver);
-exports.default = JmdictEntryResolver;
-//# sourceMappingURL=JmdictEntryResolver.js.map
+], KanjiDicEntryResolver.prototype, "getKanjiDicInformation", null);
+__decorate([
+    type_graphql_1.Query(returns => [KanjiDicEntry_1.default]),
+    __param(0, type_graphql_1.Arg("key")),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], KanjiDicEntryResolver.prototype, "searchKanjiDicEntries", null);
+KanjiDicEntryResolver = __decorate([
+    type_graphql_1.Resolver(of => KanjiDicEntry_1.default)
+], KanjiDicEntryResolver);
+exports.default = KanjiDicEntryResolver;
+//# sourceMappingURL=KanjiDicEntryResolver.js.map

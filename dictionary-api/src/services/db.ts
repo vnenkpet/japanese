@@ -1,9 +1,17 @@
+import { Db, MongoClient } from "mongodb";
 import * as mongodbUri from "mongodb-uri";
-import monk from "monk";
 import config from "../config";
 
-const options = mongodbUri.parse(config.MONGODB_URI);
-const uri = mongodbUri.format(options);
-const db = monk(uri);
+class DbClient {
+  public db: Db;
 
-export default db;
+  public async connect() {
+    const options = mongodbUri.parse(config.MONGODB_URI);
+    const uri = mongodbUri.format(options);
+    const connection = await MongoClient.connect(uri);
+    this.db = connection.db(options.database); // todo
+    return this.db;
+  }
+}
+
+export default new DbClient();

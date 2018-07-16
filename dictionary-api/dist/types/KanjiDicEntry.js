@@ -10,19 +10,26 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
-const KanjiDicEntry_1 = require("./KanjiDicEntry");
-let Kanji = class Kanji {
+let KanjiDicEntry = class KanjiDicEntry {
 };
 __decorate([
     type_graphql_1.Field(),
     __metadata("design:type", String)
-], Kanji.prototype, "text", void 0);
+], KanjiDicEntry.prototype, "kanji", void 0);
 __decorate([
-    type_graphql_1.Field(type => [KanjiDicEntry_1.default]),
+    type_graphql_1.Field(type => [String]),
     __metadata("design:type", Array)
-], Kanji.prototype, "kanjidic", void 0);
-Kanji = __decorate([
+], KanjiDicEntry.prototype, "kana", void 0);
+__decorate([
+    type_graphql_1.Field(type => [String]),
+    __metadata("design:type", Array)
+], KanjiDicEntry.prototype, "romaji", void 0);
+__decorate([
+    type_graphql_1.Field(type => [String]),
+    __metadata("design:type", Array)
+], KanjiDicEntry.prototype, "gloss", void 0);
+KanjiDicEntry = __decorate([
     type_graphql_1.ObjectType()
-], Kanji);
-exports.default = Kanji;
-//# sourceMappingURL=Kanji.js.map
+], KanjiDicEntry);
+exports.default = KanjiDicEntry;
+//# sourceMappingURL=KanjiDicEntry.js.map

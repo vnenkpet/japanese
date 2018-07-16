@@ -14,12 +14,20 @@ import { buildSchemaSync } from "type-graphql";
 
 import JmdictEntryResolver from "./resolvers/JmdictEntryResolver";
 import JmnedictEntryResolver from "./resolvers/JmnedictEntryResolver";
+import KanjiDicEntryResolver from "./resolvers/KanjiDicEntryResolver";
+import KanjiResolver from "./resolvers/KanjiResolver";
+import DbClient from "./services/db";
 
 const app = new Koa();
 app.use(cors());
 
 const schema = buildSchemaSync({
-  resolvers: [JmdictEntryResolver, JmnedictEntryResolver]
+  resolvers: [
+    JmdictEntryResolver,
+    JmnedictEntryResolver,
+    KanjiResolver,
+    KanjiDicEntryResolver
+  ]
 });
 
 fs.writeFileSync(
@@ -35,7 +43,14 @@ router.get("/graphiql", graphiqlKoa({ endpointURL: "/graphql" }));
 app.use(router.routes());
 app.use(router.allowedMethods());
 
-app.listen(config.PORT, () =>
-  // tslint:disable-next-line
-  console.log(`Lusk Core is running on http://localhost:${config.PORT}`)
-);
+async function main() {
+  await DbClient.connect();
+  app.listen(config.PORT, () =>
+    // tslint:disable-next-line
+    console.log(
+      `Dictionary service is running on http://localhost:${config.PORT}`
+    )
+  );
+}
+
+main();
