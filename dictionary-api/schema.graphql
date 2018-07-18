@@ -33,6 +33,8 @@ type KanjiDicEntry {
   kana: [String!]!
   romaji: [String!]!
   gloss: [String!]!
+  wordsContainingThis(limit: Int): [JmdictEntry!]!
+  namesContainingThis(limit: Int): [JmnedictEntry!]!
 }
 
 type Query {

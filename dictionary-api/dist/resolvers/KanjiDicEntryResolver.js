@@ -14,6 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
 const db_1 = require("../services/db");
+const JmdictEntry_1 = require("../types/JmdictEntry");
+const JmnedictEntry_1 = require("../types/JmnedictEntry");
 const KanjiDicEntry_1 = require("../types/KanjiDicEntry");
 let KanjiDicEntryResolver = class KanjiDicEntryResolver {
     getKanjiDicInformation(kanji) {
@@ -25,6 +27,18 @@ let KanjiDicEntryResolver = class KanjiDicEntryResolver {
             .find({
             $or: [{ kanji: key }, { kana: key }, { romaji: key }, { gloss: key }]
         })
+            .toArray();
+    }
+    wordsContainingThis(root, limit) {
+        return db_1.default.db
+            .collection("jmdict")
+            .find({ "kanji.text": new RegExp(`${root.kanji}`) }, { limit, sort: { "kanji.common": -1 } })
+            .toArray();
+    }
+    namesContainingThis(root, limit) {
+        return db_1.default.db
+            .collection("jmnedict")
+            .find({ "kanji.text": new RegExp(`${root.kanji}`) }, { limit })
             .toArray();
     }
 };
@@ -42,6 +56,22 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", void 0)
 ], KanjiDicEntryResolver.prototype, "searchKanjiDicEntries", null);
+__decorate([
+    type_graphql_1.FieldResolver(returns => [JmdictEntry_1.default]),
+    __param(0, type_graphql_1.Root()),
+    __param(1, type_graphql_1.Arg("limit", type => type_graphql_1.Int, { nullable: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [KanjiDicEntry_1.default, Number]),
+    __metadata("design:returntype", void 0)
+], KanjiDicEntryResolver.prototype, "wordsContainingThis", null);
+__decorate([
+    type_graphql_1.FieldResolver(returns => [JmnedictEntry_1.default]),
+    __param(0, type_graphql_1.Root()),
+    __param(1, type_graphql_1.Arg("limit", type => type_graphql_1.Int, { nullable: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [KanjiDicEntry_1.default, Number]),
+    __metadata("design:returntype", void 0)
+], KanjiDicEntryResolver.prototype, "namesContainingThis", null);
 KanjiDicEntryResolver = __decorate([
     type_graphql_1.Resolver(of => KanjiDicEntry_1.default)
 ], KanjiDicEntryResolver);
