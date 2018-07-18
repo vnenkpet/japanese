@@ -6,32 +6,46 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 
 const GET_ENTRIES = gql`
-    query search($searchKey: String!) {
-        jmdictEntries(key: $searchKey, limit: 10) {
-            kanji { text }
-            kana { text }
-            sense {
-                gloss {
-                    text
-                }
-            }
+  query search($searchKey: String!) {
+    entries: searchJmdictEntries(key: $searchKey, limit: 10) {
+      kanji {
+        text
+      }
+      kana {
+        text
+      }
+      sense {
+        gloss {
+          text
         }
-        jmnedictEntries(key: $searchKey, limit: 10) {
-            kanji { text }
-            kana { text }
-            translation { 
-                translation {
-                    text
-                }
-            }
-        }
+      }
     }
+    names: searchJmnedictEntries(key: $searchKey, limit: 10) {
+      kanji {
+        text
+      }
+      kana {
+        text
+      }
+      translation {
+        translation {
+          text
+        }
+      }
+    }
+  }
 `;
-
 
 let timer = null;
 
-const Component = ({ items, searchKey, isLoading, search, startLoading, reset }) => (
+const Component = ({
+  items,
+  searchKey,
+  isLoading,
+  search,
+  startLoading,
+  reset
+}) => (
   <div className="dictionary_wrapper">
     <input
       className="dictionary_search_bar"
@@ -47,37 +61,70 @@ const Component = ({ items, searchKey, isLoading, search, startLoading, reset })
     />
     <Query query={GET_ENTRIES} variables={{ searchKey }}>
       {({ loading, error, data }) => {
-        if (loading) return <div className="dictionary_loading">Loading...</div>;
-        if (error) return <div className="dictionary_error">Error! ${error.message}</div>;
+        if (loading)
+          return <div className="dictionary_loading">Loading...</div>;
+        if (error)
+          return (
+            <div className="dictionary_error">Error! ${error.message}</div>
+          );
 
         return (
           <div className="dictionary_results_wrapper">
             <div className="dictionary_results_jmdict">
-              {data.jmdictEntries.map(entry => (
+              {data.entries.map(entry => (
                 <div className="dictionary_results_row">
-                  {entry.kanji.length ?
+                  {entry.kanji.length ? (
                     <div>
-                      <div className="dictionary_results_kana">{entry.kana[0].text}</div>
-                      <div className="dictionary_results_kanji">{entry.kanji[0].text}</div>
+                      <div className="dictionary_results_kana">
+                        {entry.kana[0].text}
+                      </div>
+                      <div className="dictionary_results_kanji">
+                        {entry.kanji[0].text}
+                      </div>
                     </div>
-                    : <div className="dictionary_results_kanji">{entry.kana[0].text}</div>}
-                <div className="dictionary_results_sense">{entry.sense.map(s => {
-                  return <div className="dictionary_results_gloss">• {s.gloss.map(gloss => gloss.text).join("; ")}</div>
-                })}</div>
+                  ) : (
+                    <div className="dictionary_results_kanji">
+                      {entry.kana[0].text}
+                    </div>
+                  )}
+                  <div className="dictionary_results_sense">
+                    {entry.sense.map(s => {
+                      return (
+                        <div className="dictionary_results_gloss">
+                          • {s.gloss.map(gloss => gloss.text).join("; ")}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               ))}
             </div>
             <div className="dictionary_results_jmnedict">
-              {data.jmnedictEntries.map(entry => (
+              {data.names.map(entry => (
                 <div className="dictionary_results_row">
-                  {entry.kanji.length ?
+                  {entry.kanji.length ? (
                     <div>
-                      <div className="dictionary_results_kana">{entry.kana[0].text}</div>
-                      <div className="dictionary_results_kanji">{entry.kanji[0].text}</div>
+                      <div className="dictionary_results_kana">
+                        {entry.kana[0].text}
+                      </div>
+                      <div className="dictionary_results_kanji">
+                        {entry.kanji[0].text}
+                      </div>
                     </div>
-                    : <div className="dictionary_results_kanji">{entry.kana[0].text}</div>}                  <div className="dictionary_results_sense">{entry.translation.map(s => {
-                    return <div className="dictionary_results_gloss">• {s.translation.map(gloss => gloss.text).join("; ")}</div>
-                  })}</div>
+                  ) : (
+                    <div className="dictionary_results_kanji">
+                      {entry.kana[0].text}
+                    </div>
+                  )}{" "}
+                  <div className="dictionary_results_sense">
+                    {entry.translation.map(s => {
+                      return (
+                        <div className="dictionary_results_gloss">
+                          • {s.translation.map(gloss => gloss.text).join("; ")}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               ))}
             </div>
@@ -92,7 +139,7 @@ const mapStateToProps = ({ dictionary }, ownProps) => {
   return {
     items: dictionary.items,
     searchKey: dictionary.key,
-    isLoading: dictionary.isLoading,
+    isLoading: dictionary.isLoading
   };
 };
 
@@ -106,8 +153,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     reset: () => {
       dispatch(reset());
-    },
+    }
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Component);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Component);
