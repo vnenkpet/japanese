@@ -1,0 +1,1 @@
+{"version":3,"file":"JmdictEntryConnectionEdge.js","sourceRoot":"","sources":["../../src/types/JmdictEntryConnectionEdge.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,+CAAiD;AACjD,+CAAwC;AAGxC,IAAqB,yBAAyB,GAA9C;CAKC,CAAA;AAHC;IADC,oBAAK,CAAC,IAAI,CAAC,EAAE,CAAC,qBAAW,CAAC;8BACd,qBAAW;uDAAC;AAEhB;IAAR,oBAAK,EAAE;;yDAAuB;AAJZ,yBAAyB;IAD7C,yBAAU,EAAE;GACQ,yBAAyB,CAK7C;kBALoB,yBAAyB"}

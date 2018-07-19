@@ -28,10 +28,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/base-64": "^0.1.2",
     "@types/dotenv": "^4.0.3",
     "@types/graphql": "^0.13.3",
     "@types/jest": "^22.1.1",
-    "@types/mongodb": "^3.0.5",
+    "@types/mongodb": "^3.1.1",
     "@types/mongodb-uri": "^0.9.0",
     "@types/supertest": "^2.0.4",
     "concurrently": "^3.5.1",
@@ -52,6 +53,7 @@
   "dependencies": {
     "@koa/cors": "^2.2.1",
     "apollo-server": "^2.0.0-rc.10",
+    "base-64": "^0.1.0",
     "dataloader": "^1.4.0",
     "dotenv": "^5.0.1",
     "graphql": "^0.13.2",

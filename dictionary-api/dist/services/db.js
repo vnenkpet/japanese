@@ -16,7 +16,7 @@ class DbClient {
         return __awaiter(this, void 0, void 0, function* () {
             const options = mongodbUri.parse(config_1.default.MONGODB_URI);
             const uri = mongodbUri.format(options);
-            const connection = yield mongodb_1.MongoClient.connect(uri);
+            const connection = yield mongodb_1.MongoClient.connect(uri, { useNewUrlParser: true });
             this.db = connection.db(options.database); // todo
             return this.db;
         });

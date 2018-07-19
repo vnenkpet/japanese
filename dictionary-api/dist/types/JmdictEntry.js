@@ -10,13 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
+const Conjugation_1 = require("./Conjugation");
 const Kana_1 = require("./Kana");
 const Kanji_1 = require("./Kanji");
 const Sense_1 = require("./Sense");
 let JmdictEntry = class JmdictEntry {
 };
 __decorate([
-    type_graphql_1.Field(),
+    type_graphql_1.Field(type => type_graphql_1.ID),
     __metadata("design:type", String)
 ], JmdictEntry.prototype, "id", void 0);
 __decorate([
@@ -31,6 +32,10 @@ __decorate([
     type_graphql_1.Field(type => [Sense_1.default]),
     __metadata("design:type", Array)
 ], JmdictEntry.prototype, "sense", void 0);
+__decorate([
+    type_graphql_1.Field(type => [Conjugation_1.default], { nullable: true }),
+    __metadata("design:type", Array)
+], JmdictEntry.prototype, "conjugations", void 0);
 JmdictEntry = __decorate([
     type_graphql_1.ObjectType()
 ], JmdictEntry);

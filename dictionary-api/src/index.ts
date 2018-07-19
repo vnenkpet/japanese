@@ -8,7 +8,6 @@ import { printSchema } from "graphql";
 import { buildSchemaSync } from "type-graphql";
 
 import JmdictEntryResolver from "./resolvers/JmdictEntryResolver";
-import JmnedictEntryResolver from "./resolvers/JmnedictEntryResolver";
 import KanjiDicEntryResolver from "./resolvers/KanjiDicEntryResolver";
 import KanjiResolver from "./resolvers/KanjiResolver";
 import DbClient from "./services/db";
@@ -16,12 +15,7 @@ import DbClient from "./services/db";
 import { ApolloServer } from "apollo-server";
 
 const schema = buildSchemaSync({
-  resolvers: [
-    JmdictEntryResolver,
-    JmnedictEntryResolver,
-    KanjiResolver,
-    KanjiDicEntryResolver
-  ]
+  resolvers: [JmdictEntryResolver, KanjiResolver, KanjiDicEntryResolver]
 });
 
 fs.writeFileSync(

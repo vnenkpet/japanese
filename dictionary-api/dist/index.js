@@ -14,18 +14,12 @@ const fs = require("fs");
 const graphql_1 = require("graphql");
 const type_graphql_1 = require("type-graphql");
 const JmdictEntryResolver_1 = require("./resolvers/JmdictEntryResolver");
-const JmnedictEntryResolver_1 = require("./resolvers/JmnedictEntryResolver");
 const KanjiDicEntryResolver_1 = require("./resolvers/KanjiDicEntryResolver");
 const KanjiResolver_1 = require("./resolvers/KanjiResolver");
 const db_1 = require("./services/db");
 const apollo_server_1 = require("apollo-server");
 const schema = type_graphql_1.buildSchemaSync({
-    resolvers: [
-        JmdictEntryResolver_1.default,
-        JmnedictEntryResolver_1.default,
-        KanjiResolver_1.default,
-        KanjiDicEntryResolver_1.default
-    ]
+    resolvers: [JmdictEntryResolver_1.default, KanjiResolver_1.default, KanjiDicEntryResolver_1.default]
 });
 fs.writeFileSync("schema.graphql", `# This schema is auto-generated.\n\n${graphql_1.printSchema(schema)}`);
 const server = new apollo_server_1.ApolloServer({ schema });

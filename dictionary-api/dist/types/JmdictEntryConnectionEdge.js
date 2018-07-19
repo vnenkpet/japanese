@@ -10,29 +10,19 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
-const Kana_1 = require("./Kana");
-const Kanji_1 = require("./Kanji");
-const Translation_1 = require("./Translation");
-let JmnedictEntry = class JmnedictEntry {
+const JmdictEntry_1 = require("./JmdictEntry");
+let JmdictEntryConnectionEdge = class JmdictEntryConnectionEdge {
 };
 __decorate([
-    type_graphql_1.Field(type => type_graphql_1.ID),
+    type_graphql_1.Field(type => JmdictEntry_1.default),
+    __metadata("design:type", JmdictEntry_1.default)
+], JmdictEntryConnectionEdge.prototype, "node", void 0);
+__decorate([
+    type_graphql_1.Field(),
     __metadata("design:type", String)
-], JmnedictEntry.prototype, "id", void 0);
-__decorate([
-    type_graphql_1.Field(type => [Kanji_1.default]),
-    __metadata("design:type", Array)
-], JmnedictEntry.prototype, "kanji", void 0);
-__decorate([
-    type_graphql_1.Field(type => [Kana_1.default]),
-    __metadata("design:type", Array)
-], JmnedictEntry.prototype, "kana", void 0);
-__decorate([
-    type_graphql_1.Field(type => [Translation_1.default]),
-    __metadata("design:type", Array)
-], JmnedictEntry.prototype, "translation", void 0);
-JmnedictEntry = __decorate([
+], JmdictEntryConnectionEdge.prototype, "cursor", void 0);
+JmdictEntryConnectionEdge = __decorate([
     type_graphql_1.ObjectType()
-], JmnedictEntry);
-exports.default = JmnedictEntry;
-//# sourceMappingURL=JmnedictEntry.js.map
+], JmdictEntryConnectionEdge);
+exports.default = JmdictEntryConnectionEdge;
+//# sourceMappingURL=JmdictEntryConnectionEdge.js.map

@@ -1,18 +1,36 @@
 # This schema is auto-generated.
 
+type Conjugation {
+  name: String!
+  form: String!
+}
+
 type Gloss {
   text: String!
 }
 
 type JmdictEntry {
-  id: String!
+  id: ID!
   kanji: [Kanji!]!
   kana: [Kana!]!
   sense: [Sense!]!
+  conjugations: [Conjugation!]
+}
+
+type JmdictEntryConnection {
+  totalCount: Float!
+  edges: [JmdictEntryConnectionEdge!]!
+  pageInfo: PageInfo!
+  conjugations: [Conjugation!]!
+}
+
+type JmdictEntryConnectionEdge {
+  node: JmdictEntry!
+  cursor: String!
 }
 
 type JmnedictEntry {
-  id: String!
+  id: ID!
   kanji: [Kanji!]!
   kana: [Kana!]!
   translation: [Translation!]!
@@ -37,9 +55,13 @@ type KanjiDicEntry {
   namesContainingThis(limit: Int): [JmnedictEntry!]!
 }
 
+type PageInfo {
+  hasNextPage: Boolean!
+  endCursor: String
+}
+
 type Query {
-  searchJmdictEntries(limit: Int, key: String!): [JmdictEntry!]!
-  searchJmnedictEntries(limit: Int, key: String!): [JmnedictEntry!]!
+  searchJmdictEntries(after: String, first: Int, key: String!): JmdictEntryConnection!
   getKanjiDicInformation(kanji: String!): KanjiDicEntry!
   searchKanjiDicEntries(key: String!): [KanjiDicEntry!]!
 }
