@@ -1,5 +1,7 @@
-import { Arg, Int, Query, Resolver } from "type-graphql";
+import * as verbs from "jp-conjugation";
+import { Arg, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
 import DbClient from "../services/db";
+import Conjugation from "../types/Conjugation";
 import JmdictEntry from "../types/JmdictEntry";
 
 @Resolver(of => JmdictEntry)
@@ -31,5 +33,10 @@ export default class JmdictEntryResolver {
         { limit, sort: { "kanji.common": -1 } }
       )
       .toArray();
+  }
+
+  @FieldResolver(returns => [Conjugation])
+  public conjugations(@Root() root: JmdictEntry) {
+    return verbs.conjugate(root.kanji[0].text);
   }
 }

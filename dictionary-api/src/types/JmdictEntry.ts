@@ -1,4 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
+import Conjugation from "./Conjugation";
 import Kana from "./Kana";
 import Kanji from "./Kanji";
 import Sense from "./Sense";
@@ -14,4 +15,7 @@ export default class JmdictEntry {
 
   @Field(type => [Sense])
   public sense: [Sense];
+
+  @Field(type => [Conjugation])
+  public conjugation: [Conjugation];
 }
