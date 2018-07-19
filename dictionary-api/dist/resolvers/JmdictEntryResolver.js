@@ -48,7 +48,7 @@ let JmdictEntryResolver = class JmdictEntryResolver {
             if (after) {
                 offset = +base_64_1.decode(after);
             }
-            // prepare regex:
+            // prepare search regex:
             const searchRegex = new RegExp(`^${key.trim()}$`);
             const verbSearchRegex = new RegExp(`^to ${key.trim()}$`);
             // prepare the mongo request
@@ -62,26 +62,29 @@ let JmdictEntryResolver = class JmdictEntryResolver {
                 ]
             });
             // get totalCount and entries for nodes
-            const totalCount = yield mongoQuery.count();
-            const entries = yield mongoQuery
-                .skip(offset)
-                .limit(first)
-                .sort({ "kanji.common": -1 })
-                .toArray();
-            // map entries and and find endCursor
-            let endCursor = null;
-            // return graphql connection
+            const [totalCount, entries] = yield Promise.all([
+                mongoQuery.count(),
+                mongoQuery
+                    .skip(offset)
+                    .limit(first)
+                    .sort({ "kanji.common": -1 })
+                    .toArray()
+            ]);
+            // get startCursor and endCursor
+            const startCursor = base_64_1.encode(`${offset}`);
+            const endCursor = base_64_1.encode(`${offset + entries.length}`);
+            // return graphql connection response
             return {
                 edges: entries.map((entry, index) => {
-                    endCursor = base_64_1.encode(`${offset + index + 1}`);
                     return {
-                        cursor: endCursor,
+                        cursor: base_64_1.encode(`${offset + index + 1}`),
                         node: entry
                     };
                 }),
                 pageInfo: {
                     endCursor,
-                    hasNextPage: offset + first < totalCount - 1
+                    hasNextPage: offset + first <= totalCount - 1,
+                    startCursor
                 },
                 totalCount
             };

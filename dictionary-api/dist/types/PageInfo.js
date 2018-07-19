@@ -20,6 +20,10 @@ __decorate([
     type_graphql_1.Field({ nullable: true }),
     __metadata("design:type", String)
 ], PageInfo.prototype, "endCursor", void 0);
+__decorate([
+    type_graphql_1.Field({ nullable: true }),
+    __metadata("design:type", String)
+], PageInfo.prototype, "startCursor", void 0);
 PageInfo = __decorate([
     type_graphql_1.ObjectType()
 ], PageInfo);

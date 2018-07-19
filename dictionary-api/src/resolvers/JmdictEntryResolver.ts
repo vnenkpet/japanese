@@ -5,7 +5,6 @@ import DbClient from "../services/db";
 import Conjugation from "../types/Conjugation";
 import JmdictEntry from "../types/JmdictEntry";
 import JmdictEntryConnection from "../types/JmdictEntryConnection";
-import JmdictEntryConnectionEdge from "../types/JmdictEntryConnectionEdge";
 
 enum VERB_TYPE {
   v5u,
@@ -36,7 +35,7 @@ export default class JmdictEntryResolver {
       offset = +decode(after);
     }
 
-    // prepare regex:
+    // prepare search regex:
     const searchRegex = new RegExp(`^${key.trim()}$`);
     const verbSearchRegex = new RegExp(`^to ${key.trim()}$`);
 
@@ -52,28 +51,31 @@ export default class JmdictEntryResolver {
     });
 
     // get totalCount and entries for nodes
-    const totalCount = await mongoQuery.count();
-    const entries = await mongoQuery
-      .skip(offset)
-      .limit(first)
-      .sort({ "kanji.common": -1 })
-      .toArray();
+    const [totalCount, entries] = await Promise.all([
+      mongoQuery.count(),
+      mongoQuery
+        .skip(offset)
+        .limit(first)
+        .sort({ "kanji.common": -1 })
+        .toArray()
+    ]);
 
-    // map entries and and find endCursor
-    let endCursor: string = null;
+    // get startCursor and endCursor
+    const startCursor: string = encode(`${offset}`);
+    const endCursor: string = encode(`${offset + entries.length}`);
 
-    // return graphql connection
+    // return graphql connection response
     return {
       edges: entries.map((entry, index) => {
-        endCursor = encode(`${offset + index + 1}`);
         return {
-          cursor: endCursor,
+          cursor: encode(`${offset + index + 1}`),
           node: entry
         };
       }),
       pageInfo: {
         endCursor,
-        hasNextPage: offset + first < totalCount - 1
+        hasNextPage: offset + first <= totalCount - 1,
+        startCursor
       },
       totalCount
     };

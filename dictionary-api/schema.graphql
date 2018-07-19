@@ -29,13 +29,6 @@ type JmdictEntryConnectionEdge {
   cursor: String!
 }
 
-type JmnedictEntry {
-  id: ID!
-  kanji: [Kanji!]!
-  kana: [Kana!]!
-  translation: [Translation!]!
-}
-
 type Kana {
   text: String!
   romaji: String!
@@ -52,12 +45,12 @@ type KanjiDicEntry {
   romaji: [String!]!
   gloss: [String!]!
   wordsContainingThis(limit: Int): [JmdictEntry!]!
-  namesContainingThis(limit: Int): [JmnedictEntry!]!
 }
 
 type PageInfo {
   hasNextPage: Boolean!
   endCursor: String
+  startCursor: String
 }
 
 type Query {
@@ -69,13 +62,4 @@ type Query {
 type Sense {
   gloss: [Gloss!]!
   partOfSpeech: [String!]!
-}
-
-type Translation {
-  translation: [TranslationItem!]!
-  type: [String!]!
-}
-
-type TranslationItem {
-  text: String!
 }
