@@ -1,0 +1,1 @@
+{"version":3,"file":"PageInfo.js","sourceRoot":"","sources":["../../src/schema-types/PageInfo.ts"],"names":[],"mappings":";;;;;;;;;;;AAAA,+CAAiD;AAGjD,IAAqB,QAAQ,GAA7B;CAQC,CAAA;AAPU;IAAR,oBAAK,EAAE;;6CAA6B;AAGrC;IADC,oBAAK,CAAC,EAAE,QAAQ,EAAE,IAAI,EAAE,CAAC;;2CACA;AAG1B;IADC,oBAAK,CAAC,EAAE,QAAQ,EAAE,IAAI,EAAE,CAAC;;6CACE;AAPT,QAAQ;IAD5B,yBAAU,EAAE;GACQ,QAAQ,CAQ5B;kBARoB,QAAQ"}

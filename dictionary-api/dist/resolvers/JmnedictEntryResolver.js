@@ -23,9 +23,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const base_64_1 = require("base-64");
 const type_graphql_1 = require("type-graphql");
 const db_1 = require("../services/db");
-const JmnedictEntry_1 = require("../types/JmnedictEntry");
-const JmnedictEntryConnection_1 = require("../types/JmnedictEntryConnection");
-const JmnedictEntryConnectionEdge_1 = require("../types/JmnedictEntryConnectionEdge");
+const JmnedictEntry_1 = require("../schema-types/JmnedictEntry");
+const JmnedictEntryConnection_1 = require("../schema-types/JmnedictEntryConnection");
+const JmnedictEntryConnectionEdge_1 = require("../schema-types/JmnedictEntryConnectionEdge");
 let JmnedictEntryResolver = class JmnedictEntryResolver {
     searchJmnedictEntries(key, first = 10, after = null) {
         return __awaiter(this, void 0, void 0, function* () {

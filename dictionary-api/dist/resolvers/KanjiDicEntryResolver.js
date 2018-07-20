@@ -13,26 +13,26 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
+const JmdictEntryConnection_1 = require("../schema-types/JmdictEntryConnection");
+const KanjiDicEntry_1 = require("../schema-types/KanjiDicEntry");
+const KanjiDicEntryConnection_1 = require("../schema-types/KanjiDicEntryConnection");
 const db_1 = require("../services/db");
-const JmdictEntry_1 = require("../types/JmdictEntry");
-const KanjiDicEntry_1 = require("../types/KanjiDicEntry");
+const Pagination_1 = require("./Pagination");
 let KanjiDicEntryResolver = class KanjiDicEntryResolver {
     getKanjiDicInformation(kanji) {
         return db_1.default.db.collection("kanjidic").findOne({ kanji });
     }
-    searchKanjiDicEntries(key) {
-        return db_1.default.db
-            .collection("kanjidic")
-            .find({
+    searchKanjiDicEntries(key, first = 10, after = null) {
+        const cursor = db_1.default.db.collection("kanjidic").find({
             $or: [{ kanji: key }, { kana: key }, { romaji: key }, { gloss: key }]
-        })
-            .toArray();
+        });
+        return Pagination_1.getGraphQLConnectionFromMongoCursor(cursor, first, after);
     }
-    wordsContainingThis(root, limit) {
-        return db_1.default.db
+    wordsContainingThis(root, first = 10, after = null) {
+        const cursor = db_1.default.db
             .collection("jmdict")
-            .find({ "kanji.text": new RegExp(`${root.kanji}`) }, { limit, sort: { "kanji.common": -1 } })
-            .toArray();
+            .find({ "kanji.text": new RegExp(`${root.kanji}`) }, { sort: { "kanji.common": -1 } });
+        return Pagination_1.getGraphQLConnectionFromMongoCursor(cursor, first, after);
     }
 };
 __decorate([
@@ -43,18 +43,21 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], KanjiDicEntryResolver.prototype, "getKanjiDicInformation", null);
 __decorate([
-    type_graphql_1.Query(returns => [KanjiDicEntry_1.default]),
+    type_graphql_1.Query(returns => KanjiDicEntryConnection_1.default),
     __param(0, type_graphql_1.Arg("key")),
+    __param(1, type_graphql_1.Arg("first")),
+    __param(2, type_graphql_1.Arg("after")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [String, Number, String]),
+    __metadata("design:returntype", Promise)
 ], KanjiDicEntryResolver.prototype, "searchKanjiDicEntries", null);
 __decorate([
-    type_graphql_1.FieldResolver(returns => [JmdictEntry_1.default]),
+    type_graphql_1.FieldResolver(returns => JmdictEntryConnection_1.default),
     __param(0, type_graphql_1.Root()),
-    __param(1, type_graphql_1.Arg("limit", type => type_graphql_1.Int, { nullable: true })),
+    __param(1, type_graphql_1.Arg("first", type => type_graphql_1.Int, { nullable: true })),
+    __param(2, type_graphql_1.Arg("after", type => type_graphql_1.Int, { nullable: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [KanjiDicEntry_1.default, Number]),
+    __metadata("design:paramtypes", [KanjiDicEntry_1.default, Number, String]),
     __metadata("design:returntype", void 0)
 ], KanjiDicEntryResolver.prototype, "wordsContainingThis", null);
 KanjiDicEntryResolver = __decorate([

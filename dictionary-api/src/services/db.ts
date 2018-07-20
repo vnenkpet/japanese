@@ -12,7 +12,7 @@ class DbClient {
       uri,
       { useNewUrlParser: true }
     );
-    this.db = connection.db(options.database); // todo
+    this.db = connection.db(options.database);
     return this.db;
   }
 }

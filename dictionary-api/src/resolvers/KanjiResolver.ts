@@ -1,7 +1,7 @@
 import { FieldResolver, Resolver, Root } from "type-graphql";
+import Kanji from "../schema-types/Kanji";
+import KanjiDicEntry from "../schema-types/KanjiDicEntry";
 import DbClient from "../services/db";
-import Kanji from "../types/Kanji";
-import KanjiDicEntry from "../types/KanjiDicEntry";
 
 @Resolver(of => Kanji)
 export default class KanjiResolver {

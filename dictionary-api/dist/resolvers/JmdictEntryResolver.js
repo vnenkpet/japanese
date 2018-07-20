@@ -20,34 +20,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const base_64_1 = require("base-64");
-const jp_conjugation_1 = require("jp-conjugation");
 const type_graphql_1 = require("type-graphql");
+const JmdictEntryConnection_1 = require("../schema-types/JmdictEntryConnection");
 const db_1 = require("../services/db");
-const Conjugation_1 = require("../types/Conjugation");
-const JmdictEntry_1 = require("../types/JmdictEntry");
-const JmdictEntryConnection_1 = require("../types/JmdictEntryConnection");
-var VERB_TYPE;
-(function (VERB_TYPE) {
-    VERB_TYPE[VERB_TYPE["v5u"] = 0] = "v5u";
-    VERB_TYPE[VERB_TYPE["v5k"] = 1] = "v5k";
-    VERB_TYPE[VERB_TYPE["v5g"] = 2] = "v5g";
-    VERB_TYPE[VERB_TYPE["v5s"] = 3] = "v5s";
-    VERB_TYPE[VERB_TYPE["v5t"] = 4] = "v5t";
-    VERB_TYPE[VERB_TYPE["v5m"] = 5] = "v5m";
-    VERB_TYPE[VERB_TYPE["v5b"] = 6] = "v5b";
-    VERB_TYPE[VERB_TYPE["v5n"] = 7] = "v5n";
-    VERB_TYPE[VERB_TYPE["v5r"] = 8] = "v5r";
-    VERB_TYPE[VERB_TYPE["v1"] = 9] = "v1";
-})(VERB_TYPE || (VERB_TYPE = {}));
+const Pagination_1 = require("./Pagination");
 let JmdictEntryResolver = class JmdictEntryResolver {
     searchJmdictEntries(key, first = 10, after = null) {
         return __awaiter(this, void 0, void 0, function* () {
-            // decode cursor:
-            let offset = 0;
-            if (after) {
-                offset = +base_64_1.decode(after);
-            }
             // prepare search regex:
             const searchRegex = new RegExp(`^${key.trim()}$`);
             const verbSearchRegex = new RegExp(`^to ${key.trim()}$`);
@@ -60,43 +39,9 @@ let JmdictEntryResolver = class JmdictEntryResolver {
                     { "sense.gloss.text": searchRegex },
                     { "sense.gloss.text": verbSearchRegex }
                 ]
-            });
-            // get totalCount and entries for nodes
-            const [totalCount, entries] = yield Promise.all([
-                mongoQuery.count(),
-                mongoQuery
-                    .skip(offset)
-                    .limit(first)
-                    .sort({ "kanji.common": -1 })
-                    .toArray()
-            ]);
-            // get startCursor and endCursor
-            const startCursor = base_64_1.encode(`${offset}`);
-            const endCursor = base_64_1.encode(`${offset + entries.length}`);
-            // return graphql connection response
-            return {
-                edges: entries.map((entry, index) => {
-                    return {
-                        cursor: base_64_1.encode(`${offset + index + 1}`),
-                        node: entry
-                    };
-                }),
-                pageInfo: {
-                    endCursor,
-                    hasNextPage: offset + first <= totalCount - 1,
-                    startCursor
-                },
-                totalCount
-            };
+            }, { sort: { "kanji.common": -1 } });
+            return Pagination_1.getGraphQLConnectionFromMongoCursor(mongoQuery, first, after);
         });
-    }
-    conjugations(root) {
-        if (root.sense[0].partOfSpeech.some(pos => pos in VERB_TYPE)) {
-            return jp_conjugation_1.conjugate(root.kanji[0].text);
-        }
-        else {
-            return null;
-        }
     }
 };
 __decorate([
@@ -108,13 +53,6 @@ __decorate([
     __metadata("design:paramtypes", [String, Number, String]),
     __metadata("design:returntype", Promise)
 ], JmdictEntryResolver.prototype, "searchJmdictEntries", null);
-__decorate([
-    type_graphql_1.FieldResolver(returns => [Conjugation_1.default]),
-    __param(0, type_graphql_1.Root()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [JmdictEntry_1.default]),
-    __metadata("design:returntype", Array)
-], JmdictEntryResolver.prototype, "conjugations", null);
 JmdictEntryResolver = __decorate([
     type_graphql_1.Resolver(of => JmdictEntryConnection_1.default)
 ], JmdictEntryResolver);

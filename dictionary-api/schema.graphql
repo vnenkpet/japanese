@@ -21,7 +21,6 @@ type JmdictEntryConnection {
   totalCount: Float!
   edges: [JmdictEntryConnectionEdge!]!
   pageInfo: PageInfo!
-  conjugations: [Conjugation!]!
 }
 
 type JmdictEntryConnectionEdge {
@@ -32,11 +31,15 @@ type JmdictEntryConnectionEdge {
 type Kana {
   text: String!
   romaji: String!
+  common: Boolean!
+  tags: [String!]!
 }
 
 type Kanji {
   text: String!
   kanjidic: [KanjiDicEntry!]!
+  common: Boolean!
+  tags: [String!]!
 }
 
 type KanjiDicEntry {
@@ -44,7 +47,18 @@ type KanjiDicEntry {
   kana: [String!]!
   romaji: [String!]!
   gloss: [String!]!
-  wordsContainingThis(limit: Int): [JmdictEntry!]!
+  wordsContainingThis(after: Int, first: Int): JmdictEntryConnection!
+}
+
+type KanjiDicEntryConnection {
+  totalCount: Float!
+  edges: [KanjiDicEntryConnectionEdge!]!
+  pageInfo: PageInfo!
+}
+
+type KanjiDicEntryConnectionEdge {
+  node: KanjiDicEntry!
+  cursor: String!
 }
 
 type PageInfo {
@@ -56,10 +70,14 @@ type PageInfo {
 type Query {
   searchJmdictEntries(after: String, first: Int, key: String!): JmdictEntryConnection!
   getKanjiDicInformation(kanji: String!): KanjiDicEntry!
-  searchKanjiDicEntries(key: String!): [KanjiDicEntry!]!
+  searchKanjiDicEntries(after: String!, first: Float!, key: String!): KanjiDicEntryConnection!
 }
 
 type Sense {
+  field: [String!]!
+  dialect: [String!]!
+  misc: [String!]!
+  info: [String!]!
   gloss: [Gloss!]!
   partOfSpeech: [String!]!
 }

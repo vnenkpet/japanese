@@ -13,9 +13,9 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
+const Kanji_1 = require("../schema-types/Kanji");
+const KanjiDicEntry_1 = require("../schema-types/KanjiDicEntry");
 const db_1 = require("../services/db");
-const Kanji_1 = require("../types/Kanji");
-const KanjiDicEntry_1 = require("../types/KanjiDicEntry");
 let KanjiResolver = class KanjiResolver {
     kanjidic(kanji) {
         return db_1.default.db
