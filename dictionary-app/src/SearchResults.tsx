@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Query } from "react-apollo";
+import Button from "./components/Button";
 import SearchQueryEntry from "./JmdictEntry";
 import updateQuery from "./pagination/updateQuery";
 import searchJmdictQuery from "./queries/searchJmdictQuery";
@@ -24,12 +25,12 @@ export default ({ searchKey }: { searchKey?: string }) => (
       }
       return (
         <div>
-          Found: {data.connection.totalCount} results.
+          Found: {data.connection.totalCount} results for {searchKey}.
           {data.connection.edges.map((edge, edgeIndex) => {
             return <SearchQueryEntry key={edgeIndex} {...edge.node} />;
           })}
           {data.connection.pageInfo.hasNextPage ? (
-            <button
+            <Button
               onClick={() =>
                 fetchMore({
                   query: searchJmdictQuery,
@@ -45,8 +46,8 @@ export default ({ searchKey }: { searchKey?: string }) => (
                 })
               }
             >
-              Load more...
-            </button>
+              Load more
+            </Button>
           ) : (
             "No more results."
           )}

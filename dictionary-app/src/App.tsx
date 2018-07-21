@@ -1,14 +1,37 @@
+import gql from "graphql-tag";
 import * as React from "react";
+import { Query } from "react-apollo";
+import SearchBar from "./SearchBar";
 import SearchResults from "./SearchResults";
+
+interface ISearchKeyQueryData {
+  searchKey: {
+    text: string;
+  };
+}
 
 class App extends React.Component {
   public render() {
     return (
       <div className="App">
-        <div>
-          <input placeholder="漢字, かな, romaji or English..." />
-        </div>
-        <SearchResults searchKey="train" />
+        <SearchBar />
+        <Query<ISearchKeyQueryData>
+          query={gql`
+            query searchKey {
+              searchKey @client {
+                text
+              }
+            }
+          `}
+        >
+          {({ data }) => {
+            if (data) {
+              return <SearchResults searchKey={data.searchKey.text} />;
+            } else {
+              return "";
+            }
+          }}
+        </Query>
       </div>
     );
   }

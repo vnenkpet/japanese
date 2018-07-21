@@ -22,8 +22,8 @@ export default class JmdictEntryResolver {
     })
   ): Promise<JmdictEntryConnection> {
     // prepare search regex:
-    const searchRegex = new RegExp(`^${key.trim()}$`);
-    const verbSearchRegex = new RegExp(`^to ${key.trim()}$`);
+    const searchRegex = new RegExp(`^${key.toLowerCase().trim()}$`);
+    const verbSearchRegex = new RegExp(`^to ${key.toLowerCase().trim()}$`);
 
     // prepare the mongo request
     const mongoQuery = await DbClient.db.collection("jmdict").find({
