@@ -7,10 +7,6 @@ import registerServiceWorker from "./registerServiceWorker";
 import ApolloClient from "apollo-boost";
 
 const client = new ApolloClient({
-  clientState: {
-    defaults: { searchKey: "train" },
-    resolvers: {}
-  }, // todo - working search key input
   uri: "http://localhost:3001"
 });
 
