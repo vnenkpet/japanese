@@ -15,6 +15,7 @@ type JmdictEntry {
   kana: [Kana!]!
   sense: [Sense!]!
   conjugations: [Conjugation!]
+  bingSearchResults: Float
 }
 
 type JmdictEntryConnection {

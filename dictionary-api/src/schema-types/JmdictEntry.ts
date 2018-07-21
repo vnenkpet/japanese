@@ -20,4 +20,7 @@ export default class JmdictEntry {
 
   @Field(type => [Conjugation], { nullable: true })
   public conjugations?: [Conjugation];
+
+  @Field({ nullable: true })
+  public bingSearchResults?: number;
 }
