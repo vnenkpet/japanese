@@ -6,10 +6,31 @@ import updateQuery from "./pagination/updateQuery";
 import searchJmdictQuery from "./queries/searchJmdictQuery";
 import { IConnectionData } from "./schema/Connection";
 import IJmdictEntry from "./schema/IJmdictEntry";
+import styled from "./styled-components";
 
 interface IVariables {
   key: string;
 }
+
+const SearchInfo = styled.div`
+  margin-top: 10px;
+  opacity: 0.8;
+`;
+
+const Loading = styled.div`
+  margin-top: 10px;
+  opacity: 0.8;
+`;
+
+const Separator = styled.hr`
+  border: 1px dashed ${props => props.theme.primaryColorInverted};
+  opacity: 0.6;
+`;
+
+const NoResults = styled.div`
+  margin-top: 10px;
+  font-size: 20px;
+`;
 
 export default ({ searchKey }: { searchKey?: string }) => (
   <Query<IConnectionData<IJmdictEntry>, IVariables>
@@ -18,17 +39,32 @@ export default ({ searchKey }: { searchKey?: string }) => (
   >
     {({ loading, error, data, fetchMore }) => {
       if (loading) {
-        return <span>Loading...</span>;
+        return <Loading>Loading...</Loading>;
       }
       if (error) {
         return <span>{error.toString()}</span>;
       }
       return (
         <div>
-          Found: {data.connection.totalCount} results for {searchKey}.
-          {data.connection.edges.map((edge, edgeIndex) => {
-            return <SearchQueryEntry key={edgeIndex} {...edge.node} />;
-          })}
+          <SearchInfo>
+            Found: {data.connection.totalCount} results for "{searchKey}".
+          </SearchInfo>
+          {data.connection.totalCount ? (
+            data.connection.edges
+              .map((edge, edgeIndex) => {
+                return <SearchQueryEntry key={edgeIndex} {...edge.node} />;
+              })
+              // todo: fix (how to reduce in typescript?)
+              .reduce((prev, curr) => (
+                <section>
+                  {prev}
+                  <Separator />
+                  {curr}
+                </section>
+              ))
+          ) : (
+            <NoResults>No results.</NoResults>
+          )}
           {data.connection.pageInfo.hasNextPage ? (
             <Button
               onClick={() =>

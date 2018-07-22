@@ -1,14 +1,12 @@
+import ApolloClient from "apollo-boost";
 import * as React from "react";
 import { ApolloProvider } from "react-apollo";
 import * as ReactDOM from "react-dom";
 import App from "./App";
-import settGlobalStyles from "./GlobalStyle";
+import GlobalStyle from "./GlobalStyle";
 import registerServiceWorker from "./registerServiceWorker";
-
-import ApolloClient from "apollo-boost";
 import { ThemeProvider } from "./styled-components";
-
-settGlobalStyles();
+import theme from "./theme";
 
 const client = new ApolloClient({
   clientState: {
@@ -40,17 +38,12 @@ const client = new ApolloClient({
   uri: "http://localhost:3001"
 });
 
-// Define what props.theme will look like
-const theme = {
-  fontColor: "white",
-  primaryColor: "teal",
-  primaryColorInverted: "orange"
-};
-
 ReactDOM.render(
   <ApolloProvider client={client}>
     <ThemeProvider theme={theme}>
-      <App />
+      <GlobalStyle>
+        <App />
+      </GlobalStyle>
     </ThemeProvider>
   </ApolloProvider>,
   document.getElementById("root") as HTMLElement
