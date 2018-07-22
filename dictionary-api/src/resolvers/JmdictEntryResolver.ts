@@ -31,8 +31,8 @@ export default class JmdictEntryResolver {
         { "kanji.text": searchRegex },
         { "kana.text": searchRegex },
         { "kana.romaji": searchRegex },
-        { "sense.gloss.text": searchRegex },
-        { "sense.gloss.text": verbSearchRegex }
+        { "sense.gloss.searchKey": searchRegex },
+        { "sense.gloss.searchKey": verbSearchRegex }
       ]
     });
 

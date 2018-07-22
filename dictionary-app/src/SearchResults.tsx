@@ -17,6 +17,10 @@ const SearchInfo = styled.div`
   opacity: 0.8;
 `;
 
+const NoMoreResults = styled.div`
+  opacity: 0.8;
+`;
+
 const Loading = styled.div`
   margin-top: 10px;
   opacity: 0.8;
@@ -24,7 +28,7 @@ const Loading = styled.div`
 
 const Separator = styled.hr`
   border: 1px dashed ${props => props.theme.primaryColorInverted};
-  opacity: 0.6;
+  opacity: 0.4;
 `;
 
 const NoResults = styled.div`
@@ -85,7 +89,7 @@ export default ({ searchKey }: { searchKey?: string }) => (
               Load more
             </Button>
           ) : (
-            "No more results."
+            <NoMoreResults>No more results.</NoMoreResults>
           )}
         </div>
       );
