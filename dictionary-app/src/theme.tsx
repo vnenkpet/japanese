@@ -5,7 +5,7 @@ export interface IThemeInterface {
 
 // Define what props.theme will look like
 const theme: IThemeInterface = {
-  primaryColor: "#1e7476",
+  primaryColor: "#1b7783",
   primaryColorInverted: "#ffdd9b"
 };
 

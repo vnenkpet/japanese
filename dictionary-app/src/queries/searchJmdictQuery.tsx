@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export default gql`
   query search($key: String!, $cursor: String = null) {
-    connection: searchJmdictEntries(key: $key, first: 5, after: $cursor) {
+    connection: searchEntries(key: $key, first: 10, after: $cursor) {
       totalCount
       edges {
         node {
@@ -18,6 +18,13 @@ export default gql`
               text
             }
           }
+          translation {
+            translation {
+              text
+            }
+            type
+          }
+          source
           bingSearchResults
         }
       }

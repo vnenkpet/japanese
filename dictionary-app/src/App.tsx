@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 import * as React from "react";
 import { Query } from "react-apollo";
+import JmdictSearchResults from "./JmdictSearchResults";
 import SearchBar from "./SearchBar";
-import SearchResults from "./SearchResults";
 
 interface ISearchKeyQueryData {
   searchKey: {
@@ -26,7 +26,7 @@ class App extends React.Component {
         >
           {({ data }) => {
             if (data) {
-              return <SearchResults searchKey={data.searchKey.text} />;
+              return <JmdictSearchResults searchKey={data.searchKey.text} />;
             } else {
               return "";
             }

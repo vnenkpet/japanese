@@ -5,28 +5,30 @@ type Conjugation {
   form: String!
 }
 
-type Gloss {
-  text: String!
-}
-
-type JmdictEntry {
+type Entry {
   id: ID!
   kanji: [Kanji!]!
   kana: [Kana!]!
-  sense: [Sense!]!
+  sense: [Sense!]
   conjugations: [Conjugation!]
+  translation: [Translation!]
   bingSearchResults: Float
+  source: String!
 }
 
-type JmdictEntryConnection {
+type EntryConnection {
   totalCount: Float!
-  edges: [JmdictEntryConnectionEdge!]!
+  edges: [EntryConnectionEdge!]!
   pageInfo: PageInfo!
 }
 
-type JmdictEntryConnectionEdge {
-  node: JmdictEntry!
+type EntryConnectionEdge {
+  node: Entry!
   cursor: String!
+}
+
+type Gloss {
+  text: String!
 }
 
 type Kana {
@@ -48,7 +50,7 @@ type KanjiDicEntry {
   kana: [String!]!
   romaji: [String!]!
   gloss: [String!]!
-  wordsContainingThis(after: Int, first: Int): JmdictEntryConnection!
+  wordsContainingThis(after: Int, first: Int): EntryConnection!
 }
 
 type KanjiDicEntryConnection {
@@ -69,7 +71,7 @@ type PageInfo {
 }
 
 type Query {
-  searchJmdictEntries(after: String, first: Int, key: String!): JmdictEntryConnection!
+  searchEntries(after: String, first: Int, key: String!): EntryConnection!
   getKanjiDicInformation(kanji: String!): KanjiDicEntry!
   searchKanjiDicEntries(after: String!, first: Float!, key: String!): KanjiDicEntryConnection!
 }
@@ -81,4 +83,13 @@ type Sense {
   info: [String!]!
   gloss: [Gloss!]!
   partOfSpeech: [String!]!
+}
+
+type Translation {
+  translation: [TranslationItem!]!
+  type: [String!]!
+}
+
+type TranslationItem {
+  text: String!
 }

@@ -18,8 +18,7 @@ const connectionString = "mongodb://127.0.0.1";
 const dbName = "jmdict";
 const parseNum = require("parse-num");
 const { ObjectId } = require("mongodb");
-const jmdictCollectionName = "jmdict";
-const jmnedictCollectionName = "jmnedict";
+const entriesCollectionName = "entries";
 const kanjiDicCollectionName = "kanjidic";
 
 const jmdictUrl =
@@ -163,7 +162,8 @@ const processJmdict = db => {
           });
           return sense;
         });
-        await db.collection(jmdictCollectionName).insertOne(word);
+        word.source = "jmdict";
+        await db.collection(entriesCollectionName).insertOne(word);
       })
       .done(async things => {
         console.log(`JMDICT ${things.version} import done.`);
@@ -208,7 +208,8 @@ const processJmNedict = db => {
           });
           return translation;
         });
-        await db.collection(jmnedictCollectionName).insertOne(word);
+        word.source = "jmnedict";
+        await db.collection(entriesCollectionName).insertOne(word);
       })
       .done(async things => {
         console.log(`JMNEDICT ${things.version} import done.`);
@@ -217,35 +218,74 @@ const processJmNedict = db => {
   });
 };
 
+
+  // scrape bing results
+  const getBingSearchResultsCount = async key => {
+    const phrase = `"${key}" language:ja`;
+    const res = await got(
+      `https://www.bing.com/search?q=${encodeURIComponent(phrase)}`,
+      {}
+    );
+    const $ = cheerio.load(res.body);
+    const countBody = $(".sb_count").html();
+    const count = parseNum(countBody);
+    const finalCount = count ? count : 0;
+    return finalCount;
+  };
+
+  let failedBings = 0;
+const scrapeBingResultsForJmdict = async (db, jmdictEntry) => {
+  const commonKanji = jmdictEntry.kanji.filter(kanji => kanji.common);
+  const commonKana = jmdictEntry.kana.filter(kana => kana.common);
+  let key = jmdictEntry.kanji[0]
+    ? jmdictEntry.kanji[0].text
+    : jmdictEntry.kana[0].text;
+  if (commonKana.length > 0) key = commonKana[0].text;
+  if (commonKanji.length > 0) key = commonKanji[0].text;
+
+  try {
+    finalCount = await getBingSearchResultsCount(key);
+    await db.collection(entriesCollectionName).update(
+      { _id: jmdictEntry._id },
+      {
+        $set: {
+          bingSearchResults: finalCount
+        }
+      }
+    );
+  } catch (e) {
+    console.log(e);
+    failedBings++;
+  }
+};
+
 const main = async () => {
   let connection = await mongo.connect(connectionString);
   let db = connection.db(dbName);
 
-  await db.dropDatabase();
+  // await db.dropDatabase();
 
-  await processKanjidic(db);
+  // await processKanjidic(db);
 
-  const [res1, res2] = await Promise.all([
-    processJmdict(db),
-    processJmNedict(db)
-  ]);
+  // const [res1, res2] = await Promise.all([
+  //   processJmdict(db),
+  //   processJmNedict(db)
+  // ]);
 
-  await db.collection(jmdictCollectionName).createIndex({
+  await db.collection(entriesCollectionName).createIndex({
     "kana.text": "text",
     "kanji.text": "text",
     "kana.romaji": "text",
-    "sense.gloss.text": "text"
+    "sense.gloss.text": "text",
+    "translation.translation.text": "text"
   });
 
-  await db.collection(jmdictCollectionName).createIndex({
+  await db.collection(entriesCollectionName).createIndex({
     bingSearchResults: -1
   });
 
-  await db.collection(jmnedictCollectionName).createIndex({
-    "kana.text": "text",
-    "kanji.text": "text",
-    "kana.romaji": "text",
-    "translation.translation": "text"
+  await db.collection(entriesCollectionName).createIndex({
+    source: 1
   });
 
   await db.collection(kanjiDicCollectionName).createIndex({
@@ -255,59 +295,21 @@ const main = async () => {
     gloss: "text"
   });
 
-  // scrape bing results
-  const getBingSearchResultsCount = async key => {
-    let res = null;
-    const phrase = `"${key}" language:ja`;
-    try {
-      res = await got(
-        `https://www.bing.com/search?q=${encodeURIComponent(phrase)}`,
-        {}
-      );
-    } catch (e) {
-      throw e;
-    }
-    const $ = cheerio.load(res.body);
-    const countBody = $(".sb_count").html();
-    const count = parseNum(countBody);
-    const finalCount = count ? count : 0;
-    return finalCount;
-  };
-
   let i = 0;
   let limit = 15;
-  const scrapeBingResults = async jmdictEntry => {
-    const commonKanji = jmdictEntry.kanji.filter(kanji => kanji.common);
-    const commonKana = jmdictEntry.kana.filter(kana => kana.common);
-    let key = jmdictEntry.kanji[0]
-      ? jmdictEntry.kanji[0].text
-      : jmdictEntry.kana[0].text;
-    if (commonKana.length > 0) key = commonKana[0].text;
-    if (commonKanji.length > 0) key = commonKanji[0].text;
-
-    finalCount = await getBingSearchResultsCount(key);
-    await db.collection(jmdictCollectionName).update(
-      { _id: jmdictEntry._id },
-      {
-        $set: {
-          bingSearchResults: finalCount
-        }
-      }
-    );
-  };
 
   console.log("scraping bing results...");
-  const count = await db.collection(jmdictCollectionName).count();
+  const count = await db.collection(entriesCollectionName).count();
   while (
     (entries = await db
-      .collection(jmdictCollectionName)
+      .collection(entriesCollectionName)
       .find({})
       .skip(i)
       .limit(limit)
       .toArray())
   ) {
-    console.log(`${i} of ${count}`);
-    const promises = entries.map(entry => scrapeBingResults(entry));
+    console.log(`${i} of ${count}, failed: ${failedBings}`);
+    const promises = entries.map(entry => scrapeBingResultsForJmdict(db, entry));
     await Promise.all(promises);
     i += limit - 1;
   }

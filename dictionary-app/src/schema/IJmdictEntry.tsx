@@ -1,3 +1,5 @@
+export enum SOURCE_TYPE { jmdict="jmdict", jmnedict="jmnedict" };
+
 export default interface IJmdictEntry {
   kanji: [
     {
@@ -9,7 +11,7 @@ export default interface IJmdictEntry {
       text: string;
     }
   ];
-  sense: [
+  sense?: [
     {
       partOfSpeech: [string];
       gloss: [
@@ -19,5 +21,16 @@ export default interface IJmdictEntry {
       ];
     }
   ];
+  translation?: [
+    {
+      translation: [
+        {
+          text: string;
+        }
+      ];
+      type: [string];
+    }
+  ];
+  source: SOURCE_TYPE;
   bingSearchResults?: number;
 }

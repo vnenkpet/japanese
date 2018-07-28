@@ -1,6 +1,6 @@
 import { Arg, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
-import JmdictEntry from "../schema-types/JmdictEntry";
-import JmdictEntryConnection from "../schema-types/JmdictEntryConnection";
+import JmdictEntry from "../schema-types/Entry";
+import EntryConnection from "../schema-types/EntryConnection";
 import KanjiDicEntry from "../schema-types/KanjiDicEntry";
 import KanjiDicEntryConnection from "../schema-types/KanjiDicEntryConnection";
 import DbClient from "../services/db";
@@ -30,7 +30,7 @@ export default class KanjiDicEntryResolver {
     );
   }
 
-  @FieldResolver(returns => JmdictEntryConnection)
+  @FieldResolver(returns => EntryConnection)
   public wordsContainingThis(
     @Root() root: KanjiDicEntry,
     @Arg("first", type => Int, { nullable: true })
@@ -39,7 +39,7 @@ export default class KanjiDicEntryResolver {
     after: string = null
   ) {
     const cursor = DbClient.db
-      .collection("jmdict")
+      .collection("entries")
       .find(
         { "kanji.text": new RegExp(`${root.kanji}`) },
         { sort: { "kanji.common": -1 } }

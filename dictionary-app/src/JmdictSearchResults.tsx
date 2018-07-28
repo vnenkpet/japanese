@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Query } from "react-apollo";
 import Button from "./components/Button";
-import SearchQueryEntry from "./JmdictEntry";
+import JmdictEntry from "./JmdictEntry";
 import updateQuery from "./pagination/updateQuery";
 import searchJmdictQuery from "./queries/searchJmdictQuery";
 import { IConnectionData } from "./schema/Connection";
@@ -56,7 +56,7 @@ export default ({ searchKey }: { searchKey?: string }) => (
           {data.connection.totalCount ? (
             data.connection.edges
               .map((edge, edgeIndex) => {
-                return <SearchQueryEntry key={edgeIndex} {...edge.node} />;
+                return <JmdictEntry key={edgeIndex} {...edge.node} />;
               })
               // todo: fix (how to reduce in typescript?)
               .reduce((prev, curr) => (

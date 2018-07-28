@@ -1,5 +1,5 @@
 import * as React from "react";
-import IJmdictEntry from "./schema/IJmdictEntry";
+import IJmdictEntry, { SOURCE_TYPE } from "./schema/IJmdictEntry";
 import styled from "./styled-components";
 
 const Text = styled.div`
@@ -7,10 +7,22 @@ const Text = styled.div`
 `;
 
 const Row = styled.div`
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
-export default ({ kana, kanji, sense }: IJmdictEntry) => (
+const WebOccurences = styled.div`
+  font-size: 11px;
+`;
+
+export default ({
+  kana,
+  kanji,
+  sense,
+  translation,
+  source,
+  bingSearchResults
+}: IJmdictEntry) => (
   <Row>
     <Text>
       {kanji.length ? (
@@ -23,15 +35,31 @@ export default ({ kana, kanji, sense }: IJmdictEntry) => (
       )}
     </Text>
     <ul>
-      {sense.map((item, index) => {
-        return (
-          <li key={index}>
-            {item.gloss.map(gloss => gloss.text).join("; ")} ({item.partOfSpeech.join(
-              ", "
-            )})
-          </li>
-        );
-      })}
+      {source === SOURCE_TYPE.jmdict
+        ? sense.map((item, index) => {
+            return (
+              <li key={index}>
+                {item.gloss.map(gloss => gloss.text).join("; ")} ({item.partOfSpeech.join(
+                  ", "
+                )})
+              </li>
+            );
+          })
+        : ""}
+      {source === SOURCE_TYPE.jmnedict
+        ? translation.map((item, index) => {
+            return (
+              <li key={index}>
+                {item.translation.map(transl => transl.text).join("; ")} ({item.type.join(
+                  ", "
+                )})
+              </li>
+            );
+          })
+        : ""}
     </ul>
+    <WebOccurences>
+      ~ {bingSearchResults.toLocaleString()} web occurences
+    </WebOccurences>
   </Row>
 );
