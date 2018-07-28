@@ -28,7 +28,7 @@ const Pre = styled.span`
   font-size: 12px;
   opacity: 1;
   font-family: monospace;
-  background: #00000044;
+  background: #00000018;
   border-radius: 4px;
   padding: 1px;
 `;

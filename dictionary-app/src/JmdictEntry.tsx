@@ -1,6 +1,7 @@
 import * as React from "react";
 import IJmdictEntry, { SOURCE_TYPE } from "./schema/IJmdictEntry";
 import styled from "./styled-components";
+import tagToEnglish from "./utils/tagToEnglish";
 
 const Text = styled.div`
   font-size: 20px;
@@ -12,7 +13,16 @@ const Row = styled.div`
 `;
 
 const WebOccurences = styled.div`
-  font-size: 11px;
+  font-size: 12px;
+`;
+
+const PartOfSpeech = styled.div`
+  font-size: 12px;
+  opacity: 0.8;
+`;
+
+const Item = styled.li`
+  margin-bottom: 5px;
 `;
 
 export default ({
@@ -38,22 +48,25 @@ export default ({
       {source === SOURCE_TYPE.jmdict
         ? sense.map((item, index) => {
             return (
-              <li key={index}>
-                {item.gloss.map(gloss => gloss.text).join("; ")} ({item.partOfSpeech.join(
-                  ", "
-                )})
-              </li>
+              <Item key={index}>
+                {item.gloss.map(gloss => gloss.text).join("; ")}{" "}
+                <PartOfSpeech>
+                  <strong>{item.partOfSpeech.join(", ")}</strong>
+                  {" - "}
+                  {item.partOfSpeech.map(tagToEnglish).join(", ")}
+                </PartOfSpeech>
+              </Item>
             );
           })
         : ""}
       {source === SOURCE_TYPE.jmnedict
         ? translation.map((item, index) => {
             return (
-              <li key={index}>
+              <Item key={index}>
                 {item.translation.map(transl => transl.text).join("; ")} ({item.type.join(
                   ", "
                 )})
-              </li>
+              </Item>
             );
           })
         : ""}

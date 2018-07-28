@@ -13,7 +13,7 @@ const client = new ApolloClient({
     defaults: {
       searchKey: {
         __typename: "SearchKey",
-        text: "train"
+        text: null
       }
     },
     resolvers: {
