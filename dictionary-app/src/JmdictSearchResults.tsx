@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Query } from "react-apollo";
-import Button from "./components/Button";
+import * as InfiniteScroller from "react-infinite-scroller";
 import JmdictEntry from "./JmdictEntry";
 import updateQuery from "./pagination/updateQuery";
 import searchJmdictQuery from "./queries/searchJmdictQuery";
@@ -14,10 +14,6 @@ interface IVariables {
 
 const SearchInfo = styled.div`
   margin-top: 10px;
-  opacity: 0.8;
-`;
-
-const NoMoreResults = styled.div`
   opacity: 0.8;
 `;
 
@@ -53,44 +49,42 @@ export default ({ searchKey }: { searchKey?: string }) => (
           <SearchInfo>
             Found: {data.connection.totalCount} results for "{searchKey}".
           </SearchInfo>
-          {data.connection.totalCount ? (
-            data.connection.edges
-              .map((edge, edgeIndex) => {
-                return <JmdictEntry key={edgeIndex} {...edge.node} />;
+          <InfiniteScroller
+            pageStart={0}
+            hasMore={data.connection.pageInfo.hasNextPage}
+            loader={<Loading>Loading more...</Loading>}
+            loadMore={() =>
+              fetchMore({
+                query: searchJmdictQuery,
+                updateQuery: (previousResult, { fetchMoreResult }) => {
+                  return updateQuery<IJmdictEntry>(previousResult, {
+                    fetchMoreResult
+                  });
+                },
+                variables: {
+                  cursor: data.connection.pageInfo.endCursor,
+                  key: searchKey
+                }
               })
-              // todo: fix (how to reduce in typescript?)
-              .reduce((prev, curr) => (
-                <section>
-                  {prev}
-                  <Separator />
-                  {curr}
-                </section>
-              ))
-          ) : (
-            <NoResults>No results.</NoResults>
-          )}
-          {data.connection.pageInfo.hasNextPage ? (
-            <Button
-              onClick={() =>
-                fetchMore({
-                  query: searchJmdictQuery,
-                  updateQuery: (previousResult, { fetchMoreResult }) => {
-                    return updateQuery<IJmdictEntry>(previousResult, {
-                      fetchMoreResult
-                    });
-                  },
-                  variables: {
-                    cursor: data.connection.pageInfo.endCursor,
-                    key: searchKey
-                  }
+            }
+          >
+            {data.connection.totalCount ? (
+              data.connection.edges
+                .map((edge, edgeIndex) => {
+                  return <JmdictEntry key={edgeIndex} {...edge.node} />;
                 })
-              }
-            >
-              Load more
-            </Button>
-          ) : (
-            <NoMoreResults>No more results.</NoMoreResults>
-          )}
+                // todo: fix (how to reduce in typescript?)
+                .reduce((prev, curr) => (
+                  <section>
+                    {prev}
+                    <Separator />
+                    {curr}
+                  </section>
+                ))
+            ) : (
+              <NoResults>No results.</NoResults>
+            )}
+          </InfiniteScroller>
         </div>
       );
     }}
