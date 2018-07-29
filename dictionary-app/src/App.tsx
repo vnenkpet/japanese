@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 import * as React from "react";
 import { Query } from "react-apollo";
-import JmdictSearchResults from "./JmdictSearchResults";
+import DictionarySearchResults from "./DictionarySearchResults";
 import SearchBar from "./SearchBar";
 import styled from "./styled-components";
 
@@ -32,7 +32,9 @@ class App extends React.Component {
         >
           {({ data }) => {
             if (data.searchKey.text) {
-              return <JmdictSearchResults searchKey={data.searchKey.text} />;
+              return (
+                <DictionarySearchResults searchKey={data.searchKey.text} />
+              );
             } else {
               return (
                 <div>

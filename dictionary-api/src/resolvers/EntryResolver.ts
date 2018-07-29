@@ -74,8 +74,8 @@ export default class EntryResolver {
               { "kanji.text": searchRegexKanji },
               { "kana.text": searchRegexKanji },
               { "kana.romaji": searchRegexKanji },
-              { "sense.0.gloss.searchKey": searchRegexLatin },
-              { "sense.0.gloss.searchKey": verbSearchRegex },
+              { "sense.gloss.searchKey": searchRegexLatin },
+              { "sense.gloss.searchKey": verbSearchRegex },
               { "translation.translation.searchKey": searchRegexLatin }
             ]
           }

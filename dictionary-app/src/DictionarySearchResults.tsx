@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Query } from "react-apollo";
 import * as InfiniteScroller from "react-infinite-scroller";
-import JmdictEntry from "./JmdictEntry";
+import DictionaryEntry from "./DictionaryEntry";
 import updateQuery from "./pagination/updateQuery";
 import searchJmdictQuery from "./queries/searchJmdictQuery";
 import { IConnectionData } from "./schema/Connection";
-import IJmdictEntry from "./schema/IJmdictEntry";
+import IDictionaryEntry from "./schema/IDictionaryEntry";
 import styled from "./styled-components";
 
 interface IVariables {
@@ -33,7 +33,7 @@ const NoResults = styled.div`
 `;
 
 export default ({ searchKey }: { searchKey?: string }) => (
-  <Query<IConnectionData<IJmdictEntry>, IVariables>
+  <Query<IConnectionData<IDictionaryEntry>, IVariables>
     query={searchJmdictQuery}
     variables={{ key: searchKey }}
   >
@@ -57,7 +57,7 @@ export default ({ searchKey }: { searchKey?: string }) => (
               fetchMore({
                 query: searchJmdictQuery,
                 updateQuery: (previousResult, { fetchMoreResult }) => {
-                  return updateQuery<IJmdictEntry>(previousResult, {
+                  return updateQuery<IDictionaryEntry>(previousResult, {
                     fetchMoreResult
                   });
                 },
@@ -71,7 +71,7 @@ export default ({ searchKey }: { searchKey?: string }) => (
             {data.connection.totalCount ? (
               data.connection.edges
                 .map((edge, edgeIndex) => {
-                  return <JmdictEntry key={edgeIndex} {...edge.node} />;
+                  return <DictionaryEntry key={edgeIndex} {...edge.node} />;
                 })
                 // todo: fix (how to reduce in typescript?)
                 .reduce((prev, curr) => (

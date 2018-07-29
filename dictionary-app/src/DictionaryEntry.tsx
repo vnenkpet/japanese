@@ -1,5 +1,5 @@
 import * as React from "react";
-import IJmdictEntry, { SOURCE_TYPE } from "./schema/IJmdictEntry";
+import IDictionaryEntry, { SOURCE_TYPE } from "./schema/IDictionaryEntry";
 import styled from "./styled-components";
 import tagToEnglish from "./utils/tagToEnglish";
 
@@ -25,6 +25,26 @@ const Item = styled.li`
   margin-bottom: 5px;
 `;
 
+const Misc = styled.div`
+  opacity: 0.8;
+  font-size: 12px;
+`;
+
+const Dialect = styled.div`
+  opacity: 0.8;
+  font-size: 12px;
+`;
+
+const Info = styled.div`
+  opacity: 0.8;
+  font-size: 12px;
+`;
+
+const Type = styled.div`
+  opacity: 0.8;
+  font-size: 12px;
+`;
+
 export default ({
   kana,
   kanji,
@@ -32,7 +52,7 @@ export default ({
   translation,
   source,
   bingSearchResults
-}: IJmdictEntry) => (
+}: IDictionaryEntry) => (
   <Row>
     <Text>
       {kanji.length ? (
@@ -49,12 +69,25 @@ export default ({
         ? sense.map((item, index) => {
             return (
               <Item key={index}>
-                {item.gloss.map(gloss => gloss.text).join("; ")}{" "}
+                {item.gloss.map(gloss => gloss.text).join("; ")}
                 <PartOfSpeech>
                   <strong>{item.partOfSpeech.join(", ")}</strong>
                   {" - "}
                   {item.partOfSpeech.map(tagToEnglish).join(", ")}
                 </PartOfSpeech>
+                {item.misc.length ? (
+                  <Misc>({item.misc.map(tagToEnglish).join("; ")})</Misc>
+                ) : (
+                  ""
+                )}
+                {item.dialect.length ? (
+                  <Dialect>
+                    ({item.dialect.map(tagToEnglish).join("; ")})
+                  </Dialect>
+                ) : (
+                  ""
+                )}
+                {item.info.length ? <Info>({item.info.join("; ")})</Info> : ""}
               </Item>
             );
           })
@@ -63,9 +96,8 @@ export default ({
         ? translation.map((item, index) => {
             return (
               <Item key={index}>
-                {item.translation.map(transl => transl.text).join("; ")} ({item.type.join(
-                  ", "
-                )})
+                {item.translation.map(transl => transl.text).join("; ")}
+                <Type>{item.type.join("; ")}</Type>
               </Item>
             );
           })

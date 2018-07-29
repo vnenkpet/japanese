@@ -14,6 +14,9 @@ export default gql`
           }
           sense {
             partOfSpeech
+            misc
+            dialect
+            info
             gloss {
               text
             }

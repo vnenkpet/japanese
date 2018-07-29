@@ -345,6 +345,6 @@ export default (tag: string) => {
     case "anat":
       return "anatomical term";
     default:
-      return "";
+      return tag;
   }
 };

@@ -1,6 +1,9 @@
-export enum SOURCE_TYPE { jmdict="jmdict", jmnedict="jmnedict" };
+export enum SOURCE_TYPE {
+  jmdict = "jmdict",
+  jmnedict = "jmnedict"
+}
 
-export default interface IJmdictEntry {
+export default interface IDictionaryEntry {
   kanji: [
     {
       text: string;
@@ -19,6 +22,9 @@ export default interface IJmdictEntry {
           text: string;
         }
       ];
+      misc: [string];
+      info: [string];
+      dialect: [string];
     }
   ];
   translation?: [
