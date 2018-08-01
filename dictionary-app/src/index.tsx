@@ -35,7 +35,7 @@ const client = new ApolloClient({
       }
     }
   },
-  uri: "http://localhost:3001"
+  uri: process.env.REACT_APP_DICTIONARY_API_HOST
 });
 
 ReactDOM.render(

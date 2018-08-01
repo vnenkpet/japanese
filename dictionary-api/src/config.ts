@@ -13,6 +13,9 @@ class Config {
 
   @inject({ cast: toNumber, source })
   public PORT: string;
+
+  @inject({ cast: toString, source, defaultValue: "development" })
+  public NODE_ENV: string;
 }
 
 export default new Config();

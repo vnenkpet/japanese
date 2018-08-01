@@ -18,10 +18,12 @@ const schema = buildSchemaSync({
   resolvers: [EntryResolver, KanjiResolver, KanjiDicEntryResolver]
 });
 
-fs.writeFileSync(
-  "schema.graphql",
-  `# This schema is auto-generated.\n\n${printSchema(schema)}`
-);
+if (config.NODE_ENV !== "production") {
+  fs.writeFileSync(
+    "schema.graphql",
+    `# This schema is auto-generated.\n\n${printSchema(schema)}`
+  );
+}
 
 const server = new ApolloServer({ schema });
 

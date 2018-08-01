@@ -6,7 +6,9 @@
   "scripts": {
     "test": "npm run lint && jest",
     "build": "tsc",
+    "start": "node dist/index.js",
     "watch": "tsc -w",
+    "tsc": "./node_modules/typescript/bin/tsc",
     "lint": "tslint 'src/**/*.ts'",
     "format": "prettier-eslint --parser=typescript --write src/**/*.ts",
     "dev": "npm run build && concurrently \"npm run watch\" \"nodemon dist/index.js\""
@@ -28,13 +30,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/base-64": "^0.1.2",
-    "@types/dotenv": "^4.0.3",
-    "@types/graphql": "^0.13.3",
-    "@types/jest": "^22.1.1",
-    "@types/mongodb": "^3.1.1",
-    "@types/mongodb-uri": "^0.9.0",
-    "@types/supertest": "^2.0.4",
     "concurrently": "^3.5.1",
     "eslint": "^4.17.0",
     "eslint-config-lusk": "^3.0.0",
@@ -47,10 +42,16 @@
     "tslint": "^5.9.1",
     "tslint-config-prettier": "^1.7.0",
     "tslint-eslint-rules": "^4.1.1",
-    "typescript": "^2.7.1",
     "typescript-eslint-parser": "^12.0.0"
   },
   "dependencies": {
+    "@types/base-64": "^0.1.2",
+    "@types/dotenv": "^4.0.3",
+    "@types/graphql": "^0.13.3",
+    "@types/jest": "^22.1.1",
+    "@types/mongodb": "^3.1.1",
+    "@types/mongodb-uri": "^0.9.0",
+    "@types/supertest": "^2.0.4",
     "@koa/cors": "^2.2.1",
     "apollo-server": "^2.0.0-rc.10",
     "base-64": "^0.1.0",
@@ -63,6 +64,7 @@
     "reflect-metadata": "^0.1.12",
     "supertest": "^3.0.0",
     "type-graphql": "^0.12.2",
+    "typescript": "^3.0.1",
     "typescript-stringcaster": "^1.0.2"
   }
 }
