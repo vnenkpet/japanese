@@ -1,0 +1,7 @@
+{
+  "alias": "jmdict.denshajisho.com",
+  "env": {
+    "MONGODB_URI": "@denshajisho_mongodb_uri",
+    "NODE_ENV": "production"
+  }
+}
