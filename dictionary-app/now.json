@@ -1,0 +1,12 @@
+{
+  "alias": [
+    "japanese.petrvnenk.com",
+    "denshajisho.com",
+    "www.denshajisho.com",
+    "www.japanese.petrvnenk.com"
+  ],
+  "env": {
+    "REACT_APP_DICTIONARY_API_HOST": "@denshajisho_dictionary_api_host",
+    "NODE_ENV": "production"
+  }
+}
