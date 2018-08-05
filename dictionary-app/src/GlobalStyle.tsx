@@ -14,10 +14,10 @@ const Global = ({
     @import url('https://fonts.googleapis.com/css?family=Lato');
     
     body {
-      font-family: "Lato", sans-serif;
-      color: ${theme.primaryColorInverted}
-      background: ${theme.primaryColor}
+      overflow-anchor: none;
+      font-family: 'Roboto', sans-serif;
     }
+
     *:focus {
       outline: none;
     }

@@ -23,8 +23,8 @@ const Loading = styled.div`
 `;
 
 const Separator = styled.hr`
-  border: 1px dashed black;
-  opacity: 0.4;
+  border-top: 1px dashed black;
+  opacity: 0.3;
 `;
 
 const NoResults = styled.div`
