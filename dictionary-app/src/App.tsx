@@ -1,9 +1,21 @@
+import deepOrange from "@material-ui/core/colors/deepOrange";
+import teal from "@material-ui/core/colors/teal";
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import * as React from "react";
 import { Query } from "react-apollo";
+import MainAppBar from "./AppBar";
+import Help from "./components/Help";
 import DictionarySearchResults from "./DictionarySearchResults";
-import SearchBar from "./SearchBar";
 import styled from "./styled-components";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: teal,
+    secondary: deepOrange,
+  },
+});
 
 interface ISearchKeyQueryData {
   searchKey: {
@@ -16,11 +28,20 @@ const Footer = styled.footer`
   opacity: 0.8;
 `;
 
+const Body = styled.div`
+  padding: 20px;
+  padding-top: 70px;
+`
+
 class App extends React.Component {
   public render() {
     return (
-      <div className="App">
-        <SearchBar />
+      <React.Fragment>
+      <CssBaseline />
+      <MuiThemeProvider theme={theme}>
+      <MainAppBar />
+      <Body>
+        <Help/>
         <Query<ISearchKeyQueryData>
           query={gql`
             query searchKey {
@@ -49,8 +70,10 @@ class App extends React.Component {
             }
           }}
         </Query>
-      </div>
-    );
+        </Body>
+        </MuiThemeProvider>
+        </React.Fragment>
+      );
   }
 }
 

@@ -23,7 +23,7 @@ const Loading = styled.div`
 `;
 
 const Separator = styled.hr`
-  border: 1px dashed ${props => props.theme.primaryColorInverted};
+  border: 1px dashed black;
   opacity: 0.4;
 `;
 
@@ -75,11 +75,11 @@ export default ({ searchKey }: { searchKey?: string }) => (
                 })
                 // todo: fix (how to reduce in typescript?)
                 .reduce((prev, curr) => (
-                  <section>
+                  <React.Fragment>
                     {prev}
-                    <Separator />
+                    <Separator/>
                     {curr}
-                  </section>
+                  </React.Fragment>
                 ))
             ) : (
               <NoResults>No results.</NoResults>

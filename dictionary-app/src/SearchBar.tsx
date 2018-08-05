@@ -1,8 +1,9 @@
+import { Input } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import { Formik } from "formik";
 import gql from "graphql-tag";
 import * as React from "react";
 import { Mutation } from "react-apollo";
-import Button from "./components/Button";
-import Input from "./components/Input";
 import styled from "./styled-components";
 
 interface IData {
@@ -19,23 +20,13 @@ const UPDATE_KEY = gql`
   }
 `;
 
-const Help = styled.div`
-  font-size: 12px;
-  opacity: 0.8;
-`;
-
-const Pre = styled.span`
-  font-size: 12px;
-  opacity: 1;
-  font-family: monospace;
-  background: #00000018;
-  border-radius: 4px;
-  padding: 1px;
-`;
+const StyledTextField = styled(Input)`
+  input { 
+    color: white; 
+  }
+`
 
 export default class SearchBar extends React.Component {
-  private input: any;
-
   constructor(props: object) {
     super(props);
   }
@@ -44,27 +35,23 @@ export default class SearchBar extends React.Component {
     return (
       <Mutation<IData> mutation={UPDATE_KEY}>
         {(updateSearchKey, { data }) => (
-          <div>
-            <form
-              onSubmit={e => {
-                e.preventDefault();
-                updateSearchKey({ variables: { text: this.input.value } });
-              }}
-            >
-              <Input
-                innerRef={node => {
-                  this.input = node;
-                }}
-                placeholder="漢字, かな, romaji or English..."
-              />
-              <Button type="submit">Search</Button>
-            </form>
-            <Help>
-              <strong>* Tip</strong>: you can use JS-style regex. Try{" "}
-              <Pre>/^電.+$/</Pre> to get words beginning with "電" (note that
-              regex search is very slow).
-            </Help>
-          </div>
+          <Formik 
+            onSubmit={(values) => updateSearchKey({variables: {text: values.searchKey}})} 
+            initialValues={{ searchKey: "" }} 
+            render={({values, handleChange, handleBlur, handleSubmit}) => (
+              <form onSubmit={handleSubmit}>
+                <StyledTextField 
+                  placeholder="漢字, かな, romaji or English..."
+                  value={values.searchKey}
+                  name="searchKey"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  disableUnderline={true}
+                />
+                <Button color="inherit" type="submit">Search</Button>
+              </form>
+            )}
+          />
         )}
       </Mutation>
     );
