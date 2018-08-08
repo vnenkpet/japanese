@@ -1,11 +1,8 @@
 import * as React from "react";
+import Kanji from "./Kanji";
 import IDictionaryEntry, { SOURCE_TYPE } from "./schema/IDictionaryEntry";
 import styled from "./styled-components";
 import tagToEnglish from "./utils/tagToEnglish";
-
-const Text = styled.div`
-  font-size: 20px;
-`;
 
 const Row = styled.div`
   margin-top: 10px;
@@ -54,16 +51,7 @@ export default ({
   bingSearchResults
 }: IDictionaryEntry) => (
   <Row>
-    <Text>
-      {kanji.length ? (
-        <ruby>
-          {kanji[0].text}
-          <rt>{kana[0].text}</rt>
-        </ruby>
-      ) : (
-        kana[0].text
-      )}
-    </Text>
+    <Kanji kanji={kanji} kana={kana} />
     <ul>
       {source === SOURCE_TYPE.jmdict
         ? sense.map((item, index) => {
