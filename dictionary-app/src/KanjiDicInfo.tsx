@@ -26,7 +26,11 @@ const GET_KANJIDIC = gql`
 `;
 
 const KanjiDicInfoWrapper = styled.div`
-  margin-bottom: 30px;
+  padding: 20px;
+`;
+
+const KanjiDisplay = styled.div`
+  font-size: 50px;
 `;
 
 export default ({ kanji }: { kanji: string }) => {
@@ -41,7 +45,8 @@ export default ({ kanji }: { kanji: string }) => {
         }
         return (
           <KanjiDicInfoWrapper>
-            <div>Info for {data.kanji.kanji}</div>
+            <div>Kanji Info</div>
+            <KanjiDisplay>{data.kanji.kanji}</KanjiDisplay>
             <div>Readings: {data.kanji.kana.join("; ")}</div>
             <div>Meanings: {data.kanji.gloss.join("; ")}</div>
           </KanjiDicInfoWrapper>

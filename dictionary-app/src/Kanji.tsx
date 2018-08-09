@@ -1,3 +1,5 @@
+import Paper from "@material-ui/core/Paper";
+import Popover from "@material-ui/core/Popover";
 import * as React from "react";
 import KanjiDicInfo from "./KanjiDicInfo";
 import styled from "./styled-components";
@@ -8,7 +10,8 @@ const Text = styled.div`
 
 const KanjiLink = styled.a`
   cursor: pointer;
-  color: ${(props: { active: boolean }) => (props.active ? "orange" : "black")};
+  color: ${(props: { active: boolean }) =>
+    props.active ? "#ff6200" : "black"};
 `;
 
 interface IProps {
@@ -24,17 +27,41 @@ interface IProps {
   ];
 }
 
-export default class Kanji extends React.PureComponent<IProps, any> {
+interface IState {
+  kanji: string;
+  anchorEl: any;
+}
+
+export default class Kanji extends React.PureComponent<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-    this.state = { kanji: null };
+    this.state = { kanji: null, anchorEl: null };
   }
 
   public render() {
     const { kanji, kana } = this.props;
+    const { anchorEl } = this.state;
     return (
       <React.Fragment>
-        {this.state.kanji && <KanjiDicInfo kanji={this.state.kanji} />}
+        {this.state.kanji && (
+          <Popover
+            open={true}
+            anchorEl={anchorEl}
+            onClose={this.handleClose}
+            anchorOrigin={{
+              horizontal: "center",
+              vertical: "bottom"
+            }}
+            transformOrigin={{
+              horizontal: "center",
+              vertical: "top"
+            }}
+          >
+            <Paper>
+              <KanjiDicInfo kanji={this.state.kanji} />
+            </Paper>
+          </Popover>
+        )}
         <Text>
           {kanji.length ? (
             <ruby>
@@ -43,11 +70,7 @@ export default class Kanji extends React.PureComponent<IProps, any> {
                   return (
                     <KanjiLink
                       active={this.state.kanji === char}
-                      onClick={() => {
-                        this.state.kanji !== char
-                          ? this.setState({ kanji: char })
-                          : this.setState({ kanji: null });
-                      }}
+                      onClick={this.handleClick.bind(this, char)}
                     >
                       {char}
                     </KanjiLink>
@@ -64,5 +87,25 @@ export default class Kanji extends React.PureComponent<IProps, any> {
         </Text>
       </React.Fragment>
     );
+  }
+
+  private handleClose = () => {
+    this.setState({
+      anchorEl: null,
+      kanji: null
+    });
+  };
+
+  private handleClick(char: string, e: Event) {
+    const { currentTarget } = e;
+    this.state.kanji !== char
+      ? this.setState({
+          anchorEl: currentTarget,
+          kanji: char
+        })
+      : this.setState({
+          anchorEl: currentTarget,
+          kanji: null
+        });
   }
 }
