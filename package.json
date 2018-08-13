@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"cd dictionary-api && npm run dev\" \"cd dictionary-app && npm start\"",
     "deploy": "concurrently \"cd dictionary-api && now\" \"cd dictionary-app && now\"",
-    "alias": "concurrently \"cd dictionary-api && now alias\" \"cd dictionary-app && now alias\""
+    "alias": "concurrently \"cd dictionary-api && now alias\" \"cd dictionary-app && now alias\"",
+    "postinstall": "cd dictionary-api; npm i && cd ../dictionary/app; npm i"
   },
   "repository": {
     "type": "git",
