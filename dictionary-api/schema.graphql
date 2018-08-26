@@ -13,6 +13,7 @@ type Entry {
   conjugations: [Conjugation!]
   translation: [Translation!]
   bingSearchResults: Float
+  jlpt: String
   source: String!
 }
 

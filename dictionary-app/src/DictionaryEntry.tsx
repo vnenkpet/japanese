@@ -42,7 +42,14 @@ const Type = styled.div`
   font-size: 12px;
 `;
 
+const Jlpt = styled.span`
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+`;
+
 export default ({
+  jlpt,
   kana,
   kanji,
   sense,
@@ -52,6 +59,7 @@ export default ({
 }: IDictionaryEntry) => (
   <Row>
     <Kanji kanji={kanji} kana={kana} />
+    {jlpt && <Jlpt>JLPT {jlpt}</Jlpt>}
     <ul>
       {source === SOURCE_TYPE.jmdict
         ? sense.map((item, index) => {

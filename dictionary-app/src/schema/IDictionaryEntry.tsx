@@ -39,4 +39,5 @@ export default interface IDictionaryEntry {
   ];
   source: SOURCE_TYPE;
   bingSearchResults?: number;
+  jlpt?: string;
 }

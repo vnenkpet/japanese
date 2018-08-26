@@ -28,5 +28,8 @@ export default class Entry {
   @Field({ nullable: true })
   public bingSearchResults?: number;
 
+  @Field({ nullable: true })
+  public jlpt?: string;
+
   @Field() public source: string;
 }
