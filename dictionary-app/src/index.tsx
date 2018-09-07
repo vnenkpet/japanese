@@ -10,32 +10,6 @@ import { ThemeProvider } from "./styled-components";
 import theme from "./theme";
 
 const client = new ApolloClient({
-  clientState: {
-    defaults: {
-      searchKey: {
-        __typename: "SearchKey",
-        text: null
-      }
-    },
-    resolvers: {
-      Mutation: {
-        updateSearchKey: (
-          _: any,
-          { text }: { text: string },
-          { cache }: any
-        ): any => {
-          const data = {
-            searchKey: {
-              __typename: "SearchKey",
-              text
-            }
-          };
-          cache.writeData({ data });
-          return null;
-        }
-      }
-    }
-  },
   uri: process.env.REACT_APP_DICTIONARY_API_HOST
 });
 

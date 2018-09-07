@@ -1,4 +1,4 @@
-import { IConnectionData } from "../schema/Connection";
+import { IConnectionData } from "../schema/IConnectionData";
 
 export default function updateQuery<T>(
   previousResult: IConnectionData<T>,

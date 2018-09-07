@@ -48,7 +48,13 @@ async function main() {
 
     // Workers can share any TCP connection
     // In this case it is an HTTP server
-    const server = new ApolloServer({ schema });
+    const playground = {
+      settings: {
+        "editor.cursorShape": "line"
+      } as any
+    };
+
+    const server = new ApolloServer({ schema, playground });
     server.listen(config.PORT, () =>
       // tslint:disable-next-line
       console.log(

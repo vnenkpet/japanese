@@ -6,6 +6,7 @@ export default gql`
       totalCount
       edges {
         node {
+          id
           kanji {
             text
           }
