@@ -21,10 +21,6 @@ export default class EntryResolver {
       sort: { bingSearchResults: -1, "kanji.common": -1 }
     })
   ): Promise<EntryConnection> {
-    // todo: Add wildcard or regex search. Current implenentation does
-    // not support this due to narrowing down of the search results
-    // by using fulltext search (performance reasons)
-
     let isRegex = false;
 
     const beginning = key.slice(0, 1);
@@ -50,7 +46,10 @@ export default class EntryResolver {
         ]
       });
     } else {
-      key = key.toLowerCase().trim();
+      key = key
+        .toLowerCase()
+        .replace("/", "")
+        .trim();
 
       // prepare search regex:
       const searchRegexKanji = new RegExp(`^${key}$`);
