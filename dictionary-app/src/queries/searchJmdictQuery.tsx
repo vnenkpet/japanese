@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 
 export default gql`
   query search($key: String!, $cursor: String = null) {
-    connection: searchEntries(key: $key, first: 10, after: $cursor) {
+    connection: searchEntriesConnection(key: $key, first: 10, after: $cursor) {
       totalCount
       edges {
         node {

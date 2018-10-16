@@ -60,7 +60,11 @@ const DictionaryEntry: React.SFC<IDictionaryEntry> = ({
   bingSearchResults
 }) => (
   <Row>
-    <Kanji kanji={kanji} kana={kana} />
+    <Kanji
+      kanji={kanji}
+      kana={kana}
+      usuallyKana={sense ? sense[0].misc.indexOf("uk") !== -1 : false}
+    />
     {jlpt && <Jlpt>JLPT {jlpt}</Jlpt>}
     <ul>
       {source === SOURCE_TYPE.jmdict

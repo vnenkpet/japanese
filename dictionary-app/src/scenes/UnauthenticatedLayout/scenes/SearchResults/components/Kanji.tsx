@@ -25,6 +25,7 @@ interface IProps {
       text: string;
     }
   ];
+  usuallyKana: boolean;
 }
 
 interface IState {
@@ -33,14 +34,15 @@ interface IState {
 }
 
 export default class Kanji extends React.PureComponent<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    this.state = { kanji: null, anchorEl: null };
-  }
+  public state: Readonly<IState> = {
+    anchorEl: null,
+    kanji: null
+  };
 
   public render() {
-    const { kanji, kana } = this.props;
+    const { kanji, kana, usuallyKana } = this.props;
     const { anchorEl } = this.state;
+
     return (
       <>
         {this.state.kanji && (
@@ -63,7 +65,7 @@ export default class Kanji extends React.PureComponent<IProps, IState> {
           </Popover>
         )}
         <Text>
-          {kanji.length ? (
+          {kanji.length && !usuallyKana ? (
             <ruby>
               {Array.from(kanji[0].text).map((char, index) => {
                 if (char.match(/[\u4e00-\u9faf\u3400-\u4dbf]/)) {
@@ -99,14 +101,9 @@ export default class Kanji extends React.PureComponent<IProps, IState> {
 
   private handleClick(char: string, e: Event) {
     const { currentTarget } = e;
-    this.state.kanji !== char
-      ? this.setState({
-          anchorEl: currentTarget,
-          kanji: char
-        })
-      : this.setState({
-          anchorEl: currentTarget,
-          kanji: null
-        });
+    this.setState({
+      anchorEl: currentTarget,
+      kanji: this.state.kanji !== char ? char : null
+    });
   }
 }

@@ -34,63 +34,69 @@ const NoResults = styled.div`
 
 const DictionarySearchResults: React.SFC<{ searchKey?: string }> = ({
   searchKey
-}) => (
-  <Query<IConnectionData<IDictionaryEntry>, IVariables>
-    query={searchJmdictQuery}
-    variables={{ key: searchKey }}
-  >
-    {({ loading, error, data, fetchMore }) => {
-      if (loading) {
-        return <Loading>Loading...</Loading>;
-      }
-      if (error) {
-        return <span>{error.toString()}</span>;
-      }
-      return (
-        <div>
-          <SearchInfo>
-            Found: {data.connection.totalCount} results for "{searchKey}
-            ".
-          </SearchInfo>
-          <InfiniteScroller
-            pageStart={0}
-            hasMore={data.connection.pageInfo.hasNextPage}
-            loader={<Loading>Loading more...</Loading>}
-            loadMore={() =>
-              fetchMore({
-                query: searchJmdictQuery,
-                updateQuery: (previousResult, { fetchMoreResult }) => {
-                  return updateQuery<IDictionaryEntry>(previousResult, {
-                    fetchMoreResult
-                  });
-                },
-                variables: {
-                  cursor: data.connection.pageInfo.endCursor,
-                  key: searchKey
-                }
-              })
-            }
-          >
-            {data.connection.totalCount ? (
-              data.connection.edges
-                .map(edge => {
-                  return <DictionaryEntry key={edge.node.id} {...edge.node} />;
+}) => {
+  searchKey = decodeURIComponent(searchKey);
+
+  return (
+    <Query<IConnectionData<IDictionaryEntry>, IVariables>
+      query={searchJmdictQuery}
+      variables={{ key: searchKey }}
+    >
+      {({ loading, error, data, fetchMore }) => {
+        if (loading) {
+          return <Loading>Loading...</Loading>;
+        }
+        if (error) {
+          return <span>{error.toString()}</span>;
+        }
+        return (
+          <div>
+            <SearchInfo>
+              Found: {data.connection.totalCount} results for "{searchKey}
+              ".
+            </SearchInfo>
+            <InfiniteScroller
+              pageStart={0}
+              hasMore={data.connection.pageInfo.hasNextPage}
+              loader={<Loading>Loading more...</Loading>}
+              loadMore={() =>
+                fetchMore({
+                  query: searchJmdictQuery,
+                  updateQuery: (previousResult, { fetchMoreResult }) => {
+                    return updateQuery<IDictionaryEntry>(previousResult, {
+                      fetchMoreResult
+                    });
+                  },
+                  variables: {
+                    cursor: data.connection.pageInfo.endCursor,
+                    key: searchKey
+                  }
                 })
-                .reduce((prev, curr) => (
-                  <>
-                    {prev}
-                    <Separator />
-                    {curr}
-                  </>
-                ))
-            ) : (
-              <NoResults>No results.</NoResults>
-            )}
-          </InfiniteScroller>
-        </div>
-      );
-    }}
-  </Query>
-);
+              }
+            >
+              {data.connection.totalCount ? (
+                data.connection.edges
+                  .map(edge => {
+                    return (
+                      <DictionaryEntry key={edge.node.id} {...edge.node} />
+                    );
+                  })
+                  .reduce((prev, curr) => (
+                    <>
+                      {prev}
+                      <Separator />
+                      {curr}
+                    </>
+                  ))
+              ) : (
+                <NoResults>No results.</NoResults>
+              )}
+            </InfiniteScroller>
+          </div>
+        );
+      }}
+    </Query>
+  );
+};
 
 export default DictionarySearchResults;

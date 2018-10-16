@@ -25,7 +25,7 @@ class SearchBar extends React.PureComponent<
     return (
       <Formik
         onSubmit={({ searchKey: search }) => {
-          history.push(`/search/${search}`);
+          history.push(`/search/${encodeURIComponent(search)}`);
         }}
         initialValues={{ searchKey }}
         render={({ values, handleChange, handleBlur, handleSubmit }) => (
