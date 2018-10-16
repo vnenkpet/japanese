@@ -2,6 +2,7 @@ import { Cursor } from "mongodb";
 import { Arg, Int, Query, Resolver } from "type-graphql";
 import JmdictEntry from "../schema-types/Entry";
 import EntryConnection from "../schema-types/EntryConnection";
+import JLPT_NUMBER from "../schema-types/inputs/JlptType";
 import DbClient from "../services/db";
 import {
   createCursor,
@@ -10,8 +11,22 @@ import {
 
 @Resolver(of => EntryConnection)
 export default class EntryResolver {
+  @Query(returns => [JmdictEntry])
+  public async jlptEntries(
+    @Arg("jlpt", type => JLPT_NUMBER)
+    jlpt: JLPT_NUMBER
+  ) {
+    // prepare the mongo request
+    return DbClient.db
+      .collection("entries")
+      .find({
+        jlpt
+      })
+      .toArray();
+  }
+
   @Query(returns => EntryConnection)
-  public async searchEntries(
+  public async searchEntriesConnection(
     @Arg("key") key: string,
     @Arg("first", type => Int, { nullable: true })
     first: number = 10,
@@ -21,6 +36,7 @@ export default class EntryResolver {
       sort: { bingSearchResults: -1, "kanji.common": -1 }
     })
   ): Promise<EntryConnection> {
+    key = decodeURIComponent(key);
     let isRegex = false;
 
     const beginning = key.slice(0, 1);
@@ -46,10 +62,7 @@ export default class EntryResolver {
         ]
       });
     } else {
-      key = key
-        .toLowerCase()
-        .replace("/", "")
-        .trim();
+      key = key.toLowerCase().trim();
 
       // prepare search regex:
       const searchRegexKanji = new RegExp(`^${key}$`);
