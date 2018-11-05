@@ -32,6 +32,7 @@ type EntryConnectionEdge {
 type EntryDisplay {
   text: String!
   furigana: String
+  romaji: String!
   hasFurigana: Boolean!
   sense: Sense!
 }
