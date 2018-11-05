@@ -4,6 +4,7 @@ import JmdictEntry from "../schema-types/Entry";
 import EntryConnection from "../schema-types/EntryConnection";
 import JLPT_NUMBER from "../schema-types/inputs/JlptType";
 import DbClient from "../services/db";
+import transformEntry from "../services/transformEntry";
 import {
   createCursor,
   getGraphQLConnectionFromMongoCursor
@@ -16,13 +17,13 @@ export default class EntryResolver {
     @Arg("jlpt", type => JLPT_NUMBER)
     jlpt: JLPT_NUMBER
   ) {
-    // prepare the mongo request
-    return DbClient.db
+    const vocabulary = await DbClient.db
       .collection("entries")
       .find({
         jlpt
       })
       .toArray();
+    return vocabulary.map(transformEntry);
   }
 
   @Query(returns => EntryConnection)
@@ -94,10 +95,11 @@ export default class EntryResolver {
         ]
       });
     }
-    return getGraphQLConnectionFromMongoCursor<JmdictEntry>(
+    return getGraphQLConnectionFromMongoCursor<any, JmdictEntry>(
       mongoQuery,
       first,
-      after
+      after,
+      transformEntry
     );
   }
 }

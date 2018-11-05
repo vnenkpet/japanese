@@ -23,7 +23,7 @@ export default class KanjiDicEntryResolver {
       $or: [{ kanji: key }, { kana: key }, { romaji: key }, { gloss: key }]
     });
 
-    return getGraphQLConnectionFromMongoCursor<KanjiDicEntry>(
+    return getGraphQLConnectionFromMongoCursor<any, KanjiDicEntry>(
       cursor,
       first,
       after
@@ -45,7 +45,7 @@ export default class KanjiDicEntryResolver {
         { sort: { "kanji.common": -1 } }
       );
 
-    return getGraphQLConnectionFromMongoCursor<JmdictEntry>(
+    return getGraphQLConnectionFromMongoCursor<any, JmdictEntry>(
       cursor,
       first,
       after

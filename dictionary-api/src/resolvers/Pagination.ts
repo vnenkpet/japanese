@@ -12,10 +12,11 @@ export const createCursor = (obj: ICursor = { skip: 0, sort: {} }): string =>
 export const decodeCursor = (cursor: string): ICursor =>
   JSON.parse(decode(cursor));
 
-export async function getGraphQLConnectionFromMongoCursor<T>(
+export async function getGraphQLConnectionFromMongoCursor<V, T>(
   mongoCursor: Cursor, // return value of .find() in mongodb
   first: number = 10, // how many to fetch
-  after?: string // base64 encoded string
+  after?: string, // base64 encoded string
+  transformNode?: (node: V) => T
 ) {
   // default value:
   if (!after) {
@@ -47,13 +48,13 @@ export async function getGraphQLConnectionFromMongoCursor<T>(
 
   // return graphql connection response
   return {
-    edges: entries.map((entry: T, index: number) => {
+    edges: entries.map((entry: V, index: number) => {
       return {
         cursor: createCursor({
           skip: cursor.skip + index + 1,
           sort: cursor.sort
         }),
-        node: entry
+        node: transformNode(entry)
       };
     }),
     pageInfo: {

@@ -7,6 +7,7 @@ type Conjugation {
 
 type Entry {
   id: ID!
+  primaryDisplay: EntryDisplay!
   kanji: [Kanji!]!
   kana: [Kana!]!
   sense: [Sense!]
@@ -26,6 +27,13 @@ type EntryConnection {
 type EntryConnectionEdge {
   node: Entry!
   cursor: String!
+}
+
+type EntryDisplay {
+  text: String!
+  furigana: String
+  hasFurigana: Boolean!
+  sense: Sense!
 }
 
 type Gloss {

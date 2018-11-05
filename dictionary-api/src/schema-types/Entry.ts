@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import Conjugation from "./Conjugation";
+import EntryDisplay from "./EntryDisplay";
 import Kana from "./Kana";
 import Kanji from "./Kanji";
 import Sense from "./Sense";
@@ -9,6 +10,9 @@ import Translation from "./Translation";
 export default class Entry {
   @Field(type => ID)
   public id: string;
+
+  @Field(type => EntryDisplay)
+  public primaryDisplay: EntryDisplay;
 
   @Field(type => [Kanji])
   public kanji: [Kanji];

@@ -13,6 +13,8 @@ class DbClient {
       { useNewUrlParser: true }
     );
     this.db = connection.db(options.database);
+    // tslint:disable-next-line
+    console.log("Connected to DB...");
     return this.db;
   }
 }
