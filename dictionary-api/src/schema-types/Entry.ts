@@ -12,7 +12,7 @@ export default class Entry {
   public id: string;
 
   @Field(type => EntryDisplay)
-  public primaryDisplay: EntryDisplay;
+  public simple: EntryDisplay;
 
   @Field(type => [Kanji])
   public kanji: [Kanji];

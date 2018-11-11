@@ -7,7 +7,7 @@ type Conjugation {
 
 type Entry {
   id: ID!
-  primaryDisplay: EntryDisplay!
+  simple: EntryDisplay!
   kanji: [Kanji!]!
   kana: [Kana!]!
   sense: [Sense!]
@@ -34,7 +34,8 @@ type EntryDisplay {
   furigana: String
   romaji: String!
   hasFurigana: Boolean!
-  sense: Sense!
+  translation: String!
+  info: String!
 }
 
 type Gloss {
