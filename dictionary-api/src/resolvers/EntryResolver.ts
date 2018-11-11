@@ -38,6 +38,7 @@ export default class EntryResolver {
     })
   ): Promise<EntryConnection> {
     key = decodeURIComponent(key);
+    key = key.trim();
     let isRegex = false;
 
     const beginning = key.slice(0, 1);
