@@ -1,7 +1,6 @@
 import Entry from "../schema-types/Entry";
 
 const transformEntry = (entry: any): Entry => {
-  console.log(entry);
   if (entry.source === "jmdict") {
     const isKana = entry.sense[0].misc.includes("uk");
     if (isKana || entry.kanji.length === 0) {
