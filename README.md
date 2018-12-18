@@ -6,17 +6,22 @@ and flashcard reviewing application.
 This is a mono-repository consisting of services necessary to run
 this application.
 
-### Dictionary/Kanji API
+### Dictionary API
+
 Based on Jmdict (working), Jmnedict and Kanjidic.
 Nodejs/Mongoose/Typescript.
 
-### Web client
+### Dictionary App
+
 React client application.
 
-### User API
-Api for managing users and their saved flashcards.
-
 ### Database generator
+
 This isn't a part of the runtime environment, rather a local script
-used for downloading and processing the freely available data to set up 
-a mongodb database.
+used for downloading and processing the freely available data to set up
+a mongodb database. Eventually it should become it's own microservice checking for changes
+that updates the database continuously.
+
+## Other
+
+Some scripts that extend the database generator and should ultimately be a part of it.
