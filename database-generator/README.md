@@ -1,5 +1,5 @@
 # DICT Generator
 
-This utility takes the JMDICT in Json format
-and transforms it into a mongodb according
-to our schema needs.
+This utility script takes downloads the JMDICT vocabulary database in JSON format
+and transforms it into mongodb records according
+to our GraphQL schema needs.

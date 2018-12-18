@@ -1,17 +1,28 @@
-import { Field, ObjectType } from "../../node_modules/type-graphql";
+import { Field, ObjectType } from "type-graphql";
 
-@ObjectType()
+@ObjectType({
+  description: "Simplified schema type for reading JMDICT/JMNEDICT entry"
+})
 export default class EntryDisplay {
-  @Field() public text: string;
+  @Field({
+    description: "Kanji or kana that is most commonly used for this word"
+  })
+  public text: string;
 
-  @Field({ nullable: true })
+  @Field({
+    nullable: true,
+    description:
+      "Only present when the word is usually written in kana (`hasFurigana` is true)"
+  })
   public furigana?: string;
 
-  @Field() public romaji: string;
+  @Field({ description: "Latin alphabet transcription" })
+  public romaji: string;
 
   @Field() public hasFurigana: boolean;
 
-  @Field() public translation: string;
+  @Field({ description: "Primary English meaning" })
+  public translation: string;
 
   @Field() public info: string;
 }

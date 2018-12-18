@@ -2,7 +2,7 @@ import { Cursor } from "mongodb";
 import { Arg, Int, Query, Resolver } from "type-graphql";
 import JmdictEntry from "../schema-types/Entry";
 import EntryConnection from "../schema-types/EntryConnection";
-import JLPT_NUMBER from "../schema-types/inputs/JlptType";
+import JLPT_NUMBER from "../schema-types/enums/JlptType";
 import DbClient from "../services/db";
 import transformEntry from "../services/transformEntry";
 import {
@@ -68,15 +68,13 @@ export default class EntryResolver {
 
       // prepare search regex:
       const searchRegexKanji = new RegExp(`^${key}$`);
-      // todo: recognize regex in key, don't use text search in that case
-
       const searchRegexLatin = new RegExp(`^${key}($|\\s)`);
-
       let verbSearchRegex = searchRegexLatin;
+
+      // deal with verbs
       if (key.substring(0, 3) !== "to ") {
         verbSearchRegex = new RegExp(`^to ${key}($|\\s)`);
       }
-      // todo: deal with suru-verbs (e. g. "to practice" should find "practice (vs)")
 
       // prepare the mongo request
       mongoQuery = await DbClient.db.collection("entries").find({

@@ -57,6 +57,7 @@ export async function getGraphQLConnectionFromMongoCursor<V, T>(
         node: transformNode(entry)
       };
     }),
+    items: entries.map(transformNode),
     pageInfo: {
       endCursor,
       hasNextPage: cursor.skip + first <= totalCount - 1,

@@ -1,26 +1,38 @@
 # This schema is auto-generated.
 
+"""Verb conjugation"""
 type Conjugation {
   name: String!
   form: String!
 }
 
+"""JMDICT and JMNEDICT dictionary entry"""
 type Entry {
   id: ID!
   simple: EntryDisplay!
   kanji: [Kanji!]!
   kana: [Kana!]!
+
+  """Field is only present when `source` property is jmdict"""
   sense: [Sense!]
   conjugations: [Conjugation!]
+
+  """Field is only present when `source` property is jmnedict"""
   translation: [Translation!]
+
+  """How many search results did we scrape through bing"""
   bingSearchResults: Float
-  jlpt: String
+  jlpt: JLPT_NUMBER
   source: String!
 }
 
+"""
+Connection for Dictionary Entries. Currently uses cursor composed from `limit` and `skip`.
+"""
 type EntryConnection {
   totalCount: Float!
   edges: [EntryConnectionEdge!]!
+  items: [Entry!]!
   pageInfo: PageInfo!
 }
 
@@ -29,11 +41,21 @@ type EntryConnectionEdge {
   cursor: String!
 }
 
+"""Simplified schema type for reading JMDICT/JMNEDICT entry"""
 type EntryDisplay {
+  """Kanji or kana that is most commonly used for this word"""
   text: String!
+
+  """
+  Only present when the word is usually written in kana (`hasFurigana` is true)
+  """
   furigana: String
+
+  """Latin alphabet transcription"""
   romaji: String!
   hasFurigana: Boolean!
+
+  """Primary English meaning"""
   translation: String!
   info: String!
 }
@@ -52,7 +74,9 @@ enum JLPT_NUMBER {
 
 type Kana {
   text: String!
-  romaji: String!
+
+  """Transcription into latin alphabet"""
+  romaji: String! @deprecated(reason: "auto-generated, not suitable for live use")
   common: Boolean!
   tags: [String!]!
 }
@@ -72,9 +96,13 @@ type KanjiDicEntry {
   wordsContainingThis(after: Int, first: Int): EntryConnection!
 }
 
+"""
+Connection for KanjiDic Entries. Currently uses cursor composed from `limit` and `skip`.
+"""
 type KanjiDicEntryConnection {
   totalCount: Float!
   edges: [KanjiDicEntryConnectionEdge!]!
+  items: [KanjiDicEntry!]!
   pageInfo: PageInfo!
 }
 
@@ -105,6 +133,7 @@ type Sense {
   partOfSpeech: [String!]!
 }
 
+"""Translation of JMNEDICT entry (names)"""
 type Translation {
   translation: [TranslationItem!]!
   type: [String!]!

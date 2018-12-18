@@ -9,4 +9,5 @@ export default interface IConnection<T> {
     node: T;
     cursor: string;
   }>;
+  items: T[];
 }

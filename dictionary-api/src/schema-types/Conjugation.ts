@@ -1,6 +1,6 @@
 import { Field, ObjectType } from "type-graphql";
 
-@ObjectType()
+@ObjectType({ description: "Verb conjugation" })
 export default class Conjugation {
   @Field() public name: string;
 
