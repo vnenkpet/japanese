@@ -20,14 +20,17 @@ export class DictionaryEntrySearch {
     return vocabulary.map(serializeEntry);
   }
 
-  public async search(key: string, first: number, after: string) {
-    after = this.pagination.createCursor({
+  public async search(
+    key: string,
+    first: number = 10,
+    after: string = this.pagination.createCursor({
       skip: 0,
       sort: {
         "bingSearchResults": -1,
         "kanji.common": -1,
       },
-    });
+    }),
+  ) {
     key = decodeURIComponent(key);
     key = key.trim();
     let isRegex = false;
