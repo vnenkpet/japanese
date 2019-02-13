@@ -6,7 +6,7 @@ import PageInfo from "./PageInfo";
 
 @ObjectType({
   description:
-    "Connection for KanjiDic Entries. Currently uses cursor composed from `limit` and `skip`."
+    "Connection for KanjiDic Entries. Currently uses cursor composed from `limit` and `skip`.",
 })
 export default class KanjiDicEntryConnection
   implements IConnection<KanjiDicEntry> {

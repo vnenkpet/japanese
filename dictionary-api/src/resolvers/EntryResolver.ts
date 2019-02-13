@@ -1,29 +1,21 @@
-import { Cursor } from "mongodb";
 import { Arg, Int, Query, Resolver } from "type-graphql";
-import JmdictEntry from "../schema-types/Entry";
 import EntryConnection from "../schema-types/EntryConnection";
 import JLPT_NUMBER from "../schema-types/enums/JlptType";
-import DbClient from "../services/db";
-import transformEntry from "../services/transformEntry";
-import {
-  createCursor,
-  getGraphQLConnectionFromMongoCursor
-} from "./Pagination";
+import { DictionaryEntrySearch } from "../services/DictionaryEntrySearch";
+import { Inject, Service } from "typedi";
+import Entry from "../schema-types/Entry";
 
+@Service()
 @Resolver(of => EntryConnection)
 export default class EntryResolver {
-  @Query(returns => [JmdictEntry])
+  @Inject() private readonly dictionaryEntrySearch: DictionaryEntrySearch;
+
+  @Query(returns => [Entry])
   public async jlptEntries(
     @Arg("jlpt", type => JLPT_NUMBER)
-    jlpt: JLPT_NUMBER
+    jlpt: JLPT_NUMBER,
   ) {
-    const vocabulary = await DbClient.db
-      .collection("entries")
-      .find({
-        jlpt
-      })
-      .toArray();
-    return vocabulary.map(transformEntry);
+    return this.dictionaryEntrySearch.getEntriesByJlpt(jlpt);
   }
 
   @Query(returns => EntryConnection)
@@ -32,73 +24,8 @@ export default class EntryResolver {
     @Arg("first", type => Int, { nullable: true })
     first: number = 10,
     @Arg("after", { nullable: true })
-    after: string = createCursor({
-      skip: 0,
-      sort: { bingSearchResults: -1, "kanji.common": -1 }
-    })
+    after?: string,
   ): Promise<EntryConnection> {
-    key = decodeURIComponent(key);
-    key = key.trim();
-    let isRegex = false;
-
-    const beginning = key.slice(0, 1);
-    const end = key.slice(-1);
-    if (beginning === "/" && end === "/") {
-      isRegex = true;
-    }
-
-    let mongoQuery: Cursor = null;
-
-    if (isRegex) {
-      const regex = new RegExp(key.substring(1, key.length - 1));
-      // prepare the mongo request
-      mongoQuery = await DbClient.db.collection("entries").find({
-        $or: [
-          // process regexes
-          { "kanji.text": regex },
-          { "kana.text": regex },
-          { "kana.romaji": regex },
-          { "sense.0.gloss.searchKey": regex },
-          { "sense.0.gloss.searchKey": regex },
-          { "translation.translation.searchKey": regex }
-        ]
-      });
-    } else {
-      key = key.toLowerCase().trim();
-
-      // prepare search regex:
-      const searchRegexKanji = new RegExp(`^${key}$`);
-      const searchRegexLatin = new RegExp(`^${key}($|\\s)`);
-      let verbSearchRegex = searchRegexLatin;
-
-      // deal with verbs
-      if (key.substring(0, 3) !== "to ") {
-        verbSearchRegex = new RegExp(`^to ${key}($|\\s)`);
-      }
-
-      // prepare the mongo request
-      mongoQuery = await DbClient.db.collection("entries").find({
-        $and: [
-          { $text: { $search: key } }, // narrow down search by text index
-          {
-            $or: [
-              // process regexes
-              { "kanji.text": searchRegexKanji },
-              { "kana.text": searchRegexKanji },
-              { "kana.romaji": searchRegexKanji },
-              { "sense.gloss.searchKey": searchRegexLatin },
-              { "sense.gloss.searchKey": verbSearchRegex },
-              { "translation.translation.searchKey": searchRegexLatin }
-            ]
-          }
-        ]
-      });
-    }
-    return getGraphQLConnectionFromMongoCursor<any, JmdictEntry>(
-      mongoQuery,
-      first,
-      after,
-      transformEntry
-    );
+    return this.dictionaryEntrySearch.search(key, first, after);
   }
 }

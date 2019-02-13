@@ -23,7 +23,7 @@ export default class Entry {
 
   @Field(type => [Sense], {
     nullable: true,
-    description: "Field is only present when `source` property is jmdict"
+    description: "Field is only present when `source` property is jmdict",
   })
   public sense?: [Sense];
 
@@ -32,13 +32,13 @@ export default class Entry {
 
   @Field(type => [Translation], {
     nullable: true,
-    description: "Field is only present when `source` property is jmnedict"
+    description: "Field is only present when `source` property is jmnedict",
   })
   public translation?: [Translation];
 
   @Field({
     nullable: true,
-    description: "How many search results did we scrape through bing"
+    description: "How many search results did we scrape through bing",
   })
   public bingSearchResults?: number;
 

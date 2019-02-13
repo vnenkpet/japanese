@@ -1,5 +1,5 @@
-import * as dotenv from "dotenv";
-import { inject, toNumber, toString } from "typescript-stringcaster";
+import * as dotenv from 'dotenv';
+import { inject, toNumber, toString } from 'typescript-stringcaster';
 dotenv.config();
 
 const source = process.env;
@@ -14,7 +14,7 @@ class Config {
   @inject({ cast: toNumber, source })
   public PORT: string;
 
-  @inject({ cast: toString, source, defaultValue: "development" })
+  @inject({ cast: toString, source, defaultValue: 'development' })
   public NODE_ENV: string;
 }
 

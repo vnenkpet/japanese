@@ -1,21 +1,29 @@
 import { Db, MongoClient } from "mongodb";
 import * as mongodbUri from "mongodb-uri";
 import config from "../config";
+import { Service } from "typedi";
 
+@Service()
 class DbClient {
-  public db: Db;
+  private database: Db;
 
   public async connect() {
     const options = mongodbUri.parse(config.MONGODB_URI);
     const uri = mongodbUri.format(options);
     const connection = await MongoClient.connect(
       uri,
-      { useNewUrlParser: true }
+      {
+        useNewUrlParser: true,
+      },
     );
-    this.db = connection.db(options.database);
+    this.database = connection.db(options.database);
     // tslint:disable-next-line
     console.log("Connected to DB...");
-    return this.db;
+    return this.database;
+  }
+
+  get db() {
+    return this.database;
   }
 }
 

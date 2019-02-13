@@ -45,6 +45,7 @@
     "typescript-eslint-parser": "^12.0.0"
   },
   "dependencies": {
+    "@koa/cors": "^2.2.1",
     "@types/base-64": "^0.1.2",
     "@types/dotenv": "^4.0.3",
     "@types/graphql": "^0.13.3",
@@ -52,7 +53,6 @@
     "@types/mongodb": "^3.1.1",
     "@types/mongodb-uri": "^0.9.0",
     "@types/supertest": "^2.0.4",
-    "@koa/cors": "^2.2.1",
     "apollo-server": "^2.0.0-rc.10",
     "base-64": "^0.1.0",
     "dataloader": "^1.4.0",
@@ -63,7 +63,8 @@
     "mongodb-uri": "^0.9.7",
     "reflect-metadata": "^0.1.12",
     "supertest": "^3.0.0",
-    "type-graphql": "^0.12.2",
+    "type-graphql": "^0.12.0",
+    "typedi": "^0.8.0",
     "typescript": "^3.0.1",
     "typescript-stringcaster": "^1.0.2"
   }

@@ -1,33 +1,27 @@
 import { Arg, FieldResolver, Int, Query, Resolver, Root } from "type-graphql";
-import JmdictEntry from "../schema-types/Entry";
 import EntryConnection from "../schema-types/EntryConnection";
 import KanjiDicEntry from "../schema-types/KanjiDicEntry";
 import KanjiDicEntryConnection from "../schema-types/KanjiDicEntryConnection";
-import DbClient from "../services/db";
-import { getGraphQLConnectionFromMongoCursor } from "./Pagination";
+import { Service, Inject } from "typedi";
+import { KanjiDicEntrySearch } from "../services/KanjiDicEntrySearch";
 
+@Service()
 @Resolver(of => KanjiDicEntry)
 export default class KanjiDicEntryResolver {
+  @Inject() private readonly kanjiDicSearch: KanjiDicEntrySearch;
+
   @Query(returns => KanjiDicEntry)
   public getKanjiDicInformation(@Arg("kanji") kanji: string) {
-    return DbClient.db.collection("kanjidic").findOne({ kanji });
+    return this.kanjiDicSearch.getKanjiDicInformation(kanji);
   }
 
   @Query(returns => KanjiDicEntryConnection)
   public searchKanjiDicEntries(
     @Arg("key") key: string,
     @Arg("first") first: number = 10,
-    @Arg("after") after: string = null
+    @Arg("after") after: string = null,
   ): Promise<KanjiDicEntryConnection> {
-    const cursor = DbClient.db.collection("kanjidic").find({
-      $or: [{ kanji: key }, { kana: key }, { romaji: key }, { gloss: key }]
-    });
-
-    return getGraphQLConnectionFromMongoCursor<any, KanjiDicEntry>(
-      cursor,
-      first,
-      after
-    );
+    return this.kanjiDicSearch.search(key, first, after);
   }
 
   @FieldResolver(returns => EntryConnection)
@@ -36,19 +30,8 @@ export default class KanjiDicEntryResolver {
     @Arg("first", type => Int, { nullable: true })
     first: number = 10,
     @Arg("after", type => Int, { nullable: true })
-    after: string = null
+    after: string = null,
   ) {
-    const cursor = DbClient.db
-      .collection("entries")
-      .find(
-        { "kanji.text": new RegExp(`${root.kanji}`) },
-        { sort: { "kanji.common": -1 } }
-      );
-
-    return getGraphQLConnectionFromMongoCursor<any, JmdictEntry>(
-      cursor,
-      first,
-      after
-    );
+    return this.kanjiDicSearch.getWordsContaining(root, first, after);
   }
 }

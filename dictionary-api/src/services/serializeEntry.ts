@@ -1,6 +1,6 @@
 import Entry from "../schema-types/Entry";
 
-const transformEntry = (entry: any): Entry => {
+const serializeEntry = (entry: any): Entry => {
   if (entry.source === "jmdict") {
     const isKana = entry.sense[0].misc.includes("uk");
     if (isKana || entry.kanji.length === 0) {
@@ -11,7 +11,7 @@ const transformEntry = (entry: any): Entry => {
         translation: entry.sense[0].gloss
           .map((gloss: { text: string }) => gloss.text)
           .join("; "),
-        info: entry.sense[0].partOfSpeech.join(", ")
+        info: entry.sense[0].partOfSpeech.join(", "),
       };
     } else {
       entry.simple = {
@@ -22,7 +22,7 @@ const transformEntry = (entry: any): Entry => {
         translation: entry.sense[0].gloss
           .map((gloss: { text: string }) => gloss.text)
           .join("; "),
-        info: entry.sense[0].partOfSpeech.join(", ")
+        info: entry.sense[0].partOfSpeech.join(", "),
       };
     }
   } else {
@@ -34,7 +34,7 @@ const transformEntry = (entry: any): Entry => {
         translation: entry.translation[0].translation
           .map((translation: { text: string }) => translation.text)
           .join("; "),
-        info: entry.translation[0].category.join(",")
+        info: entry.translation[0].category.join(","),
       };
     } else {
       entry.simple = {
@@ -45,7 +45,7 @@ const transformEntry = (entry: any): Entry => {
         translation: entry.translation[0].translation
           .map((translation: { text: string }) => translation.text)
           .join("; "),
-        info: entry.translation[0].category.join(",")
+        info: entry.translation[0].category.join(","),
       };
     }
   }
@@ -53,4 +53,4 @@ const transformEntry = (entry: any): Entry => {
   return entry;
 };
 
-export default transformEntry;
+export default serializeEntry;

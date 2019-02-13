@@ -6,7 +6,7 @@ export default class Kana {
 
   @Field({
     description: "Transcription into latin alphabet",
-    deprecationReason: "auto-generated, not suitable for live use"
+    deprecationReason: "auto-generated, not suitable for live use",
   })
   public romaji: string;
 

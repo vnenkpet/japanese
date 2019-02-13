@@ -1,18 +1,18 @@
 import { Field, ObjectType } from "type-graphql";
 
 @ObjectType({
-  description: "Simplified schema type for reading JMDICT/JMNEDICT entry"
+  description: "Simplified schema type for reading JMDICT/JMNEDICT entry",
 })
 export default class EntryDisplay {
   @Field({
-    description: "Kanji or kana that is most commonly used for this word"
+    description: "Kanji or kana that is most commonly used for this word",
   })
   public text: string;
 
   @Field({
     nullable: true,
     description:
-      "Only present when the word is usually written in kana (`hasFurigana` is true)"
+      "Only present when the word is usually written in kana (`hasFurigana` is true)",
   })
   public furigana?: string;
 

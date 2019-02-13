@@ -6,7 +6,7 @@ import PageInfo from "./PageInfo";
 
 @ObjectType({
   description:
-    "Connection for Dictionary Entries. Currently uses cursor composed from `limit` and `skip`."
+    "Connection for Dictionary Entries. Currently uses cursor composed from `limit` and `skip`.",
 })
 export default class EntryConnection implements IConnection<Entry> {
   @Field() public totalCount: number;

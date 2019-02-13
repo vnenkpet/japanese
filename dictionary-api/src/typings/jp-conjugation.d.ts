@@ -14,7 +14,7 @@ declare module "jp-conjugation" {
     v5b,
     v5n,
     v5r,
-    v1
+    v1,
   }
 
   export type UncojugateResponse = {
@@ -25,7 +25,7 @@ declare module "jp-conjugation" {
 
   export function conjugate(
     verb: string,
-    type?: VERB_TYPE
+    type?: VERB_TYPE,
   ): [ConjugateResponse];
 
   export function unconjugate(verb: string): [[UncojugateResponse]];

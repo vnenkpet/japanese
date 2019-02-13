@@ -5,7 +5,7 @@ enum JLPT_NUMBER {
   N2 = "n2",
   N3 = "n3",
   N4 = "n4",
-  N5 = "n5"
+  N5 = "n5",
 }
 
 registerEnumType(JLPT_NUMBER, { name: "JLPT_NUMBER" });
