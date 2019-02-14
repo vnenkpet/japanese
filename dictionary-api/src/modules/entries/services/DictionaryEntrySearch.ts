@@ -1,7 +1,7 @@
 import { Cursor, Db } from "mongodb";
 import { Pagination } from "../../../services/Pagination";
 import { Service, Inject } from "typedi";
-import serializeEntry from "../../../services/serializeEntry";
+import serializeEntry from "./serializeEntry";
 import Entry from "../schema/Entry";
 import JLPT_NUMBER from "../schema/enums/JlptType";
 
