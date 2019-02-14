@@ -1,7 +1,7 @@
 import { Field, ObjectType } from "type-graphql";
 import Entry from "./Entry";
 import EntryConnectionEdge from "./EntryConnectionEdge";
-import PageInfo from "./PageInfo";
+import PageInfo from "../../utils/schema/PageInfo";
 import IConnection from "../../utils/schema/interfaces/IConnection";
 
 @ObjectType({

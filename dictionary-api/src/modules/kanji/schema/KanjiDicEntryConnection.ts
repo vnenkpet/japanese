@@ -1,7 +1,7 @@
 import { Field, ObjectType } from "type-graphql";
 import KanjiDicEntry from "./KanjiDicEntry";
 import KanjiDicEntryConnectionEdge from "./KanjiDicEntryConnectionEdge";
-import PageInfo from "../../entries/schema/PageInfo";
+import PageInfo from "../../utils/schema/PageInfo";
 import IConnection from "../../../modules/utils/schema/interfaces/IConnection";
 
 @ObjectType({
