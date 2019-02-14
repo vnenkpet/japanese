@@ -41,58 +41,73 @@ export class DictionaryEntrySearch {
       isRegex = true;
     }
 
-    let mongoQuery: Cursor = null;
+    const mongoQuery: Cursor = await (isRegex
+      ? this.createCursorForRegexKey(key)
+      : this.createCursorForStringKey(key));
 
-    if (isRegex) {
-      const regex = new RegExp(key.substring(1, key.length - 1));
-      // prepare the mongo request
-      mongoQuery = await this.db.collection("entries").find({
-        $or: [
-          // process regexes
-          { "kanji.text": regex },
-          { "kana.text": regex },
-          { "kana.romaji": regex },
-          { "sense.0.gloss.searchKey": regex },
-          { "sense.0.gloss.searchKey": regex },
-          { "translation.translation.searchKey": regex },
-        ],
-      });
-    } else {
-      key = key.toLowerCase().trim();
-
-      // prepare search regex:
-      const searchRegexKanji = new RegExp(`^${key}$`);
-      const searchRegexLatin = new RegExp(`^${key}($|\\s)`);
-      let verbSearchRegex = searchRegexLatin;
-
-      // deal with verbs
-      if (key.substring(0, 3) !== "to ") {
-        verbSearchRegex = new RegExp(`^to ${key}($|\\s)`);
-      }
-
-      // prepare the mongo request
-      mongoQuery = await this.db.collection("entries").find({
-        $and: [
-          { $text: { $search: key } }, // narrow down search by text index
-          {
-            $or: [
-              // process regexes
-              { "kanji.text": searchRegexKanji },
-              { "kana.text": searchRegexKanji },
-              { "kana.romaji": searchRegexKanji },
-              { "sense.gloss.searchKey": searchRegexLatin },
-              { "sense.gloss.searchKey": verbSearchRegex },
-              { "translation.translation.searchKey": searchRegexLatin },
-            ],
-          },
-        ],
-      });
-    }
     return this.pagination.getGraphQLConnectionFromMongoCursor<any, Entry>(
       mongoQuery,
       first,
       after,
       serializeEntry,
     );
+  }
+
+  /**
+   * This creates a mongoQuery cursor for searching the dictionary using regex.
+   *
+   * @param key A regular expression string (starts and ends with '/').
+   */
+  private createCursorForStringKey(key: string) {
+    key = key.toLowerCase().trim();
+
+    // prepare search regex:
+    const searchRegexKanji = new RegExp(`^${key}$`);
+    const searchRegexLatin = new RegExp(`^${key}($|\\s)`);
+    let verbSearchRegex = searchRegexLatin;
+
+    // deal with verbs
+    if (key.substring(0, 3) !== "to ") {
+      verbSearchRegex = new RegExp(`^to ${key}($|\\s)`);
+    }
+
+    // prepare the mongo request
+    return this.db.collection("entries").find({
+      $and: [
+        { $text: { $search: key } }, // narrow down search by text index
+        {
+          $or: [
+            // process regexes
+            { "kanji.text": searchRegexKanji },
+            { "kana.text": searchRegexKanji },
+            { "kana.romaji": searchRegexKanji },
+            { "sense.gloss.searchKey": searchRegexLatin },
+            { "sense.gloss.searchKey": verbSearchRegex },
+            { "translation.translation.searchKey": searchRegexLatin },
+          ],
+        },
+      ],
+    });
+  }
+
+  /**
+   * This creates a mongoQuery cursor for searching the dictionary using a regular string.
+   *
+   * @param key A string search key (e. g. "Dog", "Pikachu", "ピカチュウ")
+   */
+  private createCursorForRegexKey(key: string) {
+    const regex = new RegExp(key.substring(1, key.length - 1));
+    // prepare the mongo request
+    return this.db.collection("entries").find({
+      $or: [
+        // process regexes
+        { "kanji.text": regex },
+        { "kana.text": regex },
+        { "kana.romaji": regex },
+        { "sense.0.gloss.searchKey": regex },
+        { "sense.0.gloss.searchKey": regex },
+        { "translation.translation.searchKey": regex },
+      ],
+    });
   }
 }
