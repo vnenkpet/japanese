@@ -7,10 +7,10 @@ import { KanjiDicEntrySearch } from "../services/KanjiDicEntrySearch";
 @Service()
 @Resolver(of => Kanji)
 export default class KanjiResolver {
-  @Inject() private readonly kanjiDicSearch: KanjiDicEntrySearch;
+    @Inject() private readonly kanjiDicSearch: KanjiDicEntrySearch;
 
-  @FieldResolver(returns => [KanjiDicEntry])
-  public kanjidic(@Root() kanji: Kanji) {
-    return this.kanjiDicSearch.getKanji(kanji);
-  }
+    @FieldResolver(returns => [KanjiDicEntry])
+    public kanjidic(@Root() kanji: Kanji) {
+        return this.kanjiDicSearch.getKanji(kanji);
+    }
 }

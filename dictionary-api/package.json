@@ -1,71 +1,70 @@
 {
-  "name": "densha-jisho-vocabulary-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "npm run lint && jest",
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "watch": "tsc -w",
-    "tsc": "./node_modules/typescript/bin/tsc",
-    "lint": "tslint 'src/**/*.ts'",
-    "format": "prettier-eslint --parser=typescript --write src/**/*.ts",
-    "dev": "npm run build && concurrently \"npm run watch\" \"nodemon dist/index.js\""
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+    "name": "densha-jisho-vocabulary-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "npm run lint && jest",
+        "build": "tsc",
+        "start": "node dist/index.js",
+        "watch": "tsc -w",
+        "tsc": "./node_modules/typescript/bin/tsc",
+        "lint": "tslint 'src/**/*.ts'",
+        "format": "prettier-tslint fix 'src/**/*.ts'",
+        "dev": "npm run build && concurrently \"npm run watch\" \"nodemon dist/index.js\""
     },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^3.5.1",
-    "eslint": "^4.17.0",
-    "eslint-config-lusk": "^3.0.0",
-    "eslint-plugin-typescript": "^0.8.1",
-    "jest": "^22.1.4",
-    "nodemon": "^1.14.12",
-    "prettier-eslint": "^8.8.2",
-    "prettier-eslint-cli": "^4.7.1",
-    "ts-jest": "^22.0.3",
-    "tslint": "^5.9.1",
-    "tslint-config-prettier": "^1.7.0",
-    "tslint-eslint-rules": "^4.1.1",
-    "typescript-eslint-parser": "^12.0.0"
-  },
-  "dependencies": {
-    "@koa/cors": "^2.2.1",
-    "@types/base-64": "^0.1.2",
-    "@types/dotenv": "^4.0.3",
-    "@types/graphql": "^0.13.3",
-    "@types/jest": "^22.1.1",
-    "@types/mongodb": "^3.1.1",
-    "@types/mongodb-uri": "^0.9.0",
-    "@types/supertest": "^2.0.4",
-    "apollo-server": "^2.0.0-rc.10",
-    "base-64": "^0.1.0",
-    "dataloader": "^1.4.0",
-    "dotenv": "^5.0.1",
-    "graphql": "^0.13.2",
-    "jp-conjugation": "0.0.3",
-    "mongodb": "^3.1.1",
-    "mongodb-uri": "^0.9.7",
-    "reflect-metadata": "^0.1.12",
-    "supertest": "^3.0.0",
-    "type-graphql": "^0.12.0",
-    "typedi": "^0.8.0",
-    "typescript": "^3.0.1",
-    "typescript-stringcaster": "^1.0.2"
-  }
+    "jest": {
+        "transform": {
+            "^.+\\.tsx?$": "ts-jest"
+        },
+        "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js",
+            "jsx",
+            "json",
+            "node"
+        ]
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "concurrently": "^3.5.1",
+        "jest": "^22.1.4",
+        "nodemon": "^1.14.12",
+        "prettier": "^1.16.4",
+        "prettier-eslint": "^8.8.2",
+        "prettier-eslint-cli": "^4.7.1",
+        "prettier-tslint": "^0.4.2",
+        "ts-jest": "^22.0.3",
+        "tslint": "^5.9.1",
+        "tslint-config-prettier": "^1.7.0",
+        "tslint-eslint-rules": "^4.1.1",
+        "typescript-eslint-parser": "^12.0.0"
+    },
+    "dependencies": {
+        "@koa/cors": "^2.2.1",
+        "@types/base-64": "^0.1.2",
+        "@types/dotenv": "^4.0.3",
+        "@types/graphql": "^0.13.3",
+        "@types/jest": "^22.1.1",
+        "@types/mongodb": "^3.1.1",
+        "@types/mongodb-uri": "^0.9.0",
+        "@types/supertest": "^2.0.4",
+        "apollo-server": "^2.0.0-rc.10",
+        "base-64": "^0.1.0",
+        "dataloader": "^1.4.0",
+        "dotenv": "^5.0.1",
+        "graphql": "^0.13.2",
+        "jp-conjugation": "0.0.3",
+        "mongodb": "^3.1.1",
+        "mongodb-uri": "^0.9.7",
+        "reflect-metadata": "^0.1.12",
+        "supertest": "^3.0.0",
+        "type-graphql": "^0.12.0",
+        "typedi": "^0.8.0",
+        "typescript": "^3.0.1",
+        "typescript-stringcaster": "^1.0.2"
+    }
 }

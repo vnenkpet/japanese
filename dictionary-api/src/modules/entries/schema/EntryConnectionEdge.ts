@@ -3,8 +3,8 @@ import Entry from "./Entry";
 
 @ObjectType()
 export default class EntryConnectionEdge {
-  @Field(type => Entry)
-  public node: Entry;
+    @Field(type => Entry)
+    public node: Entry;
 
-  @Field() public cursor: string;
+    @Field() public cursor: string;
 }
