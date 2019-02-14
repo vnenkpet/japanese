@@ -1,6 +1,6 @@
 import { Db, MongoClient } from "mongodb";
 import * as mongodbUri from "mongodb-uri";
-import config from "../config";
+import config from "../../config";
 import { Service } from "typedi";
 
 @Service()

@@ -7,7 +7,7 @@ import { Container } from "typedi";
 import EntryResolver from "./modules/entries/resolvers/EntryResolver";
 import KanjiDicEntryResolver from "./modules/kanji/resolvers/KanjiDicEntryResolver";
 import KanjiResolver from "./modules/kanji/resolvers/KanjiResolver";
-import dbClient from "./services/db";
+import dbClient from "./modules/db/db";
 
 import { ApolloServer } from "apollo-server";
 

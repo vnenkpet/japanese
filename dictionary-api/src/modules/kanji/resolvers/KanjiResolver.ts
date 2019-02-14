@@ -1,6 +1,6 @@
 import { FieldResolver, Resolver, Root } from "type-graphql";
-import Kanji from "../schema-types/Kanji";
-import KanjiDicEntry from "../schema-types/KanjiDicEntry";
+import Kanji from "../../entries/schema/Kanji";
+import KanjiDicEntry from "../schema/KanjiDicEntry";
 import { Service, Inject } from "typedi";
 import { KanjiDicEntrySearch } from "../services/KanjiDicEntrySearch";
 

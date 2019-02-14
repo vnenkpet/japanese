@@ -1,6 +1,6 @@
 import { Arg, Int, Query, Resolver } from "type-graphql";
 import EntryConnection from "../schema/EntryConnection";
-import { DictionaryEntrySearch } from "../../../services/DictionaryEntrySearch";
+import { DictionaryEntrySearch } from "../services/DictionaryEntrySearch";
 import { Inject, Service } from "typedi";
 import Entry from "../schema/Entry";
 import JLPT_NUMBER from "../schema/enums/JlptType";

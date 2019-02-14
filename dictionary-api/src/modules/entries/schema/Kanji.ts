@@ -1,5 +1,5 @@
 import { Field, ObjectType } from "type-graphql";
-import KanjiDicEntry from "./KanjiDicEntry";
+import KanjiDicEntry from "../../kanji/schema/KanjiDicEntry";
 
 @ObjectType()
 export default class Kanji {

@@ -1,4 +1,4 @@
-import Entry from "../schema-types/Entry";
+import Entry from "../modules/entries/schema/Entry";
 
 const serializeEntry = (entry: any): Entry => {
     if (entry.source === "jmdict") {
