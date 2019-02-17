@@ -95,7 +95,7 @@ export class DictionaryEntrySearch {
     /**
      * This creates a mongoQuery cursor for searching the dictionary using a regular string.
      *
-     * @param key A string search key (e. g. "Dog", "Pikachu", "ピカチュウ")
+     * @param key A string search key (e. g. "Pikachu", "ピカチュウ")
      */
     private createCursorForRegexKey(key: string) {
         const regex = new RegExp(key.substring(1, key.length - 1));
