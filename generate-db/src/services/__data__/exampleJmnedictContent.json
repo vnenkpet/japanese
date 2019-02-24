@@ -1,0 +1,110 @@
+{
+  "version": "3.0.1",
+  "dictDate": "2018-12-08",
+  "dictRevisions": [],
+  "tags": {
+    "surname": "family or surname",
+    "place": "place name",
+    "unclass": "unclassified name",
+    "company": "company name",
+    "product": "product name",
+    "work": "work of art, literature, music, etc. name",
+    "masc": "male given name or forename",
+    "fem": "female given name or forename",
+    "person": "full name of a particular person",
+    "given": "given name or forename, gender not specified",
+    "station": "railway station",
+    "organization": "organization name",
+    "ok": "old or irregular kana form"
+  },
+  "words": [
+    {
+      "id": "1657560",
+      "kanji": [
+        {
+          "text": "国労",
+          "tags": []
+        }
+      ],
+      "kana": [
+        {
+          "text": "こくろう",
+          "tags": [],
+          "appliesToKanji": ["*"]
+        }
+      ],
+      "translation": [
+        {
+          "type": ["organization"],
+          "related": [],
+          "translation": [
+            {
+              "lang": "",
+              "text": "National Railway Workers' Union"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2092920",
+      "kanji": [
+        {
+          "text": "ＩＫＥＡ",
+          "tags": []
+        }
+      ],
+      "kana": [
+        {
+          "text": "イケア",
+          "tags": [],
+          "appliesToKanji": ["*"]
+        }
+      ],
+      "translation": [
+        {
+          "type": ["company"],
+          "related": [],
+          "translation": [
+            {
+              "lang": "",
+              "text": "IKEA"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2831743",
+      "kanji": [
+        {
+          "text": "蒼国来栄吉",
+          "tags": []
+        }
+      ],
+      "kana": [
+        {
+          "text": "そうこくらいえいきち",
+          "tags": [],
+          "appliesToKanji": ["*"]
+        }
+      ],
+      "translation": [
+        {
+          "type": ["person"],
+          "related": [],
+          "translation": [
+            {
+              "lang": "",
+              "text": "Sōkokurai Eikichi (sumo wrestler from Inner Mongolia, 1984-)"
+            },
+            {
+              "lang": "",
+              "text": "Engketübsin"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
