@@ -24,14 +24,15 @@ export class ExtractService implements IExtractService {
     path: string,
     processData: DataProcessFunction,
   ) {
+    const jsonParser = JSONStream.parse(path);
+    const dataProcessor = this.createDataProcessor(processData);
+    const extractor = tar.extract();
+
     return new Promise(res => {
-      const extract = tar.extract();
-      extract.on('entry', (header, stream, next) => {
-        stream.pipe(JSONStream.parse(path)).pipe(
-          es.mapSync(async (data: any) => {
-            await processData(data);
-          }),
-        );
+      extractor.on('entry', (header, stream, next) => {
+        stream
+          .pipe(jsonParser)
+          .pipe(dataProcessor);
 
         stream.on('end', () => {
           next(); // ready for next entry
@@ -40,8 +41,17 @@ export class ExtractService implements IExtractService {
         stream.resume(); // just auto drain the stream
       });
 
-      extract.on('finish', res);
-      readStream.pipe(gunzip()).pipe(extract);
+      extractor.on('finish', res);
+
+      readStream
+        .pipe(gunzip())
+        .pipe(extractor);
+    });
+  }
+
+  private createDataProcessor(processFunction: DataProcessFunction) {
+    return es.mapSync(async (data: any) => {
+      await processFunction(data);
     });
   }
 }

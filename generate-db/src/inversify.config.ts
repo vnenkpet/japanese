@@ -13,16 +13,21 @@ import { JmdictEntryProcessor } from './services/jmdict-entry-processor/JmdictEn
 import { IDataStorage } from './services/data-storage/IDataStroage';
 import { DataStorage } from './services/data-storage/DataStorage';
 
-const container = new Container();
-container.bind<IConfig>(TYPES.Config).to(Config);
-container.bind<IMain>(TYPES.Main).to(Main);
-container.bind<IExtractService>(TYPES.ExtractService).to(ExtractService);
-container
-  .bind<ISearchEngineParser>(TYPES.SearchEngineParser)
-  .to(BingEngineParser);
-container
-  .bind<IJmdictEntryProcessor>(TYPES.JmdictEntryProcessor)
-  .to(JmdictEntryProcessor);
-container.bind<IDataStorage>(TYPES.DataStroage).to(DataStorage);
+export async function createContainer(): Promise<Container> {
+  const container = new Container();
+  container.bind<IConfig>(TYPES.Config).to(Config);
+  container.bind<IMain>(TYPES.Main).to(Main);
+  container.bind<IExtractService>(TYPES.ExtractService).to(ExtractService);
+  container
+    .bind<ISearchEngineParser>(TYPES.SearchEngineParser)
+    .to(BingEngineParser);
+  container
+    .bind<IJmdictEntryProcessor>(TYPES.JmdictEntryProcessor)
+    .to(JmdictEntryProcessor);
 
-export { container };
+  const dataStorage = new DataStorage(container.get(TYPES.Config));
+  await dataStorage.connect();
+  container.bind<IDataStorage>(TYPES.DataStroage).toConstantValue(dataStorage);
+
+  return container;
+}

@@ -2,14 +2,15 @@ import 'reflect-metadata';
 
 import * as fs from 'fs';
 
-import { container } from '../../inversify.config';
+import { createContainer } from '../../inversify.config';
 import { TYPES } from '../../types';
 
 import { IExtractService } from './IExtractService';
 import { IJmdictEntry } from '../interfaces/IJmdictEntry';
 import { IJmnedictEntry } from '../interfaces/IJmnedictEntry';
 
-describe('Export service', () => {
+describe('Export service', async () => {
+  const container = await createContainer();
   const extractService = container.get<IExtractService>(TYPES.ExtractService);
 
   it('Service is defined', async () => {
