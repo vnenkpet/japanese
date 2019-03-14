@@ -3,7 +3,7 @@ export enum SourceDictionary {
   jmnedict = 'jmnedict',
 }
 
-export interface IParsedEntry {
+export interface IProcessedEntry {
   id: string;
   kanji: [
     {
@@ -52,7 +52,7 @@ export interface IParsedEntry {
       ];
     }
   ];
-  source: SourceDictionary;
+  sourceDictionary: SourceDictionary;
   sourceFile: string;
   modifiedAt: string;
   searchEngineResults: number;

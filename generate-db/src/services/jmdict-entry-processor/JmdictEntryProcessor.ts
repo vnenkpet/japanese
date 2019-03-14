@@ -6,7 +6,7 @@ import { IConfig } from '../../IConfig';
 import { IJmdictEntryProcessor } from './IJmdictEntryProcessor';
 import { IJmdictEntry } from '../interfaces/IJmdictEntry';
 import { IDataStorage } from '../data-storage/IDataStroage';
-import { SourceDictionary } from '../interfaces/IParsedEntry';
+import { SourceDictionary } from '../interfaces/IProcessedEntry';
 
 const debug = Debug('command:jmdict-entry-processor');
 
@@ -36,7 +36,7 @@ export class JmdictEntryProcessor implements IJmdictEntryProcessor {
       const transformedData = {
         ...data,
         ...{
-          source: SourceDictionary.jmdict,
+          sourceDictionary: SourceDictionary.jmdict,
           sourceFile: this.config.jmdictArchiveUrl,
           modifiedAt: new Date().toISOString(),
           searchEngineResults,
