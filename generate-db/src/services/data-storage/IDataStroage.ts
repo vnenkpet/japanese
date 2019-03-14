@@ -1,4 +1,4 @@
-import { IParsedEntry } from '../interfaces/IParsedEntry';
+import { IProcessedEntry } from '../interfaces/IProcessedEntry';
 
 export interface IDataStorage {
   /**
@@ -6,5 +6,5 @@ export interface IDataStorage {
    *
    * @param entry
    */
-  insertEntry(entry: IParsedEntry): Promise<void>;
+  insertEntry(entry: IProcessedEntry): Promise<void>;
 }
