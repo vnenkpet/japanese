@@ -29,7 +29,6 @@ export class DataStorage implements IDataStorage {
     this.dbName = mongoUri.split('/').slice(-1)[0];
     this.connection = await MongoClient.connect(mongoUri, { useNewUrlParser: true });
     this.collections.entries = this.connection.db(this.dbName).collection(CollectionNames.Entries);
-
   }
 
   public async insertEntry(entry: IProcessedEntry) {
