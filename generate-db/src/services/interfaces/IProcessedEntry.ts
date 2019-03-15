@@ -54,6 +54,6 @@ export interface IProcessedEntry {
   ];
   sourceDictionary: SourceDictionary;
   sourceFile: string;
-  modifiedAt: string;
+  modifiedAt: Date;
   searchEngineResults: number;
 }

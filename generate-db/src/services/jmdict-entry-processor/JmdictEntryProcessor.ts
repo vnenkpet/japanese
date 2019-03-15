@@ -38,16 +38,17 @@ export class JmdictEntryProcessor implements IJmdictEntryProcessor {
         ...{
           sourceDictionary: SourceDictionary.jmdict,
           sourceFile: this.config.jmdictArchiveUrl,
-          modifiedAt: new Date().toISOString(),
+          modifiedAt: new Date(),
           searchEngineResults,
         },
       };
 
       debug(transformedData.searchEngineResults);
 
+      // todo - add info (JLPT tags, example sentences, search engine results count, common, conjugations)
+
       await this.dataSorage.insertEntry(transformedData);
 
-      // todo - insert into data storage, add info (JLPT tags, example sentences, search engine results count, common, conjugations)
     }
   }
 }

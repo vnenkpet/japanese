@@ -27,7 +27,6 @@ export class ExtractService implements IExtractService {
     const jsonParser = JSONStream.parse(path);
     const dataProcessor = this.createDataProcessor(processData);
     const extractor = tar.extract();
-
     return new Promise(res => {
       extractor.on('entry', (header, stream, next) => {
         stream
