@@ -5,6 +5,8 @@ const TYPES = {
   SearchEngineParser: Symbol.for('SearchEngineParser'),
   JmdictEntryProcessor: Symbol.for('JmdictEntryProcessor'),
   DataStroage: Symbol.for('DataStorage'),
+  ParseDatabaseJob: Symbol.for('ParseDatabaseJob'),
+  AddMetadataJob: Symbol.for('AddMetadataJob'),
 };
 
 export { TYPES };

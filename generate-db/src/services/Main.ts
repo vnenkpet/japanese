@@ -1,35 +1,30 @@
 import { TYPES } from '../types';
-import { IExtractService } from './extract-service/IExtractService';
 import { inject, injectable } from 'inversify';
 import { IMain } from './IMain';
-import * as got from 'got';
-import { IConfig } from 'src/IConfig';
-import { IJmdictEntryProcessor } from './jmdict-entry-processor/IJmdictEntryProcessor';
+import { IDataStorage } from './data-storage/IDataStroage';
 
 import Debug from 'debug';
+import { IParseDatabaseJob } from './jobs/IParseDatabaseJob';
+import { IAddMetadataJob } from './jobs/IAddMetadataJob';
 const debug = Debug('command:main');
 
 @injectable()
 export class Main implements IMain {
-  @inject(TYPES.ExtractService)
-  private readonly extractService: IExtractService;
+  @inject(TYPES.DataStroage)
+  private readonly dataStorage: IDataStorage;
 
-  @inject(TYPES.Config)
-  private readonly config: IConfig;
+  @inject(TYPES.ParseDatabaseJob)
+  private readonly parseDatabaseJob: IParseDatabaseJob;
 
-  @inject(TYPES.JmdictEntryProcessor)
-  private readonly jmdictEntryProcessor: IJmdictEntryProcessor;
+  @inject(TYPES.AddMetadataJob)
+  private readonly addMetadataJob: IAddMetadataJob;
 
   public async run() {
     debug('Running command...');
-    const url = this.config.jmdictArchiveUrl;
 
-    await this.extractService.extractJsonFromStream(
-      got.stream.get(url),
-      'words.*',
-      async data => {
-        this.jmdictEntryProcessor.process(data);
-      },
-    );
+    await this.parseDatabaseJob.run();
+    await this.addMetadataJob.run();
+
+    this.dataStorage.close();
   }
 }
