@@ -12,9 +12,8 @@ import { IJmdictEntryProcessor } from './services/jmdict-entry-processor/IJmdict
 import { JmdictEntryProcessor } from './services/jmdict-entry-processor/JmdictEntryProcessor';
 import { IDataStorage } from './services/data-storage/IDataStorage';
 import { DataStorage } from './services/data-storage/DataStorage';
-import { IParseDatabaseJob } from './services/jobs/IParseDatabaseJob';
+import { IJob } from './services/jobs/IJob';
 import { ParseDatabaseJob } from './services/jobs/ParseDatabaseJob';
-import { IAddMetadataJob } from './services/jobs/IAddMetadataJob';
 import { AddMetadataJob } from './services/jobs/AddMetadataJob';
 import { Logger } from './services/logger/Logger';
 import { ILogger } from './services/logger/ILogger';
@@ -40,17 +39,16 @@ export function createBasicContainer() {
     .bind<IJmdictEntryProcessor>(TYPES.JmdictEntryProcessor)
     .to(JmdictEntryProcessor);
 
-  container
-    .bind<IParseDatabaseJob>(TYPES.ParseDatabaseJob)
-    .to(ParseDatabaseJob);
-  container.bind<IAddMetadataJob>(TYPES.AddMetadataJob).to(AddMetadataJob);
+  container.bind<IJob>(TYPES.ParseDatabaseJob).to(ParseDatabaseJob);
+  container.bind<IJob>(TYPES.AddMetadataJob).to(AddMetadataJob);
 
   container.bind<IDataStorage>(TYPES.DataStroage).to(DataStorage);
 
   return container;
 }
 
-export async function initRuntimeContainer(container: Container) {
+export async function createRuntimContainer(): Promise<Container> {
+  const container = createBasicContainer();
   const dataStorage = container.get<IDataStorage>(TYPES.DataStroage);
   await dataStorage.connect();
   container

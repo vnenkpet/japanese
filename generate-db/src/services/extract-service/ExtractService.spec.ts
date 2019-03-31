@@ -2,10 +2,7 @@ import 'reflect-metadata';
 
 import * as fs from 'fs';
 
-import {
-  createBasicContainer,
-  initRuntimeContainer,
-} from '../../inversify.config';
+import { createBasicContainer } from '../../inversify.config';
 import { TYPES } from '../../types';
 
 import { IExtractService } from './IExtractService';

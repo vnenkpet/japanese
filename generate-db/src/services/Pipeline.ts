@@ -3,8 +3,7 @@ import { inject, injectable } from 'inversify';
 import { IPipeline } from './IPipeline';
 import { IDataStorage } from './data-storage/IDataStorage';
 
-import { IParseDatabaseJob } from './jobs/IParseDatabaseJob';
-import { IAddMetadataJob } from './jobs/IAddMetadataJob';
+import { IJob } from './jobs/IJob';
 import { ILogger } from './logger/ILogger';
 import { scoped } from './logger/Logger';
 
@@ -14,10 +13,10 @@ export class Pipeline implements IPipeline {
   private readonly dataStorage: IDataStorage;
 
   @inject(TYPES.ParseDatabaseJob)
-  private readonly parseDatabaseJob: IParseDatabaseJob;
+  private readonly parseDatabaseJob: IJob;
 
   @inject(TYPES.AddMetadataJob)
-  private readonly addMetadataJob: IAddMetadataJob;
+  private readonly addMetadataJob: IJob;
 
   @inject(TYPES.Logger)
   @scoped('main')

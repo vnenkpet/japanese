@@ -1,4 +1,4 @@
-import { IAddMetadataJob } from './IAddMetadataJob';
+import { IJob } from './IJob';
 import { IDataStorage } from '../data-storage/IDataStorage';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types';
@@ -7,7 +7,7 @@ import { ILogger } from '../logger/ILogger';
 import { scoped } from '../logger/Logger';
 
 @injectable()
-export class AddMetadataJob implements IAddMetadataJob {
+export class AddMetadataJob implements IJob {
   @inject(TYPES.Logger)
   @scoped('add-metadata-job')
   private readonly logger: ILogger;
@@ -22,7 +22,7 @@ export class AddMetadataJob implements IAddMetadataJob {
     await this.dataStorage.dropEntriesCollection();
 
     const chunkSize = 10;
-    let endCursor;
+    let endCursor: string;
     let hasNextPage = true;
 
     while (hasNextPage) {
@@ -48,6 +48,8 @@ export class AddMetadataJob implements IAddMetadataJob {
         processedEntries.map(async entry => {
           await this.dataStorage.insertEntry(entry);
           await this.dataStorage.deleteUnprocessedEntry(entry.id);
+          const count = await this.dataStorage.getTempCollectionCount();
+          this.logger.log(`Cleaning temp collection, ${count} remaining...`);
         }),
       );
     }

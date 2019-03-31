@@ -1,4 +1,4 @@
-import { IParseDatabaseJob } from './IParseDatabaseJob';
+import { IJob } from './IJob';
 import * as got from 'got';
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../../types';
@@ -7,7 +7,7 @@ import { IDataStorage } from '../data-storage/IDataStorage';
 import { IConfig } from '../../IConfig';
 
 @injectable()
-export class ParseDatabaseJob implements IParseDatabaseJob {
+export class ParseDatabaseJob implements IJob {
   @inject(TYPES.ExtractService)
   private readonly extractService: IExtractService;
 
