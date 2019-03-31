@@ -1,13 +1,14 @@
 import 'reflect-metadata';
 
-import { createContainer } from './inversify.config';
+import { createBasicContainer, initRuntimeContainer } from './inversify.config';
 import { TYPES } from './types';
-import { IMain } from './services/IMain';
+import { IPipeline } from './services/IPipeline';
 
 async function run() {
-  const container = await createContainer();
-  const main = container.get<IMain>(TYPES.Main);
-  await main.run();
+  const container = createBasicContainer();
+  await initRuntimeContainer(container);
+  const pipeline = container.get<IPipeline>(TYPES.Pipeline);
+  await pipeline.run();
 }
 
 run();

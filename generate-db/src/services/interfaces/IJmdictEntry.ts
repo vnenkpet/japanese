@@ -3,6 +3,7 @@
  */
 export interface IJmdictEntry {
   id: string;
+  metaCursor: number;
   kanji: [
     {
       common: boolean;

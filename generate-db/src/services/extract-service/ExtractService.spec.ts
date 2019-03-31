@@ -2,15 +2,34 @@ import 'reflect-metadata';
 
 import * as fs from 'fs';
 
-import { createContainer } from '../../inversify.config';
+import {
+  createBasicContainer,
+  initRuntimeContainer,
+} from '../../inversify.config';
 import { TYPES } from '../../types';
 
 import { IExtractService } from './IExtractService';
 import { IJmdictEntry } from '../interfaces/IJmdictEntry';
 import { IJmnedictEntry } from '../interfaces/IJmnedictEntry';
+import { IConfig } from 'src/IConfig';
+import { injectable } from 'inversify';
 
-describe('Export service', async () => {
-  const container = await createContainer();
+// tslint:disable-next-line:max-classes-per-file
+@injectable()
+class TestConfig implements IConfig {
+  get jmdictArchiveUrl() {
+    return 'str';
+  }
+  get jmnedictArchiveUrl() {
+    return 'str';
+  }
+  get mongoConnectionUri() {
+    return 'str';
+  }
+}
+
+describe('Export service', () => {
+  const container = createBasicContainer();
   const extractService = container.get<IExtractService>(TYPES.ExtractService);
 
   it('Service is defined', async () => {

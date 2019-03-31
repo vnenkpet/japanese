@@ -1,10 +1,10 @@
 import { IParseDatabaseJob } from './IParseDatabaseJob';
 import * as got from 'got';
 import { injectable, inject } from 'inversify';
-import { TYPES } from 'src/types';
+import { TYPES } from '../../types';
 import { IExtractService } from '../extract-service/IExtractService';
-import { IDataStorage } from '../data-storage/IDataStroage';
-import { IConfig } from 'src/IConfig';
+import { IDataStorage } from '../data-storage/IDataStorage';
+import { IConfig } from '../../IConfig';
 
 @injectable()
 export class ParseDatabaseJob implements IParseDatabaseJob {
@@ -19,6 +19,7 @@ export class ParseDatabaseJob implements IParseDatabaseJob {
 
   public async run() {
     const url = this.config.jmdictArchiveUrl;
+    await this.dataStorage.dropTempCollection();
 
     // first, extract json and save result to db
     await this.extractService.extractJsonFromStream(

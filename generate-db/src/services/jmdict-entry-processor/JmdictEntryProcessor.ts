@@ -1,14 +1,12 @@
-import Debug from 'debug';
 import { inject, injectable } from 'inversify';
 import { TYPES } from '../../types';
 import { ISearchEngineParser } from '../search-engine-parser/ISearchEngineParser';
 import { IConfig } from '../../IConfig';
 import { IJmdictEntryProcessor } from './IJmdictEntryProcessor';
 import { IJmdictEntry } from '../interfaces/IJmdictEntry';
-import { IDataStorage } from '../data-storage/IDataStroage';
 import { SourceDictionary } from '../interfaces/IProcessedEntry';
-
-const debug = Debug('command:jmdict-entry-processor');
+import { ILogger } from '../logger/ILogger';
+import { scoped } from '../logger/Logger';
 
 @injectable()
 export class JmdictEntryProcessor implements IJmdictEntryProcessor {
@@ -18,12 +16,13 @@ export class JmdictEntryProcessor implements IJmdictEntryProcessor {
   @inject(TYPES.Config)
   private readonly config: IConfig;
 
-  @inject(TYPES.DataStroage)
-  private readonly dataSorage: IDataStorage;
+  @inject(TYPES.Logger)
+  @scoped('jmdict-entry-processor')
+  private readonly logger: ILogger;
 
   public async process(data: IJmdictEntry) {
     if (data.id) {
-      debug(
+      this.logger.log(
         `${data.id} \t ${
           data.kanji[0] ? data.kanji[0].text : data.kana[0].text
         } \t ${data.sense[0].gloss[0].text}`,
@@ -43,12 +42,10 @@ export class JmdictEntryProcessor implements IJmdictEntryProcessor {
         },
       };
 
-      debug(transformedData.searchEngineResults);
+      this.logger.log(transformedData.searchEngineResults);
 
+      return transformedData;
       // todo - add info (JLPT tags, example sentences, search engine results count, common, conjugations)
-
-      await this.dataSorage.insertEntry(transformedData);
-
     }
   }
 }

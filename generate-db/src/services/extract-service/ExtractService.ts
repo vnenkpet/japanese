@@ -7,9 +7,6 @@ import { injectable } from 'inversify';
 
 import { IExtractService, DataProcessFunction } from './IExtractService';
 
-import Debug from 'debug';
-const debug = Debug('command:extract-service');
-
 @injectable()
 export class ExtractService implements IExtractService {
   /**
@@ -29,9 +26,7 @@ export class ExtractService implements IExtractService {
     const extractor = tar.extract();
     return new Promise(res => {
       extractor.on('entry', (header, stream, next) => {
-        stream
-          .pipe(jsonParser)
-          .pipe(dataProcessor);
+        stream.pipe(jsonParser).pipe(dataProcessor);
 
         stream.on('end', () => {
           next(); // ready for next entry
@@ -42,9 +37,7 @@ export class ExtractService implements IExtractService {
 
       extractor.on('finish', res);
 
-      readStream
-        .pipe(gunzip())
-        .pipe(extractor);
+      readStream.pipe(gunzip()).pipe(extractor);
     });
   }
 

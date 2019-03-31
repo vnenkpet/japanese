@@ -1,4 +1,5 @@
 import { IJmdictEntry } from '../interfaces/IJmdictEntry';
+import { IProcessedEntry } from '../interfaces/IProcessedEntry';
 
 export interface IJmdictEntryProcessor {
   /**
@@ -6,5 +7,5 @@ export interface IJmdictEntryProcessor {
    *
    * @param data Jmdict entry data as saved in the archive
    */
-  process(data: IJmdictEntry): Promise<void>;
+  process(data: IJmdictEntry): Promise<IProcessedEntry>;
 }

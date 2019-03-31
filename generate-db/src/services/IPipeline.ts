@@ -1,4 +1,4 @@
-export interface IMain {
+export interface IPipeline {
   /**
    * Downloads and processes archive stream in-memory
    */

@@ -1,15 +1,15 @@
 import { TYPES } from '../types';
 import { inject, injectable } from 'inversify';
-import { IMain } from './IMain';
-import { IDataStorage } from './data-storage/IDataStroage';
+import { IPipeline } from './IPipeline';
+import { IDataStorage } from './data-storage/IDataStorage';
 
-import Debug from 'debug';
 import { IParseDatabaseJob } from './jobs/IParseDatabaseJob';
 import { IAddMetadataJob } from './jobs/IAddMetadataJob';
-const debug = Debug('command:main');
+import { ILogger } from './logger/ILogger';
+import { scoped } from './logger/Logger';
 
 @injectable()
-export class Main implements IMain {
+export class Pipeline implements IPipeline {
   @inject(TYPES.DataStroage)
   private readonly dataStorage: IDataStorage;
 
@@ -19,10 +19,18 @@ export class Main implements IMain {
   @inject(TYPES.AddMetadataJob)
   private readonly addMetadataJob: IAddMetadataJob;
 
-  public async run() {
-    debug('Running command...');
+  @inject(TYPES.Logger)
+  @scoped('main')
+  private readonly logger: ILogger;
 
+  public async run() {
+    this.logger.log('Running command...');
+
+    this.logger.log(
+      'Parsing JSON from github and saving raw data to database...',
+    );
     await this.parseDatabaseJob.run();
+    this.logger.log('Processing raw data and adding metadata...');
     await this.addMetadataJob.run();
 
     this.dataStorage.close();

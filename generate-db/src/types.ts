@@ -1,6 +1,7 @@
 const TYPES = {
+  Logger: Symbol.for('Logger'),
   ExtractService: Symbol.for('ExtractService'),
-  Main: Symbol.for('Main'),
+  Pipeline: Symbol.for('Pipeline'),
   Config: Symbol.for('Config'),
   SearchEngineParser: Symbol.for('SearchEngineParser'),
   JmdictEntryProcessor: Symbol.for('JmdictEntryProcessor'),

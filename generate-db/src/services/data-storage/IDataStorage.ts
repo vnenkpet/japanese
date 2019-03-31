@@ -1,5 +1,11 @@
 import { IProcessedEntry } from '../interfaces/IProcessedEntry';
 import { IJmdictEntry } from '../interfaces/IJmdictEntry';
+import { IConnection } from './IConnection';
+
+export interface IConnectionParams {
+  first: number;
+  after?: string;
+}
 
 export interface IDataStorage {
   /**
@@ -24,5 +30,26 @@ export interface IDataStorage {
    *
    * @param entry
    */
-  insertUnprocessedJmdictEntry(entry: IJmdictEntry);
+  insertUnprocessedJmdictEntry(entry: IJmdictEntry): Promise<void>;
+
+  /**
+   * Deletes an unprocessed enty by jmdict ID
+   *
+   * @param id
+   */
+  deleteUnprocessedEntry(id: string): Promise<void>;
+
+  /**
+   * Fetches unprocessed entries in graphql-like connection
+   *
+   * @param params
+   */
+  getUnprocessedEntriesConnection(
+    params: IConnectionParams,
+  ): Promise<IConnection<IJmdictEntry>>;
+
+  dropTempCollection(): Promise<void>;
+  dropEntriesCollection(): Promise<void>;
+
+  getTempCollectionCount(): Promise<number>;
 }
