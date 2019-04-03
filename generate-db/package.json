@@ -12,11 +12,12 @@
     "prestart:prod": "rimraf dist && npm run build",
     "start:prod": "node dist/main.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
-    "test": "DEBUG=job:test,job:test:* jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "jest": "DEBUG=job:test,job:test:* jest",
+    "test": "lint && npm run jest",
+    "test:no-lint": "npm run jest",
+    "test:watch": "npm run jest -- --watch",
+    "test:cov": "npm run jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand"
   },
   "author": "Petr Vnenk <petr.vnenk@gmail.com>",
   "license": "ISC",
