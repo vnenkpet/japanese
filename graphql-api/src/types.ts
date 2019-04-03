@@ -1,0 +1,6 @@
+export const Types = {
+  DICTIONARY_ENTRY_REPOSITORY: Symbol.for('DICTIONARY_ENTRY_REPOSITORY'),
+  DATABASE_CONNECTION: Symbol.for('DATABASE_CONNECTION'),
+  AUTH_GUARD: Symbol.for('AUTH_GUARD'),
+  CONFIG: Symbol.for('CONFIG'),
+};
