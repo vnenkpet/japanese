@@ -18,10 +18,10 @@ export function createDataFor<T>(
 }
 
 /**
- * An utility function that creates a testing scenario in a database
+ * A utility function that creates a testing scenario in a database
  *
  * @param testingModule Module has to have DATABASE_CONNECTION provider
- * @param data Data to enter for each entity
+ * @param data Data to enter for each entity (create using createDataFor function)
  */
 export async function prepareDatabaseScenario(
   testingModule: TestingModule,

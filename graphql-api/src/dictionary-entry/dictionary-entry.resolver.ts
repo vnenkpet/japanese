@@ -6,6 +6,7 @@ import { DictionaryEntryInputType } from './dictionary-entry-input.type';
 import { InsertDictionaryEntryMutationResponseType } from './insert-dictionary-entry-mutation-response.type';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth.guard';
+import { IMutationResponse } from 'src/common/mutation-response.interface';
 
 @Resolver(of => DictionaryEntryType)
 export class DictionaryEntryResolver {
@@ -25,7 +26,7 @@ export class DictionaryEntryResolver {
   @UseGuards(AuthGuard)
   public async addDictionaryEntry(
     @Args('dictionaryEntryData') dictionaryEntryData: DictionaryEntryInputType,
-  ) {
+  ): Promise<InsertDictionaryEntryMutationResponseType> {
     const dictionaryEntry = await this.dictionaryEntryService.insertOne(
       dictionaryEntryData,
     );
