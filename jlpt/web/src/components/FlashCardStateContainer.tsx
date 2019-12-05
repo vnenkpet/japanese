@@ -10,28 +10,20 @@ export enum DisplayState {
   hide
 }
 
-export const FlashCardsContainer: React.FC<{
+export const FlashCardStateContainer: React.FC<{
   entry: any;
-  loadRandomEntry: () => void;
-}> = ({ entry, loadRandomEntry }) => {
+  selectNext: () => void;
+}> = ({ entry, selectNext }) => {
+  // component initialization
   const [state, setState] = useState<DisplayState>(DisplayState.init);
+  const updateState = () => {
+    state + 1 > 5 ? selectNext() : setState(state + 1);
+  };
+  const interval = state > 0 && state < 5 ? 3000 : 300;
 
   useEffect(() => {
     async function updateFlashCard() {
-      setTimeout(
-        async () => {
-          let nextState = state + 1;
-
-          if (nextState > 5) {
-            nextState = 0;
-            loadRandomEntry();
-          } else {
-            console.log(`setting state ${state}`);
-            setState(nextState);
-          }
-        },
-        state > 0 ? 5000 : 1000
-      );
+      setTimeout(updateState, interval);
     }
 
     updateFlashCard();

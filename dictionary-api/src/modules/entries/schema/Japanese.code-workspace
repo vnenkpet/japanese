@@ -1,0 +1,20 @@
+{
+    "folders": [
+        {
+            "path": "/Users/petr/Projects/Personal/Japanese/japanese/generate-db"
+        },
+        {
+            "path": "/Users/petr/Projects/Personal/Japanese/japanese/dictionary-api"
+        },
+        {
+            "path": "/Users/petr/Projects/Personal/Japanese/japanese/dictionary-app"
+        },
+        {
+            "path": "/Users/petr/Projects/Personal/Japanese/japanese/graphql-api"
+        },
+        {
+            "path": "/Users/petr/Projects/Personal/Japanese/japanese/jlpt"
+        }
+    ],
+    "settings": {}
+}
