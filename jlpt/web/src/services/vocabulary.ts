@@ -17,7 +17,7 @@ export interface IVocabularyEntry {
   romaji: string | boolean;
 }
 
-function assembleEntry(entry: any, id: string | number) {
+function assembleEntry(entry: any, id: string | number): IVocabularyEntry {
   return {
     ...entry,
     id: id.toString(),
@@ -37,7 +37,7 @@ export class Vocabulary {
 
   async findRandomEntry(): Promise<IVocabularyEntry> {
     const id = Math.floor(data.length * Math.random());
-    const entry = data[Math.floor(data.length * Math.random())];
+    const entry = data[id];
     return assembleEntry(entry, id);
   }
 
