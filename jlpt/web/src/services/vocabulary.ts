@@ -35,9 +35,16 @@ export class Vocabulary {
     return assembleEntry(entry, id);
   }
 
-  async findRandomEntry(): Promise<IVocabularyEntry> {
-    const id = Math.floor(data.length * Math.random());
-    const entry = data[id];
+  async findRandomEntry(
+    {
+      jlpt
+    }: {
+      jlpt: number[];
+    } = { jlpt: [1, 2, 3, 4, 5] }
+  ): Promise<IVocabularyEntry> {
+    const filteredData = data.filter(entry => jlpt.includes(entry.jlpt));
+    const id = Math.floor(filteredData.length * Math.random());
+    const entry = filteredData[id];
     return assembleEntry(entry, id);
   }
 
