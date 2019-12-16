@@ -8,7 +8,9 @@ export const FlashCardLoader: React.FC<{}> = () => {
 
   const loadFlashcardsSet = async () => {
     const entries = await Promise.all(
-      [1, 2, 3, 4].map(() => vocabularyService.findRandomEntry())
+      [1, 2, 3, 4].map(() =>
+        vocabularyService.findRandomEntry({ jlpt: [2, 3] })
+      )
     );
     console.log(
       `Loaded new set of ${entries.length} entries: ${entries!
@@ -16,7 +18,7 @@ export const FlashCardLoader: React.FC<{}> = () => {
         .join(", ")}`
     );
 
-    setEntries(entries.concat(entries)); // show list of 3 entries three times to enforce memorization
+    setEntries(entries.concat(entries)); // show list of entries several times before refreshing to enforce memorization
     setSelectedIndex(0);
   };
 
