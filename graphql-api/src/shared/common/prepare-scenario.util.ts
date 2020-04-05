@@ -1,6 +1,5 @@
 import { TestingModule } from '@nestjs/testing';
 import { Connection, DeepPartial } from 'typeorm';
-import { Types } from 'src/types';
 
 export interface DataShape<T> {
   entity: new () => T;
@@ -27,7 +26,7 @@ export async function prepareDatabaseScenario(
   testingModule: TestingModule,
   data: [DataShape<any>],
 ): Promise<Connection> {
-  const connection = testingModule.get<Connection>(Types.DATABASE_CONNECTION);
+  const connection = testingModule.get<Connection>(Connection);
   await connection.dropDatabase();
 
   await Promise.all(

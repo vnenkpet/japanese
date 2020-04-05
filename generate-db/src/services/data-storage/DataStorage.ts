@@ -25,7 +25,7 @@ export class DataStorage implements IDataStorage {
   private dbName: string;
   private collections: {
     entries?: Collection<IProcessedEntry>;
-    temp?: Collection<IJmdictEntry>;
+    temp?: Collection<IJmdictEntry & { metaCursor: number }>;
   } = { entries: null, temp: null };
 
   /**
@@ -52,9 +52,11 @@ export class DataStorage implements IDataStorage {
   }
 
   public async insertUnprocessedJmdictEntry(entry: IJmdictEntry) {
-    entry.metaCursor = Number(entry.id);
     this.logger.log(`Inserting entry ${entry.id}`);
-    await this.collections.temp.insertOne(entry);
+    await this.collections.temp.insertOne({
+      ...entry,
+      metaCursor: Number(entry.id),
+    });
   }
 
   public async deleteUnprocessedEntry(id: string) {
@@ -106,7 +108,7 @@ export class DataStorage implements IDataStorage {
     try {
       await this.collections.temp.drop();
     } catch (e) {
-      this.logger.log('Can\'t drop collection, proceeding...');
+      this.logger.log("Can't drop collection, proceeding...");
     }
     await this.collections.temp.createIndex('metaCursor');
   }
@@ -115,7 +117,7 @@ export class DataStorage implements IDataStorage {
     try {
       await this.collections.entries.drop();
     } catch (e) {
-      this.logger.log('Can\'t drop collection, proceeding...');
+      this.logger.log("Can't drop collection, proceeding...");
     }
     await this.collections.temp.createIndex('metaCursor');
   }

@@ -1,3 +1,6 @@
+/**
+ * GraphQL-like pagination
+ */
 export class IConnection<T> {
   total: number;
   edges: Array<{

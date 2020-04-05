@@ -22,6 +22,9 @@ export class Pipeline implements IPipeline {
   @scoped('main')
   private readonly logger: ILogger;
 
+  /**
+   * Process everything in-memory using streams for efficiency
+   */
   public async run() {
     this.logger.log('Running command...');
 

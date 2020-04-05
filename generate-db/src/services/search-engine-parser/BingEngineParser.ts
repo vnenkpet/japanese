@@ -1,6 +1,6 @@
-import * as cheerio from 'cheerio';
-import * as got from 'got';
-import * as parseNum from 'parse-num';
+import cheerio from 'cheerio';
+import got from 'got';
+import parseNum from 'parse-num';
 
 import { injectable } from 'inversify';
 
@@ -12,13 +12,15 @@ import Debug from 'Debug';
 const debug = Debug('command:bing-engine-parser');
 
 /**
- * Bing search engine has the loosest protection against scraping so we use that
+ * Bing search engine has the loosest protection against scraping so we use that to get usage frequency data for each word
+ * Do not run this unnecessarily! Only meant to be run once in a long period of time
  */
 @injectable()
 export class BingEngineParser implements ISearchEngineParser {
   public async getResultsCountForJmdictEntry(entry: IJmdictEntry) {
     const isUsuallyKana = entry.sense[0].misc.indexOf('uk') === -1;
 
+    // get the most useful search key for this word
     const key =
       entry.kanji.length && isUsuallyKana
         ? entry.kanji[0].text

@@ -4,7 +4,10 @@ import { ISearchEngineParser } from '../search-engine-parser/ISearchEngineParser
 import { IConfig } from '../../IConfig';
 import { IJmdictEntryProcessor } from './IJmdictEntryProcessor';
 import { IJmdictEntry } from '../interfaces/IJmdictEntry';
-import { SourceDictionary } from '../interfaces/IProcessedEntry';
+import {
+  SourceDictionary,
+  IProcessedEntry,
+} from '../interfaces/IProcessedEntry';
 import { ILogger } from '../logger/ILogger';
 import { scoped } from '../logger/Logger';
 
@@ -28,12 +31,22 @@ export class JmdictEntryProcessor implements IJmdictEntryProcessor {
         } \t ${data.sense[0].gloss[0].text}`,
       );
 
+      const entryWithSearchKey = data as any;
+
+      entryWithSearchKey.sense = entryWithSearchKey.sense.map(sense => {
+        sense.gloss = sense.gloss.map(gloss => {
+          gloss.searchKey = gloss.text.toLowerCase().trim();
+          return gloss;
+        });
+        return sense;
+      });
+
       const searchEngineResults = await this.searchEngineParser.getResultsCountForJmdictEntry(
         data,
       );
 
-      const transformedData = {
-        ...data,
+      const transformedData: IProcessedEntry = {
+        ...entryWithSearchKey,
         ...{
           sourceDictionary: SourceDictionary.jmdict,
           sourceFile: this.config.jmdictArchiveUrl,
@@ -45,7 +58,7 @@ export class JmdictEntryProcessor implements IJmdictEntryProcessor {
       this.logger.log(transformedData.searchEngineResults);
 
       return transformedData;
-      // todo - add info (JLPT tags, example sentences, search engine results count, common, conjugations)
+      // todo - add info (JLPT tags, example sentences, conjugations)
     }
   }
 }

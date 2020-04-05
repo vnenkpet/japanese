@@ -1,7 +1,7 @@
-import * as gunzip from 'gunzip-maybe';
-import * as tar from 'tar-stream';
-import * as JSONStream from 'JSONStream';
-import * as es from 'event-stream';
+import gunzip from 'gunzip-maybe';
+import tar from 'tar-stream';
+import JSONStream from 'JSONStream';
+import es from 'event-stream';
 
 import { injectable } from 'inversify';
 

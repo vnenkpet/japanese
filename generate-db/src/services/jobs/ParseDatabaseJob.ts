@@ -1,5 +1,5 @@
 import { IJob } from './IJob';
-import * as got from 'got';
+import got from 'got';
 import { injectable, inject } from 'inversify';
 import { TYPES } from '../../types';
 import { IExtractService } from '../extract-service/IExtractService';

@@ -1,16 +1,10 @@
-import {
-  CanActivate,
-  ExecutionContext,
-  Injectable,
-  Inject,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { Types } from './types';
-import { IConfig } from './config.interface';
+import { ConfigService } from 'src/shared/config/config.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(@Inject(Types.CONFIG) private readonly config: IConfig) {}
+  constructor(private readonly config: ConfigService) {}
 
   canActivate(context: ExecutionContext): boolean {
     const ctx = GqlExecutionContext.create(context);

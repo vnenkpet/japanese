@@ -3,7 +3,7 @@ export enum SourceDictionary {
   jmnedict = 'jmnedict',
 }
 
-export interface IProcessedEntry {
+export interface IDictionaryEntry {
   id: string;
   kanji: {
     common?: boolean; // only jmdict

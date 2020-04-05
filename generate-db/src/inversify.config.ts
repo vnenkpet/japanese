@@ -18,7 +18,7 @@ import { AddMetadataJob } from './services/jobs/AddMetadataJob';
 import { Logger } from './services/logger/Logger';
 import { ILogger } from './services/logger/ILogger';
 
-export function createBasicContainer() {
+export function createBasicContainer(): Container {
   const container = new Container();
   container.bind<IConfig>(TYPES.Config).to(Config);
 
