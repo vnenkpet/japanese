@@ -14,7 +14,7 @@ export class DictinaryEntryService {
   }
 
   async findOneById(id: string): Promise<IDictionaryEntry> {
-    return this.dictionaryEntryRepository.findOne(id);
+    return this.dictionaryEntryRepository.findOne({ id });
   }
 
   async findByKeyword(key: string): Promise<IDictionaryEntry[]> {

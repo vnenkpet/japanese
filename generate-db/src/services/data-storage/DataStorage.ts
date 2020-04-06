@@ -33,6 +33,7 @@ export class DataStorage implements IDataStorage {
    */
   public async connect() {
     const mongoUri = this.config.mongoConnectionUri;
+    this.logger.log(`Connection to ${mongoUri}`);
     this.dbName = mongoUri.split('/').slice(-1)[0];
     this.connection = await MongoClient.connect(mongoUri, {
       useNewUrlParser: true,

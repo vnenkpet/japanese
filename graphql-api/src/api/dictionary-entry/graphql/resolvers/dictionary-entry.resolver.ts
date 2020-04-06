@@ -7,12 +7,17 @@ import { Resolver, Query, Args } from '@nestjs/graphql';
 export class DictionaryEntryResolver {
   constructor(private readonly dictionaryEntryService: DictinaryEntryService) {}
 
-  @Query(returns => [DictionaryEntryType])
+  @Query(returns => [DictionaryEntryType], {
+    description:
+      'Returns an array of all results - to be replaced with graphql connection',
+  })
   public async search(@Args('key') key: string): Promise<IDictionaryEntry[]> {
     return await this.dictionaryEntryService.findByKeyword(key);
   }
 
-  @Query(returns => DictionaryEntryType)
+  @Query(returns => DictionaryEntryType, {
+    description: 'Returns a detail of a single entry based on its jmdict id',
+  })
   public async dictionaryEntry(@Args('id') id: string) {
     return this.dictionaryEntryService.findOneById(id);
   }

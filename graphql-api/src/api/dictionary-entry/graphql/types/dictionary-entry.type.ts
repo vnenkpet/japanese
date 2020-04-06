@@ -54,43 +54,43 @@ export class DictionaryEntryKanaType {
   @Field()
   text: string;
 
-  @Field()
+  @Field(type => [String])
   tags: string[];
 
-  @Field()
+  @Field(type => [String])
   appliesToKanji: string[];
 }
 
 @ObjectType()
 export class DictionaryEntrySenseType {
-  @Field()
+  @Field(type => [String])
   partOfSpeech: string[];
 
-  @Field()
+  @Field(type => [String])
   appliesToKanji: string[];
 
-  @Field()
+  @Field(type => [String])
   appliesToKana: string[];
 
-  @Field()
+  @Field(type => [String])
   related: string[];
 
-  @Field()
+  @Field(type => [String])
   antonym: string[];
 
-  @Field()
+  @Field(type => [String])
   field: string[];
 
-  @Field()
+  @Field(type => [String])
   dialect: string[];
 
-  @Field()
+  @Field(type => [String])
   misc: string[];
 
-  @Field()
+  @Field(type => [String])
   info: string[];
 
-  @Field()
+  @Field(type => [String])
   languageSource: string[];
 
   @Field(type => [DictionaryEntryGlossType])
@@ -99,10 +99,10 @@ export class DictionaryEntrySenseType {
 
 @ObjectType()
 export class DictionaryEntryTranslationType {
-  @Field()
+  @Field(type => [String])
   type: string[];
 
-  @Field()
+  @Field(type => [String])
   related: string[];
 
   @Field(type => [DictionaryEntryGlossType])

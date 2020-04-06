@@ -40,7 +40,7 @@
     "ts-node": "^8.0.2",
     "tsconfig-paths": "^3.8.0",
     "tslint": "^5.12.1",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.8.3"
   },
   "devDependencies": {
     "@types/cheerio": "^0.22.10",
