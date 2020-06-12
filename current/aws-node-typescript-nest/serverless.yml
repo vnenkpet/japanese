@@ -23,7 +23,7 @@ functions:
     events:
       - http:
           method: any
-          path: /{any*}
+          path: /{any+}
 
 resources: # CloudFormation template syntax from here on.
   Resources:

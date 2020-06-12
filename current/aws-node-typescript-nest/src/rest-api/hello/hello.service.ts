@@ -5,4 +5,8 @@ export class HelloService {
   getHello(): string {
     return 'Hello World!';
   }
+
+  greet(name: string) {
+    return `Hello, ${name}!`;
+  }
 }
