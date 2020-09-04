@@ -58,7 +58,7 @@
         "dotenv": "^5.0.1",
         "graphql": "^0.13.2",
         "jp-conjugation": "0.0.3",
-        "mongodb": "^3.1.1",
+        "mongodb": "^3.1.13",
         "mongodb-uri": "^0.9.7",
         "reflect-metadata": "^0.1.12",
         "supertest": "^3.0.0",
