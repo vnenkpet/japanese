@@ -32,7 +32,7 @@
     "@types/mongodb": "^3.1.4",
     "@types/mongodb-uri": "^0.9.0",
     "got": "^9.1.0",
-    "mongodb": "^3.1.4",
+    "mongodb": "^3.1.13",
     "mongodb-uri": "^0.9.7",
     "prettier-eslint-cli": "^4.7.1",
     "tslint": "^5.11.0",
