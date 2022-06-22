@@ -31,7 +31,7 @@
     "@types/got": "^8.3.3",
     "@types/mongodb": "^3.1.4",
     "@types/mongodb-uri": "^0.9.0",
-    "got": "^9.1.0",
+    "got": "^11.8.5",
     "mongodb": "^3.1.4",
     "mongodb-uri": "^0.9.7",
     "prettier-eslint-cli": "^4.7.1",
