@@ -62,7 +62,7 @@
         "mongodb-uri": "^0.9.7",
         "reflect-metadata": "^0.1.12",
         "supertest": "^3.0.0",
-        "type-graphql": "^0.12.0",
+        "type-graphql": "^1.1.1",
         "typedi": "^0.8.0",
         "typescript": "^3.0.1",
         "typescript-stringcaster": "^1.0.2"
